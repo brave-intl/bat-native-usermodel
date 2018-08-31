@@ -1,0 +1,4 @@
+build/*
+build_overrides/*
+third_party/*
+tools/*
