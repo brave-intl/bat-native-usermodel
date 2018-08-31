@@ -1,0 +1,35 @@
+# Copyright 2014 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+
+config("compiler") {
+  cflags = ["-Wno-implicit-fallthrough "]
+  cflags_c = ["-Wno-implicit-fallthrough "]
+  cflags_cc = ["-Wno-implicit-fallthrough "]
+}
+
+executable("test") {
+  sources = [
+    "test.cc",
+  ]
+
+  deps = [
+    ":bat_native_usermodel_static",
+  ]
+}
+
+static_library("bat_native_usermodel_static") {
+  sources = [
+    "hello_static.cc",
+    "hello_static.h",
+    "bag_of_words_extractor.h",
+    "bag_of_words_extractor.cc",
+    "stmr.c",
+    "stmr.h",
+  ]
+
+  deps = [
+    "//deps/bat-native-rapidjson",
+  ]
+}
