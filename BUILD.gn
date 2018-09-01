@@ -21,10 +21,10 @@ executable("test") {
 
 static_library("bat_native_usermodel_static") {
   sources = [
-    "hello_static.cc",
-    "hello_static.h",
     "bag_of_words_extractor.h",
     "bag_of_words_extractor.cc",
+    "naive_bayes.h",
+    "naive_bayes.cc",
     "stmr.c",
     "stmr.h",
   ]
