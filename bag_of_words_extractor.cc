@@ -8,6 +8,10 @@ BagOfWords::~BagOfWords() {
 BagOfWords::BagOfWords() {
 }
 
+std::map<std::string, long> BagOfWords::getFrequencies() {
+    return frequencies;
+}
+
 bool BagOfWords::process(const std::string& data) {
 
     std::regex e1 = std::regex("[^\\w\\s]|_");

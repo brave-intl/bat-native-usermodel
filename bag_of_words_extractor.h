@@ -22,10 +22,11 @@ class BagOfWords {
     BagOfWords();
     ~BagOfWords();
     bool process(const std::string& data);
+    std::map<std::string, long> getFrequencies();
     
-    std::map<std::string, long> frequencies;
     private:
     std::vector<std::string> words;
+    std::map<std::string, long> frequencies;
 };
 
 }
