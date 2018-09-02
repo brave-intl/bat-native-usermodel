@@ -22,7 +22,7 @@ namespace usermodel {
     return _classes;
   }
 
-  std::vector<double> NaiveBayes::predict(std::map<std::string, long> features) {
+  std::vector<double> NaiveBayes::predict(std::map<std::string, double> features) {
     std::vector<double> results;
 
     // initialize with the priors

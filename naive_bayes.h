@@ -16,7 +16,7 @@ namespace usermodel {
     NaiveBayes();
     ~NaiveBayes();
     bool loadModel(const std::string& model);
-    std::vector<double> predict(std::map<std::string, long> features);
+    std::vector<double> predict(std::map<std::string, double> features);
     std::vector<std::string> classes();
 
     private:

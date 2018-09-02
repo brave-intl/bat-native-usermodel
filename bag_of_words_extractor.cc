@@ -5,10 +5,10 @@ namespace usermodel {
 BagOfWords::~BagOfWords() {
 }
 
-BagOfWords::BagOfWords() {
+BagOfWords::BagOfWords() : to_lower(true) {
 }
 
-std::map<std::string, long> BagOfWords::getFrequencies() {
+std::map<std::string, double> BagOfWords::getFrequencies() {
     return frequencies;
 }
 
@@ -26,7 +26,9 @@ bool BagOfWords::process(const std::string& data) {
     std::stringstream ss(str);       // Insert the string into a stream
     std::vector<std::string> words; // Create vector to hold our words
     while (ss >> buf) {
-        std::transform(buf.begin(), buf.end(), buf.begin(), ::tolower);
+        if (to_lower) {
+            std::transform(buf.begin(), buf.end(), buf.begin(), ::tolower);
+        }
 
         char* word = new char[buf.length()+1];
         memcpy(word, buf.c_str(), buf.length()+1);
