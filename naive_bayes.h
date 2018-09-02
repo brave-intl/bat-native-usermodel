@@ -8,8 +8,10 @@
 #include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
 #include "deps/bat-native-rapidjson/include/rapidjson/stringbuffer.h"
 
-namespace usermodel {
+#ifndef USERMODEL_NAIVE_BAYES_H
+#define USERMODEL_NAIVE_BAYES_H
 
+namespace usermodel {
   class NaiveBayes {
 
     public:
@@ -24,5 +26,6 @@ namespace usermodel {
     std::vector<double> _priors;
     std::map<std::string, std::vector<double>> _features;
   };
-  
 }
+
+#endif

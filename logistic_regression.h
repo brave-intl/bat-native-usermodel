@@ -8,8 +8,10 @@
 #include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
 #include "deps/bat-native-rapidjson/include/rapidjson/stringbuffer.h"
 
-namespace usermodel {
+#ifndef USERMODEL_LOGISTIC_REGRESSION_H
+#define USERMODEL_LOGISTIC_REGRESSION_H
 
+namespace usermodel {
   class LogisticRegression {
 
     public:
@@ -23,5 +25,6 @@ namespace usermodel {
     std::map<std::string, double> _weights;
     double _bias;
   };
-  
 }
+
+#endif
