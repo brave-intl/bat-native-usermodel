@@ -1,0 +1,388 @@
+{
+  "data": [
+    {
+      "label": "arts & entertainment-music",
+      "doc": "text95.txt"
+    },
+    {
+      "label": "business-advertising",
+      "doc": "text4.txt"
+    },
+    {
+      "label": "business-manufacturing",
+      "doc": "text6.txt"
+    },
+    {
+      "label": "sports-sports",
+      "doc": "text10.txt"
+    },
+    {
+      "label": "sports-sports",
+      "doc": "text22.txt"
+    },
+    {
+      "label": "sports-american football",
+      "doc": "text28.txt"
+    },
+    {
+      "label": "sports-american football",
+      "doc": "text35.txt"
+    },
+    {
+      "label": "sports-american football",
+      "doc": "text53.txt"
+    },
+    {
+      "label": "sports-american football",
+      "doc": "text68.txt"
+    },
+    {
+      "label": "sports-american football",
+      "doc": "text69.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text89.txt"
+    },
+    {
+      "label": "arts & entertainment-music",
+      "doc": "text95.txt"
+    },
+    {
+      "label": "arts & entertainment-television",
+      "doc": "text96.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text102.txt"
+    },
+    {
+      "label": "arts & entertainment-celebrities",
+      "doc": "text108.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text112.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text114.txt"
+    },
+    {
+      "label": "sports-sports",
+      "doc": "text115.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text124.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text129.txt"
+    },
+    {
+      "label": "sports-racing",
+      "doc": "text131.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text134.txt"
+    },
+    {
+      "label": "travel-hotels",
+      "doc": "text152.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text155.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text161.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text167.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text179.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text181.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text187.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text212.txt"
+    },
+    {
+      "label": "arts & entertainment-music",
+      "doc": "text235.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text243.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text250.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text273.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text275.txt"
+    },
+    {
+      "label": "arts & entertainment-arts & entertainment",
+      "doc": "text279.txt"
+    },
+    {
+      "label": "arts & entertainment-film",
+      "doc": "text293.txt"
+    },
+    {
+      "label": "automotive-automotive",
+      "doc": "text333.txt"
+    },
+    {
+      "label": "automotive-car brands",
+      "doc": "text337.txt"
+    },
+    {
+      "label": "automotive-automotive",
+      "doc": "text349.txt"
+    },
+    {
+      "label": "business-manufacturing",
+      "doc": "text358.txt"
+    },
+    {
+      "label": "automotive-automotive",
+      "doc": "text359.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text368.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text370.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text371.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text373.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text378.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text381.txt"
+    },
+    {
+      "label": "travel-hotels",
+      "doc": "text389.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text391.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text394.txt"
+    },
+    {
+      "label": "travel-hotels",
+      "doc": "text398.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text399.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text406.txt"
+    },
+    {
+      "label": "sports-baseball",
+      "doc": "text408.txt"
+    },
+    {
+      "label": "sports-basketball",
+      "doc": "text414.txt"
+    },
+    {
+      "label": "sports-basketball",
+      "doc": "text418.txt"
+    },
+    {
+      "label": "sports-basketball",
+      "doc": "text419.txt"
+    },
+    {
+      "label": "travel-hotels",
+      "doc": "text423.txt"
+    },
+    {
+      "label": "sports-basketball",
+      "doc": "text425.txt"
+    },
+    {
+      "label": "travel-hotels",
+      "doc": "text445.txt"
+    },
+    {
+      "label": "arts & entertainment-theatre",
+      "doc": "text448.txt"
+    },
+    {
+      "label": "sports-basketball",
+      "doc": "text450.txt"
+    },
+    {
+      "label": "sports-basketball",
+      "doc": "text454.txt"
+    },
+    {
+      "label": "sports-basketball",
+      "doc": "text473.txt"
+    },
+    {
+      "label": "sports-boxing",
+      "doc": "text481.txt"
+    },
+    {
+      "label": "sports-boxing",
+      "doc": "text482.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text497.txt"
+    },
+    {
+      "label": "business-marketing",
+      "doc": "text500.txt"
+    },
+    {
+      "label": "automotive-car brands",
+      "doc": "text509.txt"
+    },
+    {
+      "label": "travel-hotels",
+      "doc": "text515.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text523.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text532.txt"
+    },
+    {
+      "label": "sports-tennis",
+      "doc": "text536.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text541.txt"
+    },
+    {
+      "label": "personal finance-personal finance",
+      "doc": "text553.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text561.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text599.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text608.txt"
+    },
+    {
+      "label": "society-society",
+      "doc": "text609.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text612.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text626.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text636.txt"
+    },
+    {
+      "label": "society-society",
+      "doc": "text637.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text652.txt"
+    },
+    {
+      "label": "business-business",
+      "doc": "text673.txt"
+    },
+    {
+      "label": "travel-hotels",
+      "doc": "text679.txt"
+    },
+    {
+      "label": "technology & computing-unix",
+      "doc": "text684.txt"
+    },
+    {
+      "label": "arts & entertainment-celebrities",
+      "doc": "text697.txt"
+    },
+    {
+      "label": "food & drink-beer",
+      "doc": "text699.txt"
+    },
+    {
+      "label": "food & drink-cocktails",
+      "doc": "text700.txt"
+    },
+    {
+      "label": "food & drink-cocktails",
+      "doc": "text702.txt"
+    },
+    {
+      "label": "business-commerce",
+      "doc": "text707.txt"
+    },
+    {
+      "label": "business-construction",
+      "doc": "text712.txt"
+    },
+    {
+      "label": "food & drink-cooking",
+      "doc": "text720.txt"
+    },
+    {
+      "label": "sports-cricket",
+      "doc": "text724.txt"
+    }
+  ]
+}

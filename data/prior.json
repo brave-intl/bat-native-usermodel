@@ -1,0 +1,4 @@
+{
+ "names": [ "religion", "fashion", "travel", "sports", "personal finance", "technology & computing", "education", "food & drink", "law", "arts & entertainment", "automotive", "real estate", "business", "family & parenting", "hobbies & interests", "health & fitness", "science", "pets", "society", "careers", "history", "home", "cell phones", "architecture", "politics", "folklore", "weather", "military", "drugs" ],
+"priors": [ -4.1004, -3.755, -1.2359, -2.1697, -2.4474, -2.9714, -2.9488, -3.6363, -4.0994, -2.7452, -4.0351, -6.407, -3.2222, -4.873, -2.7086, -2.9934, -4.0295, -5.0995, -4.0963, -5.8316, -4.8665, -4.4284, -6.2314, -7.3645, -5.5132, -6.5362, -7.2409, -6.8912, -6.5594 ] 
+}
