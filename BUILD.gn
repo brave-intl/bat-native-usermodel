@@ -21,8 +21,11 @@ executable("test") {
 
 static_library("bat_native_usermodel_static") {
   sources = [
+    "classifier.h",
     "bag_of_words_extractor.h",
     "bag_of_words_extractor.cc",
+    "logistic_regression.h",
+    "logistic_regression.cc",
     "naive_bayes.h",
     "naive_bayes.cc",
     "stmr.c",
