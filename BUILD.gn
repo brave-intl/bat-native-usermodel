@@ -2,17 +2,12 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-
-config("compiler") {
-  cflags = ["-Wno-implicit-fallthrough "]
-  cflags_c = ["-Wno-implicit-fallthrough "]
-  cflags_cc = ["-Wno-implicit-fallthrough "]
-}
-
 executable("test") {
   sources = [
-    "test.cc",
+    "test.cc"
   ]
+
+  include_dirs = [ "src" ]
 
   deps = [
     ":bat_native_usermodel_static",
@@ -21,18 +16,20 @@ executable("test") {
 
 static_library("bat_native_usermodel_static") {
   sources = [
-    "classifier.h",
-    "bag_of_words_extractor.h",
-    "bag_of_words_extractor.cc",
-    "logistic_regression.h",
-    "logistic_regression.cc",
-    "naive_bayes.h",
-    "naive_bayes.cc",
-    "stmr.c",
-    "stmr.h",
+    "src/classifier.h",
+    "src/bag_of_words_extractor.h",
+    "src/bag_of_words_extractor.cc",
+    "src/logistic_regression.h",
+    "src/logistic_regression.cc",
+    "src/naive_bayes.h",
+    "src/naive_bayes.cc",
+    "src/stmr.c",
+    "src/stmr.h",
+    "src/ads_ranker.h",
+    "src/user_model.h"
   ]
 
   deps = [
-    "//deps/bat-native-rapidjson",
+    "//deps/bat-native-rapidjson"
   ]
 }
