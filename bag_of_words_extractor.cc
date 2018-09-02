@@ -26,12 +26,13 @@ bool BagOfWords::process(const std::string& data) {
     std::stringstream ss(str);       // Insert the string into a stream
     std::vector<std::string> words; // Create vector to hold our words
     while (ss >> buf) {
+        std::transform(buf.begin(), buf.end(), buf.begin(), ::tolower);
+
         char* word = new char[buf.length()+1];
         memcpy(word, buf.c_str(), buf.length()+1);
         int end = stem(word, 0, strlen(word) - 1);
         word[end + 1] = 0;
         std::string word_str = std::string(word);
-        std::transform(word_str.begin(), word_str.end(), word_str.begin(), ::tolower);
         words.push_back(word_str);
     }
 
