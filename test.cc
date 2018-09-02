@@ -15,6 +15,7 @@
 
 #include "bag_of_words_extractor.h"
 #include "naive_bayes.h"
+#include "logistic_regression.h"
 
 #include "deps/bat-native-rapidjson/include/rapidjson/document.h"
 #include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
@@ -44,10 +45,19 @@ Document loadJson(std::string filename) {
 int main(int argc, char* argv[]) {
   printf("Testing bat-native-usermodel...\n");
 
+  usermodel::LogisticRegression cl;
+  cl.loadModel("{\"features\":[\"test1\", \"test2\", \"test3\"], \"weights\":[0.2, 0.4, 0.9], \"bias\": 0.5}");
+  auto features = std::map<std::string, double>();
+  features["test1"] = 0.1;
+  features["test2"] = 0.3;
+  std::cout << "results = " << cl.predict(features).at(0) << std::endl;
+
+  // test naive bayes
+  std::cout << "TESTING NAIVE BAYES" << std::endl;
+
   // create model  
   usermodel::NaiveBayes mnb;
   mnb.loadModel(loadFile("model.json"));
-
 
   auto doc = loadJson("data/predictions.json");
   const Value& data = doc["data"]; // Using a reference for consecutive access is handy and faster.
