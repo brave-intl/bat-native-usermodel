@@ -32,13 +32,11 @@ namespace usermodel {
 
     for(auto feature : features) {
       if ( _features.find(feature.first) != _features.end() ) {
-        std::cout << feature.first << " ";
         int cl = 0;
         for(auto v: _features[feature.first]) {
-          std::cout << v << " ";
           results.at(cl++) += v*features[feature.first];
+          //std::cout << results.at(cl-1) << std::endl;
         }
-        std::cout << std::endl;
       }
     }
 
