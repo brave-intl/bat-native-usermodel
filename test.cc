@@ -16,6 +16,7 @@
 #include "bag_of_words_extractor.h"
 #include "naive_bayes.h"
 #include "logistic_regression.h"
+#include "user_model.h"
 
 #include "deps/bat-native-rapidjson/include/rapidjson/document.h"
 #include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
@@ -56,8 +57,8 @@ int main(int argc, char* argv[]) {
   std::cout << "TESTING NAIVE BAYES" << std::endl;
 
   // create model  
-  usermodel::NaiveBayes mnb;
-  mnb.loadModel(loadFile("model.json"));
+  usermodel::UserModel um;
+  um.initializePageClassifier(loadFile("model.json"));
 
   auto doc = loadJson("data/predictions.json");
   const Value& data = doc["data"]; // Using a reference for consecutive access is handy and faster.
@@ -66,31 +67,12 @@ int main(int argc, char* argv[]) {
     std::string filename = data[it]["doc"].GetString();
 
     auto doc = loadFile(std::string("data/") + std::string(filename));
+    auto scores = um.classifyPage(doc);
+    auto predicted = um.winningCategory(scores);
 
-    // load features
-    usermodel::BagOfWords bow;
-    bow.process(doc);
-
-    auto res = mnb.predict(bow.getFrequencies());
-    int i = 0;
-    int argmax = 0;
-    double max = 0.0;
-    for (auto c: res) {
-      if (c > max) {
-        argmax = i;
-        max = c;
-      }
-      i++;
-      //std::cout << mnb.classes().at(i++) << " " << c << std::endl;
-    }
-
-    std::cout << filename << " - " << ((mnb.classes().at(argmax) == label) ? "PASS" : "FAIL") << std::endl;
-    if (mnb.classes().at(argmax) != label) {
-      std::cout << "\t" << mnb.classes().at(argmax) << " - " << label << std::endl;
-      std::cout << "FEATURES" << std::endl;
-      for (auto f: bow.getFrequencies()) {
-        std::cout << "\t" << f.first << std::endl;
-      }
+    std::cout << filename << " - " << ((predicted == label) ? "PASS" : "FAIL") << std::endl;
+    if (predicted != label) {
+      std::cout << "\t" << predicted << " - " << label << std::endl;
     }
   }
 

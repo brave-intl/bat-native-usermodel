@@ -20,6 +20,7 @@ namespace usermodel {
     bool loadModel(const std::string& model);
     std::vector<double> predict(std::map<std::string, double> features);
     std::vector<std::string> classes();
+    std::string winningCategory(std::vector<double> scores);
 
     private:
     std::vector<std::string> _classes;

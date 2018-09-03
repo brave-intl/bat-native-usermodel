@@ -26,7 +26,11 @@ static_library("bat_native_usermodel_static") {
     "src/stmr.c",
     "src/stmr.h",
     "src/ads_ranker.h",
-    "src/user_model.h"
+    "src/user_model.h",
+    "src/user_model.cc",
+    "src/user_profile.h",
+    "src/user_profile.cc",
+    "src/notification_event_type.h"
   ]
 
   deps = [

@@ -55,6 +55,20 @@ namespace usermodel {
     return results;
   }
 
+  std::string NaiveBayes::winningCategory(std::vector<double> scores) {
+    int i = 0;
+    int argmax = 0;
+    double max = 0.0;
+    for (auto c: scores) {
+      if (c > max) {
+        argmax = i;
+        max = c;
+      }
+      i++;
+    }
+    return _classes.at(argmax);
+  }
+
   bool NaiveBayes::loadModel(const std::string& json) {
     Document d;
     d.Parse(json.c_str());
