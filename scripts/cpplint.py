@@ -98,6 +98,9 @@ def call_cpplint(files):
 
 
 def cpplint_path():
+  if "DEPOT_TOOLS" not in os.environ:
+    print("[ERROR] Skipping cpplint, please point DEPOT_TOOLS env variable to depot path.")
+    sys.exit(-1)
   return os.path.join(os.environ["DEPOT_TOOLS"], 'cpplint.py')
 
 
