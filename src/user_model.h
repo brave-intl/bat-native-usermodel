@@ -11,6 +11,11 @@
 #include "naive_bayes.h"
 
 namespace usermodel {
+
+class UserModelDelegate {
+  void PageNavigated(const std::string& html, const std::string& url, uint32_t window_id, uint32_t tab_id);
+};
+
 class UserModel {
  public:
     bool initializePageClassifier(const std::string& model);

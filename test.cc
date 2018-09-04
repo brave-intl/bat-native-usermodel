@@ -25,11 +25,14 @@
 #include <fstream>
 #include <streambuf>
 
+#include "../include/user_profile.h"
+
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
 
 using namespace rapidjson;
+using namespace usermodel;
 
 std::string loadFile(std::string filename) {
   std::ifstream t(filename);
@@ -45,6 +48,31 @@ Document loadJson(std::string filename) {
   d.Parse(json.c_str());
 
   return d;
+}
+
+TEST_CASE( "Test user profiles", "[user_profile]" ) {
+  NaiveBayes model;
+  model.LoadModel(loadFile("model.json"));
+
+  auto user = UserProfile();
+  for ( auto c : model.Classes() ) {
+    user.long_term_interests_[c] = 0.0;
+    user.short_term_interests_[c] = 0.0;
+    user.search_intent_[c] = 0.0;
+    user.shopping_intent_[c] = 0.0;
+  }
+  REQUIRE( user.long_term_interests_.size() != 0 );
+  
+  auto json = user.ToJSON();
+  REQUIRE( json != "" );
+  //std::cout << json << std::endl;
+
+  auto profile = UserProfile::FromJSON(json);
+
+  REQUIRE( profile->long_term_interests_.size() != 0 );
+  REQUIRE( profile->short_term_interests_.size() != 0 );
+  REQUIRE( profile->search_intent_.size() != 0 );
+  REQUIRE( profile->shopping_intent_.size() != 0 );
 }
 
 TEST_CASE( "Test logistic regression", "[classifier]" ) {

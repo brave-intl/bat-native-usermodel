@@ -65,7 +65,7 @@ def main():
     enable_verbose_mode()
 
   os.chdir(SOURCE_ROOT)
-  files = find_files(['src'], is_cpp_file)
+  files = find_files(['src', 'include'], is_cpp_file)
   files -= IGNORE_FILES
   if args.only_changed:
     files &= find_changed_files()

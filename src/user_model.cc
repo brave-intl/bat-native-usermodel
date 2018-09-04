@@ -20,7 +20,11 @@ std::vector<double>  usermodel::UserModel::classifyPage(const std::string& data)
 }
 
 void usermodel::UserModel::onPageLoad(const std::string& html, const std::string& url, uint32_t window_id, uint32_t tab_id) {
+    // auto profile = this->GetUserProfile();
+
     auto scores = this->classifyPage(html);
     // user_profile.update(scores, url);
     // tabs_classification_store.set(window_id, tab_id, winning_category);
+
+    // this->UpdateProfile(profile);
 }

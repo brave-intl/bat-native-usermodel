@@ -2,8 +2,75 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#include "user_profile.h"
+#include <string>
 
-bool usermodel::UserProfile::update(std::vector<double> scores, const std::string& url) {
+#include "../include/user_profile.h"
+
+#include "deps/bat-native-rapidjson/include/rapidjson/document.h"
+#include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
+#include "deps/bat-native-rapidjson/include/rapidjson/stringbuffer.h"
+#include "deps/bat-native-rapidjson/include/rapidjson/prettywriter.h"
+
+
+using namespace usermodel;
+
+UserProfile::UserProfile() {}
+
+UserProfile::~UserProfile() {}
+
+bool UserProfile::Update(std::vector<double> scores, const std::string& url) {
     return false;
+}
+
+void LoadToMap(const rapidjson::Value& vector, std::map<std::string, double>* data) {
+    for (rapidjson::Value::ConstMemberIterator itr = vector.MemberBegin(); itr != vector.MemberEnd(); ++itr) {
+      double v = vector[itr->name.GetString()].GetDouble();
+      (*data)[itr->name.GetString()] = v;
+    }
+}
+
+std::unique_ptr<UserProfile> UserProfile::FromJSON(const std::string& json) {
+    std::unique_ptr<UserProfile> res = std::unique_ptr<UserProfile>(new UserProfile());
+
+    rapidjson::Document d;
+    d.Parse(json.c_str());
+
+    LoadToMap(d["long_term_interests"], &(res->long_term_interests_));
+    LoadToMap(d["short_term_interests"], &(res->short_term_interests_));
+    LoadToMap(d["search_intent"], &(res->search_intent_));
+    LoadToMap(d["shopping_intent"], &(res->shopping_intent_));
+
+    return res;
+}
+
+void SerializeMap(std::map<std::string, double> data, rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) {
+    writer->StartObject();
+    for ( auto c : data ) {
+        writer->Key(c.first.c_str());
+        writer->Double(c.second);
+    }
+    writer->EndObject();
+}
+
+const std::string UserProfile::ToJSON() const {
+    rapidjson::StringBuffer sb;
+    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(sb);
+
+    writer.StartObject();
+
+    writer.Key("long_term_interests");
+    SerializeMap(this->long_term_interests_, &writer);
+
+    writer.Key("short_term_interests");
+    SerializeMap(this->short_term_interests_, &writer);
+
+    writer.Key("search_intent");
+    SerializeMap(this->search_intent_, &writer);
+
+    writer.Key("shopping_intent");
+    SerializeMap(this->shopping_intent_, &writer);
+
+    writer.EndObject();
+
+    return sb.GetString();
 }

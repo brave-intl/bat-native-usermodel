@@ -2,6 +2,15 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+
+config("external_config") {
+  include_dirs = [ "include" ]
+}
+
+config("internal_config") {
+  include_dirs = [ "src" ]
+}
+
 executable("test") {
   sources = [
     "test.cc"
@@ -15,7 +24,12 @@ executable("test") {
 }
 
 static_library("bat_native_usermodel_static") {
+
+  public_configs = [ ":external_config" ]
+  configs += [ ":internal_config" ]
+
   sources = [
+    "include/user_profile.h",
     "src/classifier.h",
     "src/bag_of_words_extractor.h",
     "src/bag_of_words_extractor.cc",

@@ -91,11 +91,6 @@ namespace usermodel {
       features_[itr->name.GetString()] = v;
     }
 
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-    d.Accept(writer);
-
-    // std::cout << buffer.GetString() << std::endl;
     return true;
   }
 }  // namespace usermodel
