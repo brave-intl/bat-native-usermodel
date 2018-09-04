@@ -1,5 +1,5 @@
 #include "user_profile.h"
 
-bool usermodel::UserProfile::update(std::vector<double> scores, std::string& url) {
+bool usermodel::UserProfile::update(std::vector<double> scores, const std::string& url) {
     return false;
 }

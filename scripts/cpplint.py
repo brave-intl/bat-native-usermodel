@@ -29,7 +29,8 @@ def execute(argv, env=os.environ, cwd=None):
     raise e
 
 IGNORE_FILES = set(os.path.join(*components) for components in [
-  ['brightray', 'browser', 'win', 'win32_notification.h']
+  ['src', 'stmr.h'],
+  ['src', 'stmr.cc'],
 ])
 
 SOURCE_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))

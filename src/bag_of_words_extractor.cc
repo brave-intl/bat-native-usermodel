@@ -4,14 +4,14 @@ namespace usermodel {
 BagOfWords::~BagOfWords() {
 }
 
-BagOfWords::BagOfWords() : to_lower(true) {
+BagOfWords::BagOfWords() : to_lower_(true) {
 }
 
-std::map<std::string, double> BagOfWords::getFrequencies() {
-    return frequencies;
+std::map<std::string, double> BagOfWords::GetFrequencies() {
+    return frequencies_;
 }
 
-bool BagOfWords::process(const std::string& data) {
+bool BagOfWords::Process(const std::string& data) {
     std::regex e1 = std::regex("[^\\w\\s]|_");
     std::regex e2 = std::regex("\\s+");
     std::string str = std::regex_replace(
@@ -23,7 +23,7 @@ bool BagOfWords::process(const std::string& data) {
     std::stringstream ss(str);       // Insert the string into a stream
     std::vector<std::string> words;  // Create vector to hold our words
     while (ss >> buf) {
-        if (to_lower) {
+        if (to_lower_) {
             std::transform(buf.begin(), buf.end(), buf.begin(), ::tolower);
         }
 
@@ -36,7 +36,7 @@ bool BagOfWords::process(const std::string& data) {
     }
 
     for (auto word : words) {
-        frequencies[word]++;
+        frequencies_[word]++;
     }
 
     return true;

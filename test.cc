@@ -47,11 +47,11 @@ int main(int argc, char* argv[]) {
   printf("Testing bat-native-usermodel...\n");
 
   usermodel::LogisticRegression cl;
-  cl.loadModel("{\"features\":[\"test1\", \"test2\", \"test3\"], \"weights\":[0.2, 0.4, 0.9], \"bias\": 0.5}");
+  cl.LoadModel("{\"features\":[\"test1\", \"test2\", \"test3\"], \"weights\":[0.2, 0.4, 0.9], \"bias\": 0.5}");
   auto features = std::map<std::string, double>();
   features["test1"] = 0.1;
   features["test2"] = 0.3;
-  std::cout << "results = " << cl.predict(features).at(0) << std::endl;
+  std::cout << "results = " << cl.Predict(features).at(0) << std::endl;
 
   // test naive bayes
   std::cout << "TESTING NAIVE BAYES" << std::endl;

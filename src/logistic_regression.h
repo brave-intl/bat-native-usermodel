@@ -16,13 +16,13 @@ class LogisticRegression {
  public:
   LogisticRegression();
   ~LogisticRegression();
-  bool loadModel(const std::string& model);
-  std::vector<double> predict(std::map<std::string, double> features);
+  bool LoadModel(const std::string& model);
+  std::vector<double> Predict(std::map<std::string, double> features);
 
  private:
-  std::vector<std::string> _features;
-  std::map<std::string, double> _weights;
-  double _bias;
+  std::vector<std::string> features_;
+  std::map<std::string, double> weights_;
+  double bias_;
 };
 }  // namespace usermodel
 

@@ -19,13 +19,13 @@ class BagOfWords {
  public:
     BagOfWords();
     ~BagOfWords();
-    bool process(const std::string& data);
-    std::map<std::string, double> getFrequencies();
+    bool Process(const std::string& data);
+    std::map<std::string, double> GetFrequencies();
 
  private:
-    std::vector<std::string> words;
-    std::map<std::string, double> frequencies;
-    bool to_lower;
+    std::vector<std::string> words_;
+    std::map<std::string, double> frequencies_;
+    bool to_lower_;
 };
 }  // namespace usermodel
 
