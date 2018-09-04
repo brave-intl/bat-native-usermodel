@@ -18,7 +18,15 @@ UserProfile::UserProfile() {}
 
 UserProfile::~UserProfile() {}
 
+void UpdateProfile(std::vector<double>* a, std::vector<double> b, double weight) {
+
+}
+
 bool UserProfile::Update(std::vector<double> scores, const std::string& url) {
+
+    //UpdateProfile(&(this->long_term_interests_), scores, 0.8);
+    //UpdateProfile(&(this->short_term_interests_), scores, 0.1);
+
     return false;
 }
 
@@ -43,7 +51,9 @@ std::unique_ptr<UserProfile> UserProfile::FromJSON(const std::string& json) {
     return res;
 }
 
-void SerializeMap(std::map<std::string, double> data, rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) {
+void SerializeMap(std::string key, std::map<std::string, double> data, rapidjson::Writer<rapidjson::StringBuffer>* writer) {
+    writer->Key(key.c_str());
+
     writer->StartObject();
     for ( auto c : data ) {
         writer->Key(c.first.c_str());
@@ -54,21 +64,14 @@ void SerializeMap(std::map<std::string, double> data, rapidjson::PrettyWriter<ra
 
 const std::string UserProfile::ToJSON() const {
     rapidjson::StringBuffer sb;
-    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(sb);
+    rapidjson::Writer<rapidjson::StringBuffer> writer(sb);
 
     writer.StartObject();
 
-    writer.Key("long_term_interests");
-    SerializeMap(this->long_term_interests_, &writer);
-
-    writer.Key("short_term_interests");
-    SerializeMap(this->short_term_interests_, &writer);
-
-    writer.Key("search_intent");
-    SerializeMap(this->search_intent_, &writer);
-
-    writer.Key("shopping_intent");
-    SerializeMap(this->shopping_intent_, &writer);
+    SerializeMap("long_term_interests", this->long_term_interests_, &writer);
+    SerializeMap("short_term_interests", this->short_term_interests_, &writer);
+    SerializeMap("search_intent", this->search_intent_, &writer);
+    SerializeMap("shopping_intent", this->shopping_intent_, &writer);
 
     writer.EndObject();
 
