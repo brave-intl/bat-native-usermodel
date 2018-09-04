@@ -13,7 +13,6 @@ std::map<std::string, double> BagOfWords::getFrequencies() {
 }
 
 bool BagOfWords::process(const std::string& data) {
-
     std::regex e1 = std::regex("[^\\w\\s]|_");
     std::regex e2 = std::regex("\\s+");
     std::string str = std::regex_replace(

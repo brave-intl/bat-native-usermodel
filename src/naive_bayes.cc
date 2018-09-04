@@ -7,15 +7,11 @@
 #include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
 #include "deps/bat-native-rapidjson/include/rapidjson/stringbuffer.h"
 
-using namespace rapidjson;
-
 namespace usermodel {
   NaiveBayes::NaiveBayes() {
-
   }
 
   NaiveBayes::~NaiveBayes() {
-
   }
 
   std::vector<std::string> NaiveBayes::classes() {
@@ -70,33 +66,33 @@ namespace usermodel {
   }
 
   bool NaiveBayes::loadModel(const std::string& json) {
-    Document d;
+    rapidjson::Document d;
     d.Parse(json.c_str());
 
-    const Value& classes = d["classes"]; // Using a reference for consecutive access is handy and faster.
+    const rapidjson::Value& classes = d["classes"]; // Using a reference for consecutive access is handy and faster.
     assert(classes.IsArray());
-    for (SizeType i = 0; i < classes.Size(); i++) {
+    for (rapidjson::SizeType i = 0; i < classes.Size(); i++) {
       _classes.push_back(classes[i].GetString());
     }
 
-    const Value& priors = d["priors"]; // Using a reference for consecutive access is handy and faster.
+    const rapidjson::Value& priors = d["priors"]; // Using a reference for consecutive access is handy and faster.
     assert(priors.IsArray());
-    for (SizeType i = 0; i < priors.Size(); i++) {
+    for (rapidjson::SizeType i = 0; i < priors.Size(); i++) {
       _priors.push_back(priors[i].GetDouble());
     }
 
-    const Value& features = d["logProbs"]; // Using a reference for consecutive access is handy and faster.
-    for (Value::ConstMemberIterator itr = features.MemberBegin(); itr != features.MemberEnd(); ++itr) {
+    const rapidjson::Value& features = d["logProbs"]; // Using a reference for consecutive access is handy and faster.
+    for (rapidjson::Value::ConstMemberIterator itr = features.MemberBegin(); itr != features.MemberEnd(); ++itr) {
       std::vector<double> v;
-      const Value& probs = features[itr->name.GetString()];
-      for (SizeType i = 0; i < classes.Size(); i++) {
+      const rapidjson::Value& probs = features[itr->name.GetString()];
+      for (rapidjson::SizeType i = 0; i < classes.Size(); i++) {
         v.push_back(probs[i].GetDouble());
       }
       _features[itr->name.GetString()] = v;
     }
     
-    StringBuffer buffer;
-    Writer<StringBuffer> writer(buffer);
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     d.Accept(writer);
 
     //std::cout << buffer.GetString() << std::endl;
