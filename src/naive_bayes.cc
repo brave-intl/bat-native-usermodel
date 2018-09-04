@@ -22,16 +22,16 @@ namespace usermodel {
     std::vector<double> results;
 
     // initialize with the priors
-    for(size_t i=0; i<_classes.size(); i++) {
+    for (size_t i = 0; i < _classes.size(); i++) {
       results.push_back(_priors[i]);
     }
 
-    for(auto feature : features) {
+    for (auto feature : features) {
       if ( _features.find(feature.first) != _features.end() ) {
         int cl = 0;
-        for(auto v: _features[feature.first]) {
+        for (auto v : _features[feature.first]) {
           results.at(cl++) += v*features[feature.first];
-          //std::cout << results.at(cl-1) << std::endl;
+          // std::cout << results.at(cl-1) << std::endl;
         }
       }
     }
@@ -39,12 +39,12 @@ namespace usermodel {
     // logLikToProb
     auto max_val = *std::max_element(results.begin(), results.end());
     double sum = 0.0;
-    for (size_t i=0; i<results.size(); i++) {
+    for (size_t i = 0; i < results.size(); i++) {
       results.at(i) = std::exp(results.at(i) - max_val);
       sum += results.at(i);
     }
 
-    for (size_t i=0; i<results.size(); i++) {
+    for (size_t i = 0; i < results.size(); i++) {
       results.at(i) /= sum;
     }
 
@@ -55,7 +55,7 @@ namespace usermodel {
     int i = 0;
     int argmax = 0;
     double max = 0.0;
-    for (auto c: scores) {
+    for (auto c : scores) {
       if (c > max) {
         argmax = i;
         max = c;
@@ -69,19 +69,19 @@ namespace usermodel {
     rapidjson::Document d;
     d.Parse(json.c_str());
 
-    const rapidjson::Value& classes = d["classes"]; // Using a reference for consecutive access is handy and faster.
+    const rapidjson::Value& classes = d["classes"];  // Using a reference for consecutive access is handy and faster.
     assert(classes.IsArray());
     for (rapidjson::SizeType i = 0; i < classes.Size(); i++) {
       _classes.push_back(classes[i].GetString());
     }
 
-    const rapidjson::Value& priors = d["priors"]; // Using a reference for consecutive access is handy and faster.
+    const rapidjson::Value& priors = d["priors"];  // Using a reference for consecutive access is handy and faster.
     assert(priors.IsArray());
     for (rapidjson::SizeType i = 0; i < priors.Size(); i++) {
       _priors.push_back(priors[i].GetDouble());
     }
 
-    const rapidjson::Value& features = d["logProbs"]; // Using a reference for consecutive access is handy and faster.
+    const rapidjson::Value& features = d["logProbs"];  // Using a reference for consecutive access is handy and faster.
     for (rapidjson::Value::ConstMemberIterator itr = features.MemberBegin(); itr != features.MemberEnd(); ++itr) {
       std::vector<double> v;
       const rapidjson::Value& probs = features[itr->name.GetString()];
@@ -90,13 +90,12 @@ namespace usermodel {
       }
       _features[itr->name.GetString()] = v;
     }
-    
+
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     d.Accept(writer);
 
-    //std::cout << buffer.GetString() << std::endl;
+    // std::cout << buffer.GetString() << std::endl;
     return true;
   }
-
-}
+}  // namespace usermodel

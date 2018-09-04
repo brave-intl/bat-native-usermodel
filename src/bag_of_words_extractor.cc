@@ -1,7 +1,6 @@
 #include "bag_of_words_extractor.h"
 
 namespace usermodel {
-
 BagOfWords::~BagOfWords() {
 }
 
@@ -18,12 +17,11 @@ bool BagOfWords::process(const std::string& data) {
     std::string str = std::regex_replace(
             std::regex_replace(data, e1, ""),
             e2,
-            " "
-        );
+            " ");
 
     std::string buf;                 // Have a buffer string
     std::stringstream ss(str);       // Insert the string into a stream
-    std::vector<std::string> words; // Create vector to hold our words
+    std::vector<std::string> words;  // Create vector to hold our words
     while (ss >> buf) {
         if (to_lower) {
             std::transform(buf.begin(), buf.end(), buf.begin(), ::tolower);
@@ -37,11 +35,10 @@ bool BagOfWords::process(const std::string& data) {
         words.push_back(word_str);
     }
 
-    for(auto word : words) {
+    for (auto word : words) {
         frequencies[word]++;
     }
 
     return true;
 }
-
-}
+}  // namespace usermodel

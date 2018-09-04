@@ -7,22 +7,18 @@
 #include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
 #include "deps/bat-native-rapidjson/include/rapidjson/stringbuffer.h"
 
-using namespace rapidjson;
-
 namespace usermodel {
   LogisticRegression::LogisticRegression() {
-
   }
 
   LogisticRegression::~LogisticRegression() {
-
   }
 
   std::vector<double> LogisticRegression::predict(std::map<std::string, double> features) {
     std::vector<double> results;
 
     double sum = _bias;
-    for(auto feature : features) {
+    for (auto feature : features) {
       if ( _weights.find(feature.first) != _weights.end() ) {
         sum += _weights[feature.first]*features[feature.first];
       }
@@ -33,29 +29,28 @@ namespace usermodel {
   }
 
   bool LogisticRegression::loadModel(const std::string& json) {
-    Document d;
+    rapidjson::Document d;
     d.Parse(json.c_str());
 
-    const Value& features = d["features"]; // Using a reference for consecutive access is handy and faster.
+    const rapidjson::Value& features = d["features"];  // Using a reference for consecutive access is handy and faster.
     assert(features.IsArray());
     for (SizeType i = 0; i < features.Size(); i++) {
       _features.push_back(features[i].GetString());
     }
 
-    const Value& weights = d["weights"]; // Using a reference for consecutive access is handy and faster.
+    const rapidjson::Value& weights = d["weights"];  // Using a reference for consecutive access is handy and faster.
     assert(weights.IsArray());
-    for (SizeType i = 0; i < weights.Size(); i++) {
+    for (rapidjson::SizeType i = 0; i < weights.Size(); i++) {
       _weights[_features.at(i)] = weights[i].GetDouble();
     }
 
-    const Value& bias = d["bias"]; // Using a reference for consecutive access is handy and faster.
+    const rapidjson::Value& bias = d["bias"];  // Using a reference for consecutive access is handy and faster.
     _bias = bias.GetDouble();
 
-    StringBuffer buffer;
-    Writer<StringBuffer> writer(buffer);
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<StringBuffer> writer(buffer);
     d.Accept(writer);
 
     return true;
   }
-
-}
+}  // namespace usermodel
