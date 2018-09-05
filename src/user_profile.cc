@@ -19,14 +19,11 @@ UserProfile::UserProfile() {}
 UserProfile::~UserProfile() {}
 
 void UpdateProfile(std::vector<double>* a, std::vector<double> b, double weight) {
-
 }
 
 bool UserProfile::Update(std::vector<double> scores, const std::string& url) {
-
-    //UpdateProfile(&(this->long_term_interests_), scores, 0.8);
-    //UpdateProfile(&(this->short_term_interests_), scores, 0.1);
-
+    // UpdateProfile(&(this->long_term_interests_), scores, 0.8);
+    // UpdateProfile(&(this->short_term_interests_), scores, 0.1);
     return false;
 }
 
