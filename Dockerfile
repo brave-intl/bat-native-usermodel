@@ -25,23 +25,15 @@ ENV PATH=$PATH:/usermodel/depot_tools/
 RUN git clone https://chromium.googlesource.com/chromium/src/build_overrides
 RUN git clone https://chromium.googlesource.com/chromium/src/tools && ./tools/clang/scripts/update.py
 
-RUN mkdir /usermodel/src
+RUN git clone https://github.com/llvm-mirror/libcxx.git /usermodel/buildtools/third_party/libc++/trunk
+RUN git clone https://github.com/llvm-mirror/libcxxabi.git /usermodel/buildtools/third_party/libc++abi/trunk
 
-RUN ln -s /usermodel/buildtools /usermodel/src/buildtools
-RUN ln -s /usermodel/build_overrides /usermodel/src/build_overrides
-RUN ln -s /usermodel/build /usermodel/src/build
-RUN ln -s /usermodel/tools /usermodel/src/tools
-RUN ln -s /usermodel/third_party /usermodel/src/third_party
+ADD . /usermodel
+RUN git submodule init && git submodule update
+RUN echo buildconfig = \"//build/config/BUILDCONFIG.gn\" > .gn
 
-RUN git clone https://github.com/llvm-mirror/libcxx.git /usermodel/src/buildtools/third_party/libc++/trunk
-RUN git clone https://github.com/llvm-mirror/libcxxabi.git /usermodel/src/buildtools/third_party/libc++abi/trunk
+RUN printf "build_with_chromium = true\n" >> build/config/gclient_args.gni
 
-ADD . /usermodel/src
-RUN cd src && git submodule init && git submodule update
-RUN cd src && cp gclient_args.gni build/config/.
-RUN echo buildconfig = \"//build/config/BUILDCONFIG.gn\" > /usermodel/src/.gn
+RUN gn gen out/default && ninja -C out/default
 
-RUN cp src/gclient_args.gni /usermodel/src/build/config
-RUN cd src && gn gen out/default && ninja -C out/default && ./out/default/test
-
-CMD bash
+CMD out/default/test
