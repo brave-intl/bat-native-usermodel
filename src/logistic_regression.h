@@ -6,6 +6,7 @@
 #define SRC_LOGISTIC_REGRESSION_H_
 
 #include <vector>
+#include <cmath>
 #include "bag_of_words_extractor.h"
 #include "deps/bat-native-rapidjson/include/rapidjson/document.h"
 #include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
