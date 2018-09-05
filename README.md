@@ -1,5 +1,7 @@
-BAT Ads usermodels and machine learning
-===
+[![Build Status](https://travis-ci.org/brave-intl/bat-native-usermodel.svg?branch=master)](https://travis-ci.org/brave-intl/bat-native-usermodel)
+
+# BAT Ads usermodels and machine learning
+
 
 This library implements:
 - Naive Bayes
