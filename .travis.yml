@@ -9,4 +9,4 @@ before_install:
   - docker build -t usermodel .
 
 script:
-  - docker run usermodel /bin/sh -c "/usermodel/out/default/test"
+  - docker run usermodel /bin/sh -c "python scripts/cpplint.py && /usermodel/out/default/test"

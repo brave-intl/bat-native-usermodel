@@ -36,4 +36,6 @@ RUN printf "build_with_chromium = true\n" >> build/config/gclient_args.gni
 
 RUN gn gen out/default && ninja -C out/default
 
+ENV DEPOT_TOOLS=/usermodel/depot_tools/
+
 CMD out/default/test
