@@ -3,6 +3,9 @@
 # found in the LICENSE file.
 
 if (is_android) {
+  import("//build/config/android/rules.gni")
+}
+if (is_android || defined(is_docker)) {
   dep_base = rebase_path("./", "//")
 } else {
   dep_base = rebase_path("../..", "//")
@@ -14,9 +17,11 @@ config("external_config") {
 
 config("internal_config") {
   include_dirs = [ "src" ]
+  
 }
 
 executable("test") {
+
   sources = [
     "test.cc"
   ]
@@ -25,6 +30,7 @@ executable("test") {
 
   deps = [
     ":usermodel",
+    rebase_path("bat-native-rapidjson", dep_base),
   ]
 }
 
@@ -50,7 +56,7 @@ static_library("bat-native-usermodel-standalone") {
   ]
 
   deps = [
-    ":usermodel"
+    ":usermodel",
   ]
 }
 
