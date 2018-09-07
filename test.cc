@@ -18,9 +18,9 @@
 #include "logistic_regression.h"
 #include "user_model.h"
 
-#include "deps/bat-native-rapidjson/include/rapidjson/document.h"
-#include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
-#include "deps/bat-native-rapidjson/include/rapidjson/stringbuffer.h"
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
 
 #include <fstream>
 #include <streambuf>

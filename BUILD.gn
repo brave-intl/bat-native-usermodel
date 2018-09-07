@@ -2,6 +2,14 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+if (is_android) {
+  import("//build/config/android/rules.gni")
+}
+if (is_android || defined(is_docker)) {
+  dep_base = rebase_path("./", "//")
+} else {
+  dep_base = rebase_path("../..", "//")
+}
 
 config("external_config") {
   include_dirs = [ "include" ]
@@ -9,9 +17,11 @@ config("external_config") {
 
 config("internal_config") {
   include_dirs = [ "src" ]
+  
 }
 
 executable("test") {
+
   sources = [
     "test.cc"
   ]
@@ -19,14 +29,43 @@ executable("test") {
   include_dirs = [ "src" ]
 
   deps = [
-    ":bat_native_usermodel_static",
+    ":usermodel",
+    rebase_path("bat-native-rapidjson", dep_base),
   ]
 }
 
-static_library("bat_native_usermodel_static") {
+group("bat-native-usermodel") {
+  public_deps = [
+    ":usermodel",
+  ]
+
+  data_deps = [
+    ":bat-native-usermodel-standalone",
+  ]
+}
+
+static_library("bat-native-usermodel-standalone") {
+  complete_static_lib = true
+
+  output_dir = root_out_dir
+
+  configs -= [ "//build/config/compiler:thin_archive" ]
+
+  defines = [
+    "STANDALONE_BUILD",
+  ]
+
+  deps = [
+    ":usermodel",
+  ]
+}
+
+static_library("usermodel") {
 
   public_configs = [ ":external_config" ]
   configs += [ ":internal_config" ]
+
+  output_name = "bat_native_usermodel"
 
   sources = [
     "include/user_profile.h",
@@ -48,6 +87,6 @@ static_library("bat_native_usermodel_static") {
   ]
 
   deps = [
-    "//deps/bat-native-rapidjson"
+    rebase_path("bat-native-rapidjson", dep_base),
   ]
 }

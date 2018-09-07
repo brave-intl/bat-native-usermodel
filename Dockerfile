@@ -29,10 +29,11 @@ RUN git clone https://github.com/llvm-mirror/libcxx.git /usermodel/buildtools/th
 RUN git clone https://github.com/llvm-mirror/libcxxabi.git /usermodel/buildtools/third_party/libc++abi/trunk
 
 ADD . /usermodel
-RUN git submodule init && git submodule update
+RUN git clone https://github.com/brave-intl/bat-native-rapidjson.git
 RUN echo buildconfig = \"//build/config/BUILDCONFIG.gn\" > .gn
 
 RUN printf "build_with_chromium = true\n" >> build/config/gclient_args.gni
+RUN printf "is_docker = true\n" >> build/config/BUILDCONFIG.gn # little hack to allow testing
 
 RUN gn gen out/default && ninja -C out/default
 
