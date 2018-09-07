@@ -3,9 +3,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "logistic_regression.h"
-#include "deps/bat-native-rapidjson/include/rapidjson/document.h"
-#include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
-#include "deps/bat-native-rapidjson/include/rapidjson/stringbuffer.h"
 
 namespace usermodel {
   LogisticRegression::LogisticRegression() {

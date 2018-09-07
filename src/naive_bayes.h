@@ -8,9 +8,11 @@
 #include <vector>
 #include <cmath>
 #include "bag_of_words_extractor.h"
-#include "deps/bat-native-rapidjson/include/rapidjson/document.h"
-#include "deps/bat-native-rapidjson/include/rapidjson/writer.h"
-#include "deps/bat-native-rapidjson/include/rapidjson/stringbuffer.h"
+
+#include "rapidjson/document.h"
+#include "rapidjson/error/en.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/writer.h"
 
 namespace usermodel {
 class NaiveBayes {
