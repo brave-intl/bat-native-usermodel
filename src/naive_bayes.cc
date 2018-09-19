@@ -4,6 +4,11 @@
 
 #include "naive_bayes.h"
 
+#include "rapidjson/document.h"
+#include "rapidjson/error/en.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/writer.h"
+
 namespace usermodel {
   NaiveBayes::NaiveBayes() {
   }

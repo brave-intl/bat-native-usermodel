@@ -8,7 +8,7 @@
 #include <string>
 #include "user_profile.h"
 #include "notification_event_type.h"
-#include "naive_bayes.h"
+#include "../src/naive_bayes.h"
 
 namespace usermodel {
 
@@ -32,6 +32,8 @@ class UserModel {
     // bool isShoppingIntent(const std::string& url, const std::string& html);
 
     NaiveBayes page_classifier;
+
+    bool initialized = false;
 };
 }  // namespace usermodel
 

@@ -9,11 +9,6 @@
 #include <cmath>
 #include "bag_of_words_extractor.h"
 
-#include "rapidjson/document.h"
-#include "rapidjson/error/en.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/writer.h"
-
 namespace usermodel {
 class NaiveBayes {
  public:
