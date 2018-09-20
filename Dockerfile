@@ -19,7 +19,7 @@ RUN PATH=$PATH:depot_tools python depot_tools/download_from_google_storage.py \
     -s buildtools/linux64/gn.sha1
 
 RUN git clone https://chromium.googlesource.com/chromium/src/build
-RUN python build/linux/sysroot_scripts/install-sysroot.py --all
+RUN python build/linux/sysroot_scripts/install-sysroot.py --arch=amd64
 ENV PATH=$PATH:/usermodel/depot_tools/
 
 RUN git clone https://chromium.googlesource.com/chromium/src/build_overrides
@@ -27,6 +27,7 @@ RUN git clone https://chromium.googlesource.com/chromium/src/tools && ./tools/cl
 
 RUN git clone https://github.com/llvm-mirror/libcxx.git /usermodel/buildtools/third_party/libc++/trunk
 RUN git clone https://github.com/llvm-mirror/libcxxabi.git /usermodel/buildtools/third_party/libc++abi/trunk
+RUN git clone https://github.com/catapult-project/catapult.git /usermodel/third_party/catapult
 
 ADD . /usermodel
 RUN git clone https://github.com/brave-intl/bat-native-rapidjson.git
