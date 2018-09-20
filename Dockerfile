@@ -19,7 +19,7 @@ RUN PATH=$PATH:depot_tools python depot_tools/download_from_google_storage.py \
     -s buildtools/linux64/gn.sha1
 
 RUN git clone https://chromium.googlesource.com/chromium/src/build
-RUN python build/linux/sysroot_scripts/install-sysroot.py --arch=amd64
+RUN python build/linux/sysroot_scripts/install-sysroot.py --all
 ENV PATH=$PATH:/usermodel/depot_tools/
 
 RUN git clone https://chromium.googlesource.com/chromium/src/build_overrides
