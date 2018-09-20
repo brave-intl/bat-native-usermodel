@@ -3,6 +3,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include <string>
+#include <limits>
 
 #include "../include/user_profile.h"
 
@@ -17,13 +18,21 @@ UserProfile::UserProfile() {}
 
 UserProfile::~UserProfile() {}
 
-void UpdateProfile(std::vector<double>* a, std::vector<double> b, double weight) {
+void UpdateProfile(std::vector<double> to, const std::vector<double> from, double weight) {
+    if ( to.size() ==0 ) {
+        to.resize(from.size(), 1.0/from.size());
+    }
+
+    for (size_t i = 0; i < to.size(); i++) {
+        to.at(i) = (1-weight)*to.at(i) + weight*from.at(i);
+    }
 }
 
-bool UserProfile::Update(std::vector<double> scores, const std::string& url) {
-    // UpdateProfile(&(this->long_term_interests_), scores, 0.8);
-    // UpdateProfile(&(this->short_term_interests_), scores, 0.1);
-    return false;
+bool UserProfile::Update(const std::vector<double> scores, const std::string& url) {
+    UpdateProfile(this->long_term_interests_, scores, 0.8);
+    UpdateProfile(this->short_term_interests_, scores, 0.1);
+
+    return true;
 }
 
 void LoadToMap(const rapidjson::Value& vector, std::map<std::string, double>* data) {
@@ -33,16 +42,23 @@ void LoadToMap(const rapidjson::Value& vector, std::map<std::string, double>* da
     }
 }
 
+
+void LoadToVector(const rapidjson::Value& vector, std::vector<double>* data) {
+    data->clear();
+    for (rapidjson::SizeType i = 0; i < vector.Size(); i++) {
+        data->push_back(vector[i].GetDouble());
+    }
+}
+
 std::unique_ptr<UserProfile> UserProfile::FromJSON(const std::string& json) {
     std::unique_ptr<UserProfile> res = std::unique_ptr<UserProfile>(new UserProfile());
 
     rapidjson::Document d;
     d.Parse(json.c_str());
 
-    LoadToMap(d["long_term_interests"], &(res->long_term_interests_));
-    LoadToMap(d["short_term_interests"], &(res->short_term_interests_));
-    LoadToMap(d["search_intent"], &(res->search_intent_));
-    LoadToMap(d["shopping_intent"], &(res->shopping_intent_));
+    LoadToVector(d["long_term_interests"], &(res->long_term_interests_));
+    LoadToVector(d["short_term_interests"], &(res->short_term_interests_));
+    LoadToVector(d["search_intent"], &(res->search_intent_));
 
     return res;
 }
@@ -58,16 +74,25 @@ void SerializeMap(std::string key, std::map<std::string, double> data, rapidjson
     writer->EndObject();
 }
 
+void SerializeVector(std::string key, std::vector<double> data, rapidjson::Writer<rapidjson::StringBuffer>* writer) {
+    writer->Key(key.c_str());
+
+    writer->StartArray();
+    for ( auto c : data ) {
+        writer->Double(c);
+    }
+    writer->EndArray();
+}
+
 const std::string UserProfile::ToJSON() const {
     rapidjson::StringBuffer sb;
     rapidjson::Writer<rapidjson::StringBuffer> writer(sb);
 
     writer.StartObject();
 
-    SerializeMap("long_term_interests", this->long_term_interests_, &writer);
-    SerializeMap("short_term_interests", this->short_term_interests_, &writer);
-    SerializeMap("search_intent", this->search_intent_, &writer);
-    SerializeMap("shopping_intent", this->shopping_intent_, &writer);
+    SerializeVector("long_term_interests", this->long_term_interests_, &writer);
+    SerializeVector("short_term_interests", this->short_term_interests_, &writer);
+    SerializeVector("search_intent", this->search_intent_, &writer);
 
     writer.EndObject();
 

@@ -26,13 +26,14 @@ USERMODEL_EXPORT class UserProfile {
     static std::unique_ptr<UserProfile> FromJSON(const std::string& json);
     const std::string ToJSON() const;
 
-    bool Update(std::vector<double> scores, const std::string& url);
+    bool Update(const std::vector<double> scores, const std::string& url);
 
     std::string user_id;
-    std::map<std::string, double> long_term_interests_;
-    std::map<std::string, double> short_term_interests_;
-    std::map<std::string, double> search_intent_;
-    std::map<std::string, double> shopping_intent_;
+    std::vector<std::string> taxonomies_;
+    std::vector<double> long_term_interests_;
+    std::vector<double> short_term_interests_;
+    std::vector<double> search_intent_;
+    std::vector<double> shopping_intent_;
 };
 }  // namespace usermodel
 

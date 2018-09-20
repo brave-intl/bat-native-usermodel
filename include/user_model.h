@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef SRC_USER_MODEL_H_
-#define SRC_USER_MODEL_H_
+#ifndef INCLUDE_USER_MODEL_H_
+#define INCLUDE_USER_MODEL_H_
 
 #include <string>
 #include "user_profile.h"
@@ -37,4 +37,4 @@ class UserModel {
 };
 }  // namespace usermodel
 
-#endif  // SRC_USER_MODEL_H_
+#endif  // INCLUDE_USER_MODEL_H_

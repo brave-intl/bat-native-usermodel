@@ -56,10 +56,9 @@ TEST_CASE( "Test user profiles", "[user_profile]" ) {
 
   auto user = UserProfile();
   for ( auto c : model.Classes() ) {
-    user.long_term_interests_[c] = 0.0;
-    user.short_term_interests_[c] = 0.0;
-    user.search_intent_[c] = 0.0;
-    user.shopping_intent_[c] = 0.0;
+    user.long_term_interests_.push_back(0.0);
+    user.short_term_interests_.push_back(0.0);
+    user.search_intent_.push_back(0.0);
   }
   REQUIRE( user.long_term_interests_.size() != 0 );
   
@@ -72,7 +71,6 @@ TEST_CASE( "Test user profiles", "[user_profile]" ) {
   REQUIRE( profile->long_term_interests_.size() != 0 );
   REQUIRE( profile->short_term_interests_.size() != 0 );
   REQUIRE( profile->search_intent_.size() != 0 );
-  REQUIRE( profile->shopping_intent_.size() != 0 );
 }
 
 TEST_CASE( "Test logistic regression", "[classifier]" ) {
