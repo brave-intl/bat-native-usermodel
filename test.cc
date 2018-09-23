@@ -18,6 +18,8 @@
 #include "logistic_regression.h"
 #include "user_model.h"
 
+#include "ad_catalog.h"
+
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
@@ -97,4 +99,10 @@ TEST_CASE( "Test naive bayes", "[classifier]" ) {
     auto predicted = um.winningCategory(scores);
     REQUIRE( predicted == label );
   }
+}
+
+TEST_CASE("Test ad catalog", "[ad catalog]") {
+  usermodel::AdCatalog ad_catalog;
+  ad_catalog.load(loadFile("bat-ads-feed.json"));
+  REQUIRE(ad_catalog.ads_.size() != 0);
 }
