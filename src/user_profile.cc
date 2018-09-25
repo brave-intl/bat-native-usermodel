@@ -30,10 +30,6 @@ void UpdateProfile(std::vector<double> to, const std::vector<double> from, doubl
     }
 }
 
-double log2(double number) {
-    return log( number ) / log( 2 );
-}
-
 double UserProfile::Entropy(const std::vector<double> scores) {
     double sum = std::accumulate(scores.begin(), scores.end(), 0.0);
     if (sum == 0.0) {
