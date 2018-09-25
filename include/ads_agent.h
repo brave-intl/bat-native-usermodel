@@ -10,10 +10,11 @@
 
 #include "user_model.h"
 #include "user_profile.h"
-#include "logistic_regression.h"
 #include "ad.h"
 
 namespace usermodel {
+
+class LogisticRegression;
 
 class AdsAgent {
  public:
@@ -31,7 +32,7 @@ class AdsAgent {
     int AdsScoreAndSample(std::vector<Ad> ads, UserProfile profile);
 
     UserModel* usermodel;
-    usermodel::LogisticRegression relevance_model;
+    LogisticRegression* relevance_model;
 };
 
 }  // namespace usermodel

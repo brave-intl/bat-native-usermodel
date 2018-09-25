@@ -4,6 +4,7 @@
 #include "user_model.h"
 #include "ad.h"
 #include "naive_bayes.h"
+#include "logistic_regression.h"
 
 #include <string>
 #include <vector>
