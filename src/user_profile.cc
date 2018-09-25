@@ -4,6 +4,8 @@
 
 #include <string>
 #include <limits>
+#include <cmath>
+#include <numeric>
 
 #include "../include/user_profile.h"
 
@@ -28,9 +30,33 @@ void UpdateProfile(std::vector<double> to, const std::vector<double> from, doubl
     }
 }
 
+double log2(double number) {
+    return log( number ) / log( 2 );
+}
+
+double UserProfile::Entropy(const std::vector<double> scores) {
+    double sum = std::accumulate(scores.begin(), scores.end(), 0.0);
+    if (sum == 0.0) {
+        return 1.0;
+    }
+
+    double entropy = 0.0;
+    for (size_t i = 0; i < scores.size(); i++) {
+        if (scores.at(i) > 0.0) {
+            double a = scores.at(i) / sum;
+            entropy -= a*log2(a);
+        }
+    }
+
+    return entropy;
+}
+
 bool UserProfile::Update(const std::vector<double> scores, const std::string& url) {
     UpdateProfile(this->long_term_interests_, scores, 0.8);
     UpdateProfile(this->short_term_interests_, scores, 0.1);
+
+    // check if search url and update search_intent
+
 
     return true;
 }
@@ -41,7 +67,6 @@ void LoadToMap(const rapidjson::Value& vector, std::map<std::string, double>* da
       (*data)[itr->name.GetString()] = v;
     }
 }
-
 
 void LoadToVector(const rapidjson::Value& vector, std::vector<double>* data) {
     data->clear();
@@ -56,9 +81,17 @@ std::unique_ptr<UserProfile> UserProfile::FromJSON(const std::string& json) {
     rapidjson::Document d;
     d.Parse(json.c_str());
 
-    LoadToVector(d["long_term_interests"], &(res->long_term_interests_));
-    LoadToVector(d["short_term_interests"], &(res->short_term_interests_));
-    LoadToVector(d["search_intent"], &(res->search_intent_));
+    if (d.FindMember("long_term_interests") != d.MemberEnd()) {
+        LoadToVector(d["long_term_interests"], &(res->long_term_interests_));
+    }
+
+    if (d.FindMember("short_term_interests") != d.MemberEnd()) {
+        LoadToVector(d["short_term_interests"], &(res->short_term_interests_));
+    }
+
+    if (d.FindMember("search_intent") != d.MemberEnd()) {
+        LoadToVector(d["search_intent"], &(res->search_intent_));
+    }
 
     return res;
 }

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 #ifndef INCLUDE_USER_PROFILE_H_
 #define INCLUDE_USER_PROFILE_H_
 
@@ -27,6 +31,7 @@ USERMODEL_EXPORT class UserProfile {
     const std::string ToJSON() const;
 
     bool Update(const std::vector<double> scores, const std::string& url);
+    static double Entropy(const std::vector<double> scores);
 
     std::string user_id;
     std::vector<std::string> taxonomies_;

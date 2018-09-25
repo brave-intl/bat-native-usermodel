@@ -40,7 +40,7 @@ std::string loadFile(std::string filename) {
   std::ifstream t(filename);
   std::string data((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 
-  return data;  
+  return data;
 }
 
 Document loadJson(std::string filename) {
@@ -63,7 +63,7 @@ TEST_CASE( "Test user profiles", "[user_profile]" ) {
     user.search_intent_.push_back(0.0);
   }
   REQUIRE( user.long_term_interests_.size() != 0 );
-  
+
   auto json = user.ToJSON();
   REQUIRE( json != "" );
   //std::cout << json << std::endl;
@@ -74,6 +74,28 @@ TEST_CASE( "Test user profiles", "[user_profile]" ) {
   REQUIRE( profile->short_term_interests_.size() != 0 );
   REQUIRE( profile->search_intent_.size() != 0 );
 }
+
+TEST_CASE( "Test empty profiles", "[user_profile]" ) {
+  auto profile = UserProfile::FromJSON("{}");
+
+  REQUIRE( profile->long_term_interests_.size() == 0 );
+  REQUIRE( profile->short_term_interests_.size() == 0 );
+  REQUIRE( profile->search_intent_.size() == 0 );
+}
+
+TEST_CASE( "Test entropy", "[user_profile]" ) {
+  auto scores = std::vector<double>();
+
+  double entropy = UserProfile::Entropy(scores);
+  REQUIRE( entropy == 1 );
+
+  scores.push_back(0.0);
+  scores.push_back(1.0);
+
+  entropy = UserProfile::Entropy(scores);
+  REQUIRE( entropy == 0.0 );
+}
+
 
 TEST_CASE( "Test logistic regression", "[classifier]" ) {
   usermodel::LogisticRegression cl;

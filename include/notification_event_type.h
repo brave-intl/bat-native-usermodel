@@ -5,11 +5,13 @@
 #ifndef INCLUDE_NOTIFICATION_EVENT_TYPE_H_
 #define INCLUDE_NOTIFICATION_EVENT_TYPE_H_
 
+#include "export.h"
+
 namespace usermodel {
-enum NotificationEventType {
+USERMODEL_EXPORT enum NotificationEventType {
     CLICKED,
     CLOSED,
-    TIMEOUT
+    TIMED_OUT
 };
 }  // namespace usermodel
 
