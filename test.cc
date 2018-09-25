@@ -66,13 +66,24 @@ TEST_CASE( "Test user profiles", "[user_profile]" ) {
 
   auto json = user.ToJSON();
   REQUIRE( json != "" );
-  //std::cout << json << std::endl;
 
   auto profile = UserProfile::FromJSON(json);
 
   REQUIRE( profile->long_term_interests_.size() != 0 );
   REQUIRE( profile->short_term_interests_.size() != 0 );
   REQUIRE( profile->search_intent_.size() != 0 );
+}
+
+TEST_CASE( "Test user profile update", "[user_profile]" ) {
+  auto profile = UserProfile();
+  auto scores = std::vector<double>();
+  scores.push_back(1.0);
+  scores.push_back(2.0);
+
+  profile.Update(scores, true);
+  REQUIRE( profile.long_term_interests_.size() != 0 );
+  REQUIRE( profile.short_term_interests_.size() != 0 );
+  REQUIRE( profile.search_intent_.size() != 0 );
 }
 
 TEST_CASE( "Test empty profiles", "[user_profile]" ) {

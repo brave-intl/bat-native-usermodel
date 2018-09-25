@@ -20,13 +20,13 @@ UserProfile::UserProfile() {}
 
 UserProfile::~UserProfile() {}
 
-void UpdateProfile(std::vector<double> to, const std::vector<double> from, double weight) {
-    if ( to.size() ==0 ) {
-        to.resize(from.size(), 1.0/from.size());
+void UpdateProfile(std::vector<double> *to, const std::vector<double> from, double weight) {
+    if (to->size() == 0) {
+        to->resize(from.size(), 1.0/from.size());
     }
 
-    for (size_t i = 0; i < to.size(); i++) {
-        to.at(i) = (1-weight)*to.at(i) + weight*from.at(i);
+    for (size_t i = 0; i < to->size(); i++) {
+        to->at(i) = (1-weight)*to->at(i) + weight*from.at(i);
     }
 }
 
@@ -47,12 +47,17 @@ double UserProfile::Entropy(const std::vector<double> scores) {
     return entropy;
 }
 
-bool UserProfile::Update(const std::vector<double> scores, const std::string& url) {
-    UpdateProfile(this->long_term_interests_, scores, 0.8);
-    UpdateProfile(this->short_term_interests_, scores, 0.1);
+#define ZEROS(T) std::vector<double>(T.size(), 0.0)
 
-    // check if search url and update search_intent
+bool UserProfile::Update(const std::vector<double> scores, bool isSearch) {
+    UpdateProfile(&(this->long_term_interests_), scores, 0.8);
+    UpdateProfile(&(this->short_term_interests_), scores, 0.1);
 
+    if (isSearch) {
+        UpdateProfile(&(this->search_intent_), scores, 0.1);
+    } else {
+        UpdateProfile(&(this->search_intent_), ZEROS(scores), 0.1);
+    }
 
     return true;
 }
