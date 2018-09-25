@@ -24,16 +24,15 @@ class UserModel {
     // void onNotificationEvent(NotificationEventType type);
     // void updateState();
     std::vector<double>  classifyPage(const std::string& data);
-    std::string winningCategory(std::vector<double> scores);
+    static std::string winningCategory(std::vector<double> scores, std::vector<std::string> taxonomies);
+    NaiveBayes page_classifier;
+    bool IsInitialized();
 
  private:
     // UserProfile user_profile;
     // bool isSearchURL(const std::string& url);
     // bool isShoppingIntent(const std::string& url, const std::string& html);
-
-    NaiveBayes page_classifier;
-
-    bool initialized = false;
+    bool initialized_ = false;
 };
 }  // namespace usermodel
 

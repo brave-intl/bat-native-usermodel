@@ -16,7 +16,7 @@ config("external_config") {
 }
 
 config("internal_config") {
-  include_dirs = [ "src" ] 
+  include_dirs = [ "src" ]
 }
 
 executable("test") {
@@ -71,7 +71,11 @@ source_set("usermodel") {
     "include/user_model.h",
     "include/notification_event_type.h",
     "include/ad.h",
+    "include/ads_agent.h",
+    "include/ads_relevance.h",
     "src/ad.cc",
+    "src/ads_agent.cc",
+    "src/ads_relevance.cc",
     "include/ad_catalog.h",
     "src/ad_catalog.cc",
     "src/classifier.h",

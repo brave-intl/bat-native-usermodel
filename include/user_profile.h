@@ -30,7 +30,7 @@ USERMODEL_EXPORT class UserProfile {
     static std::unique_ptr<UserProfile> FromJSON(const std::string& json);
     const std::string ToJSON() const;
 
-    bool Update(const std::vector<double> scores, bool isSearch);
+    bool Update(const std::vector<double> scores, time_t time_since_last_update, bool isSearch);
     static double Entropy(const std::vector<double> scores);
 
     std::string user_id;

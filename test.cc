@@ -26,6 +26,7 @@
 
 #include <fstream>
 #include <streambuf>
+#include <numeric>
 
 #include "../include/user_profile.h"
 
@@ -80,7 +81,7 @@ TEST_CASE( "Test user profile update", "[user_profile]" ) {
   scores.push_back(1.0);
   scores.push_back(2.0);
 
-  profile.Update(scores, true);
+  profile.Update(scores, 0, true);
   REQUIRE( profile.long_term_interests_.size() != 0 );
   REQUIRE( profile.short_term_interests_.size() != 0 );
   REQUIRE( profile.search_intent_.size() != 0 );
@@ -129,7 +130,7 @@ TEST_CASE( "Test naive bayes", "[classifier]" ) {
 
     auto doc = loadFile(std::string("data/") + std::string(filename));
     auto scores = um.classifyPage(doc);
-    auto predicted = um.winningCategory(scores);
+    auto predicted = usermodel::UserModel::winningCategory(scores, um.page_classifier.Classes());
     REQUIRE( predicted == label );
   }
 }

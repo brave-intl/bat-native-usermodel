@@ -48,15 +48,24 @@ double UserProfile::Entropy(const std::vector<double> scores) {
 }
 
 #define ZEROS(T) std::vector<double>(T.size(), 0.0)
+#define UNIFORM(T) std::vector<double>(T.size(), 1.0/T.size())
 
-bool UserProfile::Update(const std::vector<double> scores, bool isSearch) {
-    UpdateProfile(&(this->long_term_interests_), scores, 0.8);
-    UpdateProfile(&(this->short_term_interests_), scores, 0.1);
+bool UserProfile::Update(const std::vector<double> scores, time_t time_since_last_update, bool isSearch) {
+    UpdateProfile(&(this->long_term_interests_), scores, 0.1);
+
+    // if last update happened within 10 minutes
+    // update short term vectors, else reset.
+    if (time_since_last_update > 60*10) {
+        this->short_term_interests_ = UNIFORM(scores);
+        this->search_intent_ = UNIFORM(scores);
+    }
+
+    UpdateProfile(&(this->short_term_interests_), scores, 0.9);
 
     if (isSearch) {
-        UpdateProfile(&(this->search_intent_), scores, 0.1);
+        UpdateProfile(&(this->search_intent_), scores, 0.9);
     } else {
-        UpdateProfile(&(this->search_intent_), ZEROS(scores), 0.1);
+        this->search_intent_ = UNIFORM(scores);
     }
 
     return true;

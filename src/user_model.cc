@@ -8,14 +8,28 @@
 
 bool usermodel::UserModel::initializePageClassifier(const std::string& model) {
     if (page_classifier.LoadModel(model)) {
-        initialized = true;
+        initialized_ = true;
     }
 
-    return initialized;
+    return initialized_;
 }
 
-std::string usermodel::UserModel::winningCategory(std::vector<double> scores) {
-    return page_classifier.WinningCategory(scores);
+std::string usermodel::UserModel::winningCategory(std::vector<double> scores, std::vector<std::string> taxonomies) {
+    int i = 0;
+    int argmax = 0;
+    double max = 0.0;
+    for (auto c : scores) {
+      if (c > max) {
+        argmax = i;
+        max = c;
+      }
+      i++;
+    }
+    return taxonomies.at(argmax);
+}
+
+bool usermodel::UserModel::IsInitialized() {
+    return initialized_;
 }
 
 std::vector<double>  usermodel::UserModel::classifyPage(const std::string& data) {
