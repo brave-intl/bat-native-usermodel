@@ -14,7 +14,7 @@ void usermodel::AdsAgent::LoadRelevanceModel(const std::string& json) {
     relevance_model->LoadModel(json);
 }
 
-double usermodel::AdsAgent::ScoreRelevance(std::vector<double> features) {
+double usermodel::AdsAgent::ScoreRelevance(const std::vector<double>& features) {
     auto features_map = std::map<std::string, double>();
 
     features_map["long_term_interest"] = features.at(0);
@@ -24,15 +24,12 @@ double usermodel::AdsAgent::ScoreRelevance(std::vector<double> features) {
     return relevance_model->Predict(features_map).at(0);
 }
 
-int usermodel::AdsAgent::AdsScoreAndSample(std::vector<Ad> ads, UserProfile profile) {
+int usermodel::AdsAgent::AdsScoreAndSample(const std::vector<Ad>& ads, const UserProfile& profile) {
     std::vector<double> scores;
-
-    // TODO(ptigas): find better way to do this
-    profile.taxonomies_ = usermodel->page_classifier.Classes();
 
     if (this->usermodel->IsInitialized()) {
         for (auto ad : ads) {
-            auto feature_vector = usermodel::AdsRelevance::DeriveFeatures(profile, ad);
+            auto feature_vector = usermodel::AdsRelevance::DeriveFeatures(profile, ad, usermodel->page_classifier.Classes());
             scores.push_back(ScoreRelevance(feature_vector));
         }
 

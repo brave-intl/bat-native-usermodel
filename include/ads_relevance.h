@@ -8,7 +8,8 @@ namespace usermodel {
 
 class AdsRelevance {
  public:
-    static std::vector<double> DeriveFeatures(const UserProfile& profile, const Ad& ad);
+    static std::vector<double> DeriveFeatures(
+        const UserProfile& profile, const Ad& ad, const std::vector<std::string>& taxonomy);
     int SampleAd(std::vector<double> features);
 };
 

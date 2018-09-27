@@ -13,13 +13,7 @@
 #include "export.h"
 
 namespace usermodel {
-/*
-using UserProfileReadCallback = std::function<void(Result,
-    std::unique_ptr<UserProfile>)>;
 
-using UserProfileWriteCallback = std::function<void(Result,
-    std::unique_ptr<UserProfile>)>;
-*/
 USERMODEL_EXPORT class UserProfile {
  public:
     UserProfile();
@@ -34,7 +28,7 @@ USERMODEL_EXPORT class UserProfile {
     static double Entropy(const std::vector<double> scores);
 
     std::string user_id;
-    std::vector<std::string> taxonomies_;
+    std::vector<std::string> taxonomy;
     std::vector<double> long_term_interests_;
     std::vector<double> short_term_interests_;
     std::vector<double> search_intent_;

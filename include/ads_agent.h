@@ -28,8 +28,8 @@ class AdsAgent {
     void CheckAndNotify();
     void DeriveFeatures();
 
-    double ScoreRelevance(std::vector<double> features);
-    int AdsScoreAndSample(std::vector<Ad> ads, UserProfile profile);
+    double ScoreRelevance(const std::vector<double>& features);
+    int AdsScoreAndSample(const std::vector<Ad>& ads, const UserProfile& profile);
 
     UserModel* usermodel;
     LogisticRegression* relevance_model;

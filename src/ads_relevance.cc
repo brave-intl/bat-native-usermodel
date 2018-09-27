@@ -39,7 +39,8 @@ double CategoryMatchScore(const std::string& ad_category, const std::string& cat
     return score;
 }
 
-std::vector<double> usermodel::AdsRelevance::DeriveFeatures(const usermodel::UserProfile& profile, const usermodel::Ad& ad) {
+std::vector<double> usermodel::AdsRelevance::DeriveFeatures(
+    const usermodel::UserProfile& profile, const usermodel::Ad& ad, const std::vector<std::string>& taxonomy) {
     std::vector<double> features;
 
     // long term interest match
@@ -47,7 +48,7 @@ std::vector<double> usermodel::AdsRelevance::DeriveFeatures(const usermodel::Use
         CategoryMatchScore(ad.category,
         usermodel::UserModel::winningCategory(
             profile.long_term_interests_,
-            profile.taxonomies_),
+            taxonomy),
         usermodel::UserProfile::Entropy(profile.long_term_interests_)));
 
     // short term interest match
@@ -55,7 +56,7 @@ std::vector<double> usermodel::AdsRelevance::DeriveFeatures(const usermodel::Use
         CategoryMatchScore(ad.category,
         usermodel::UserModel::winningCategory(
             profile.short_term_interests_,
-            profile.taxonomies_),
+            taxonomy),
         usermodel::UserProfile::Entropy(profile.short_term_interests_)));
 
     // search intent match
@@ -63,7 +64,7 @@ std::vector<double> usermodel::AdsRelevance::DeriveFeatures(const usermodel::Use
         CategoryMatchScore(ad.category,
         usermodel::UserModel::winningCategory(
             profile.search_intent_,
-            profile.taxonomies_),
+            taxonomy),
         usermodel::UserProfile::Entropy(profile.search_intent_)));
 
     return features;
