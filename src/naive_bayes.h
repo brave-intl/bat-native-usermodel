@@ -9,11 +9,6 @@
 #include <cmath>
 #include "bag_of_words_extractor.h"
 
-#include "rapidjson/document.h"
-#include "rapidjson/error/en.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/writer.h"
-
 namespace usermodel {
 class NaiveBayes {
  public:
@@ -22,7 +17,6 @@ class NaiveBayes {
   bool LoadModel(const std::string& model);
   std::vector<double> Predict(std::map<std::string, double> features);
   std::vector<std::string> Classes();
-  std::string WinningCategory(std::vector<double> scores);
 
  private:
   std::vector<std::string> classes_;

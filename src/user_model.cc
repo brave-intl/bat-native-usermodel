@@ -2,15 +2,29 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+#include "../include/user_model.h"
 #include "user_model.h"
 #include "bag_of_words_extractor.h"
 
+#include <iostream>
+
 bool usermodel::UserModel::initializePageClassifier(const std::string& model) {
-    return page_classifier.LoadModel(model);
+    if (page_classifier.LoadModel(model)) {
+        initialized_ = true;
+    }
+
+    return initialized_;
 }
 
-std::string usermodel::UserModel::winningCategory(std::vector<double> scores) {
-    return page_classifier.WinningCategory(scores);
+std::string usermodel::UserModel::winningCategory(const std::vector<double>& scores, const std::vector<std::string>& taxonomies) {
+    auto max = std::max_element(scores.begin(), scores.end());
+    auto argmax =  std::distance(scores.begin(), max);
+
+    return taxonomies.at(argmax);
+}
+
+bool usermodel::UserModel::IsInitialized() {
+    return initialized_;
 }
 
 std::vector<double>  usermodel::UserModel::classifyPage(const std::string& data) {

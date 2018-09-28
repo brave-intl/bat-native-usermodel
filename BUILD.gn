@@ -17,7 +17,6 @@ config("external_config") {
 
 config("internal_config") {
   include_dirs = [ "src" ]
-  
 }
 
 executable("test") {
@@ -60,15 +59,25 @@ static_library("bat-native-usermodel-standalone") {
   ]
 }
 
-static_library("usermodel") {
-
+source_set("usermodel") {
   public_configs = [ ":external_config" ]
   configs += [ ":internal_config" ]
 
   output_name = "bat_native_usermodel"
 
   sources = [
+    "include/usermodel_callback_handler.h",
     "include/user_profile.h",
+    "include/user_model.h",
+    "include/notification_event_type.h",
+    "include/ad.h",
+    "include/ads_agent.h",
+    "include/ads_relevance.h",
+    "src/ad.cc",
+    "src/ads_agent.cc",
+    "src/ads_relevance.cc",
+    "include/ad_catalog.h",
+    "src/ad_catalog.cc",
     "src/classifier.h",
     "src/bag_of_words_extractor.h",
     "src/bag_of_words_extractor.cc",
@@ -79,11 +88,9 @@ static_library("usermodel") {
     "src/stmr.c",
     "src/stmr.h",
     "src/ads_ranker.h",
-    "src/user_model.h",
     "src/user_model.cc",
     "src/user_profile.h",
-    "src/user_profile.cc",
-    "src/notification_event_type.h"
+    "src/user_profile.cc"
   ]
 
   deps = [

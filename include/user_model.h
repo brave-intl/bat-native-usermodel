@@ -2,13 +2,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef SRC_USER_MODEL_H_
-#define SRC_USER_MODEL_H_
+#ifndef INCLUDE_USER_MODEL_H_
+#define INCLUDE_USER_MODEL_H_
 
 #include <string>
 #include "user_profile.h"
 #include "notification_event_type.h"
-#include "naive_bayes.h"
+#include "../src/naive_bayes.h"
 
 namespace usermodel {
 
@@ -24,15 +24,16 @@ class UserModel {
     // void onNotificationEvent(NotificationEventType type);
     // void updateState();
     std::vector<double>  classifyPage(const std::string& data);
-    std::string winningCategory(std::vector<double> scores);
+    static std::string winningCategory(const std::vector<double>& scores, const std::vector<std::string>& taxonomies);
+    NaiveBayes page_classifier;
+    bool IsInitialized();
 
  private:
     // UserProfile user_profile;
     // bool isSearchURL(const std::string& url);
     // bool isShoppingIntent(const std::string& url, const std::string& html);
-
-    NaiveBayes page_classifier;
+    bool initialized_ = false;
 };
 }  // namespace usermodel
 
-#endif  // SRC_USER_MODEL_H_
+#endif  // INCLUDE_USER_MODEL_H_

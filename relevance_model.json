@@ -1,0 +1,1 @@
+{"features":["long_term_interest", "short_term_interest", "search_intent"], "weights":[0.2, 0.4, 0.9], "bias": 0.5}

@@ -2,15 +2,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef SRC_NOTIFICATION_EVENT_TYPE_H_
-#define SRC_NOTIFICATION_EVENT_TYPE_H_
+#ifndef INCLUDE_NOTIFICATION_EVENT_TYPE_H_
+#define INCLUDE_NOTIFICATION_EVENT_TYPE_H_
+
+#include "export.h"
 
 namespace usermodel {
-enum NotificationEventType {
+USERMODEL_EXPORT enum NotificationEventType {
     CLICKED,
     CLOSED,
-    TIMEOUT
+    TIMED_OUT
 };
 }  // namespace usermodel
 
-#endif  // SRC_NOTIFICATION_EVENT_TYPE_H_
+#endif  // INCLUDE_NOTIFICATION_EVENT_TYPE_H_

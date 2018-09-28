@@ -4,6 +4,11 @@
 
 #include "naive_bayes.h"
 
+#include "rapidjson/document.h"
+#include "rapidjson/error/en.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/writer.h"
+
 namespace usermodel {
   NaiveBayes::NaiveBayes() {
   }
@@ -46,20 +51,6 @@ namespace usermodel {
     }
 
     return results;
-  }
-
-  std::string NaiveBayes::WinningCategory(std::vector<double> scores) {
-    int i = 0;
-    int argmax = 0;
-    double max = 0.0;
-    for (auto c : scores) {
-      if (c > max) {
-        argmax = i;
-        max = c;
-      }
-      i++;
-    }
-    return classes_.at(argmax);
   }
 
   bool NaiveBayes::LoadModel(const std::string& json) {

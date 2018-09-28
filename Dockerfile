@@ -27,6 +27,7 @@ RUN git clone https://chromium.googlesource.com/chromium/src/tools && ./tools/cl
 
 RUN git clone https://github.com/llvm-mirror/libcxx.git /usermodel/buildtools/third_party/libc++/trunk
 RUN git clone https://github.com/llvm-mirror/libcxxabi.git /usermodel/buildtools/third_party/libc++abi/trunk
+RUN git clone https://github.com/catapult-project/catapult.git /usermodel/third_party/catapult
 
 ADD . /usermodel
 RUN git clone https://github.com/brave-intl/bat-native-rapidjson.git
