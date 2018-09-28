@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+#include <iostream>
 #include <string>
 #include <limits>
 #include <cmath>
@@ -30,7 +31,7 @@ void UpdateProfile(std::vector<double> *to, const std::vector<double> from, doub
     }
 }
 
-double UserProfile::Entropy(const std::vector<double> scores) {
+double UserProfile::Entropy(const std::vector<double>& scores) {
     double sum = std::accumulate(scores.begin(), scores.end(), 0.0);
     if (sum == 0.0) {
         return 1.0;

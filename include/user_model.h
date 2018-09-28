@@ -24,7 +24,7 @@ class UserModel {
     // void onNotificationEvent(NotificationEventType type);
     // void updateState();
     std::vector<double>  classifyPage(const std::string& data);
-    static std::string winningCategory(std::vector<double> scores, std::vector<std::string> taxonomies);
+    static std::string winningCategory(const std::vector<double>& scores, const std::vector<std::string>& taxonomies);
     NaiveBayes page_classifier;
     bool IsInitialized();
 

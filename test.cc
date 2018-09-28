@@ -19,6 +19,7 @@
 #include "user_model.h"
 
 #include "ad_catalog.h"
+#include "ads_agent.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
@@ -139,4 +140,26 @@ TEST_CASE("Test ad catalog", "[ad catalog]") {
   usermodel::AdCatalog ad_catalog;
   ad_catalog.load(loadFile("bat-ads-feed.json"));
   REQUIRE(ad_catalog.ads_.size() != 0);
+}
+
+
+TEST_CASE( "Test agent", "[classifier]" ) {
+  AdCatalog ad_catalog;
+  ad_catalog.load(loadFile("bat-ads-feed.json"));
+
+  usermodel::UserModel um;
+  um.initializePageClassifier(loadFile("model.json"));
+
+  std::unique_ptr<UserProfile> user = std::make_unique<UserProfile>();
+  for ( auto c : um.page_classifier.Classes() ) {
+    user->long_term_interests_.push_back(0.0);
+    user->short_term_interests_.push_back(0.0);
+    user->search_intent_.push_back(0.0);
+  }
+  user->search_intent_.at(1) = 1.0;
+
+  AdsAgent ads_agent(&um);
+  ads_agent.LoadRelevanceModel(loadFile("relevance_model.json"));
+  auto index = ads_agent.AdsScoreAndSample(ad_catalog.ads_, *user);
+  REQUIRE(index != -1);
 }

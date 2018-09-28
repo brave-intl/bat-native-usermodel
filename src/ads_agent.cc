@@ -27,7 +27,7 @@ double usermodel::AdsAgent::ScoreRelevance(const std::vector<double>& features) 
 int usermodel::AdsAgent::AdsScoreAndSample(const std::vector<Ad>& ads, const UserProfile& profile) {
     std::vector<double> scores;
 
-    if (this->usermodel->IsInitialized()) {
+    if (this->usermodel->IsInitialized() && ads.size() > 0) {
         for (auto ad : ads) {
             auto feature_vector = usermodel::AdsRelevance::DeriveFeatures(profile, ad, usermodel->page_classifier.Classes());
             scores.push_back(ScoreRelevance(feature_vector));

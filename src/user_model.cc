@@ -6,6 +6,8 @@
 #include "user_model.h"
 #include "bag_of_words_extractor.h"
 
+#include <iostream>
+
 bool usermodel::UserModel::initializePageClassifier(const std::string& model) {
     if (page_classifier.LoadModel(model)) {
         initialized_ = true;
@@ -14,17 +16,10 @@ bool usermodel::UserModel::initializePageClassifier(const std::string& model) {
     return initialized_;
 }
 
-std::string usermodel::UserModel::winningCategory(std::vector<double> scores, std::vector<std::string> taxonomies) {
-    int i = 0;
-    int argmax = 0;
-    double max = 0.0;
-    for (auto c : scores) {
-      if (c > max) {
-        argmax = i;
-        max = c;
-      }
-      i++;
-    }
+std::string usermodel::UserModel::winningCategory(const std::vector<double>& scores, const std::vector<std::string>& taxonomies) {
+    auto max = std::max_element(scores.begin(), scores.end());
+    auto argmax =  std::distance(scores.begin(), max);
+
     return taxonomies.at(argmax);
 }
 

@@ -4,7 +4,7 @@
 #include <string>
 
 namespace usermodel {
-class Ad {
+struct Ad {
  public:
     Ad();
     Ad(const Ad& other);

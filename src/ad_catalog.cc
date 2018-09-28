@@ -16,7 +16,6 @@ bool usermodel::AdCatalog::load(const std::string& json) {
     d.Parse(json.c_str());
     assert(d.IsObject());
 
-
     const rapidjson::Value& categories = d["categories"];
     assert(categories.IsObject());
 
@@ -32,6 +31,7 @@ bool usermodel::AdCatalog::load(const std::string& json) {
             new_ad.notification_text = ad["notificationText"].GetString();
             new_ad.notification_url = ad["notificationURL"].GetString();
             new_ad.uuid = ad["uuid"].GetString();
+            new_ad.category = category;
 
             ads_.push_back(new_ad);
             if (category_to_ads_.find(category) == category_to_ads_.end()) {

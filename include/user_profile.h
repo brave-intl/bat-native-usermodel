@@ -25,7 +25,7 @@ USERMODEL_EXPORT class UserProfile {
     const std::string ToJSON() const;
 
     bool Update(const std::vector<double> scores, time_t time_since_last_update, bool isSearch);
-    static double Entropy(const std::vector<double> scores);
+    static double Entropy(const std::vector<double>& scores);
 
     std::string user_id;
     std::vector<std::string> taxonomy;
