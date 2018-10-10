@@ -15,11 +15,9 @@
 
 #include "bag_of_words_extractor.h"
 #include "naive_bayes.h"
-#include "logistic_regression.h"
 #include "user_model.h"
 
 #include "ad_catalog.h"
-#include "ads_agent.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
@@ -110,15 +108,6 @@ TEST_CASE( "Test entropy", "[user_profile]" ) {
 }
 
 
-TEST_CASE( "Test logistic regression", "[classifier]" ) {
-  usermodel::LogisticRegression cl;
-  cl.LoadModel("{\"features\":[\"test1\", \"test2\", \"test3\"], \"weights\":[0.2, 0.4, 0.9], \"bias\": 0.5}");
-  auto features = std::map<std::string, double>();
-  features["test1"] = 0.1;
-  features["test2"] = 0.3;
-  REQUIRE(cl.Predict(features).at(0) ==  Approx( 0.65475 ));
-}
-
 TEST_CASE( "Test naive bayes", "[classifier]" ) {
   usermodel::UserModel um;
   um.initializePageClassifier(loadFile("model.json"));
@@ -142,25 +131,4 @@ TEST_CASE("Test ad catalog", "[ad catalog]") {
   REQUIRE(ad_catalog.ads_.size() != 0);
 }
 
-
-TEST_CASE( "Test agent", "[classifier]" ) {
-  AdCatalog ad_catalog;
-  ad_catalog.load(loadFile("bat-ads-feed.json"));
-
-  usermodel::UserModel um;
-  um.initializePageClassifier(loadFile("model.json"));
-
-  std::unique_ptr<UserProfile> user = std::make_unique<UserProfile>();
-  for ( auto c : um.page_classifier.Classes() ) {
-    user->long_term_interests_.push_back(0.0);
-    user->short_term_interests_.push_back(0.0);
-    user->search_intent_.push_back(0.0);
-  }
-  user->search_intent_.at(1) = 1.0;
-
-  AdsAgent ads_agent(&um);
-  ads_agent.LoadRelevanceModel(loadFile("relevance_model.json"));
-  auto index = ads_agent.AdsScoreAndSample(ad_catalog.ads_, *user);
-  REQUIRE(index != -1);
-}
 
