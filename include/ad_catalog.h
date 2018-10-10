@@ -14,7 +14,7 @@ class AdCatalog {
     ~AdCatalog();
 
     std::vector<Ad> ads_;
-    std::map<std::string, std::vector<Ad>> category_to_ads_;
+    std::map<std::string, std::vector<Ad> > category_to_ads_;
 
     bool load(const std::string& json);
 };

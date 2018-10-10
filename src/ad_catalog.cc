@@ -35,7 +35,7 @@ bool usermodel::AdCatalog::load(const std::string& json) {
 
             ads_.push_back(new_ad);
             if (category_to_ads_.find(category) == category_to_ads_.end()) {
-                category_to_ads_.insert(std::pair<std::string, std::vector<Ad>>(category, std::vector<Ad>()));
+                category_to_ads_.insert(std::pair<std::string, std::vector<Ad> >(category, std::vector<Ad>()));
             }
             category_to_ads_[category].push_back(new_ad);
         }

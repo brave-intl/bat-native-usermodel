@@ -21,7 +21,7 @@ class NaiveBayes {
  private:
   std::vector<std::string> classes_;
   std::vector<double> priors_;
-  std::map<std::string, std::vector<double>> features_;
+  std::map<std::string, std::vector<double> > features_;
 };
 }  // namespace usermodel
 

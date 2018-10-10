@@ -163,3 +163,4 @@ TEST_CASE( "Test agent", "[classifier]" ) {
   auto index = ads_agent.AdsScoreAndSample(ad_catalog.ads_, *user);
   REQUIRE(index != -1);
 }
+
