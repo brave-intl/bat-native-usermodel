@@ -13,5 +13,6 @@ This library implements:
 - Run `python scripts\cpplint.py` for linting
 
 ## Quick Standalone Testing Installation
-- # after installing `brave-intl/bat-native-rapidjson` in parent dir
+
+- after installing `brave-intl/bat-native-rapidjson` in parent dir
 - `clang++ -std=c++17 -I./include -I./src -I../bat-native-rapidjson/include src/*.{c,cc} *.cc && ./a.out`
