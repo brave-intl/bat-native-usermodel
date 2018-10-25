@@ -83,6 +83,8 @@ source_set("usermodel") {
     "src/bag_of_words_extractor.cc",
     "src/logistic_regression.h",
     "src/logistic_regression.cc",
+    "src/linear_regression.cc",
+    "include/linear_regression.h",
     "src/naive_bayes.h",
     "src/naive_bayes.cc",
     "src/stmr.c",

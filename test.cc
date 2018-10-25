@@ -15,6 +15,7 @@
 
 #include "bag_of_words_extractor.h"
 #include "naive_bayes.h"
+#include "linear_regression.h"
 #include "logistic_regression.h"
 #include "user_model.h"
 
@@ -164,3 +165,30 @@ TEST_CASE( "Test agent", "[classifier]" ) {
   REQUIRE(index != -1);
 }
 
+TEST_CASE( "Test linear mode", "[bot detection]" ) {
+  usermodel::LinearRegression lr;
+
+  auto svm_model_json = loadJson("linear_svm.json");
+  const Value& svm_model_feature_names = svm_model_json["features"];
+  auto feature_names = std::vector<std::string>();
+  for (SizeType it = 0; it < svm_model_feature_names.Size(); it++) {
+    feature_names.push_back(svm_model_feature_names[it].GetString());
+  }
+
+  lr.LoadModel(loadFile("linear_svm.json"));
+
+  auto doc = loadJson("data/svm_scores.json");
+  const Value& tests = doc["tests"];
+  for (SizeType it = 0; it < tests.Size(); it++) {
+    const Value& features = tests[it]["features"];
+    auto feature_vector = std::map<std::string, double>();
+    for (SizeType j = 0; j < features.Size(); j++) {      
+      feature_vector[feature_names.at(j)] = features[j].GetDouble();
+    }
+    
+    double expected = tests[it]["score"].GetDouble();
+    double predicted = lr.Predict(feature_vector).at(0);
+    
+    REQUIRE( predicted == Approx(expected) );
+  }
+}
