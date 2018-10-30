@@ -34,6 +34,10 @@ std::vector<double>  usermodel::UserModel::classifyPage(const std::string& data)
 }
 
 void usermodel::UserModel::onPageLoad(const std::string& html, const std::string& url, uint32_t window_id, uint32_t tab_id) {
+    (void)url;
+    (void)window_id;
+    (void)tab_id;
+
     // auto profile = this->GetUserProfile();
 
     auto scores = this->classifyPage(html);
