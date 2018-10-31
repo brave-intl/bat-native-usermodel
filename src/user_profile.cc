@@ -8,14 +8,14 @@
 #include <cmath>
 #include <numeric>
 
-#include "../include/user_profile.h"
+#include "bat/usermodel/user_profile.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
 
-using namespace usermodel;
+namespace usermodel {
 
 UserProfile::UserProfile() {}
 
@@ -142,3 +142,5 @@ const std::string UserProfile::ToJSON() const {
 
     return sb.GetString();
 }
+
+}  // namespace usermodel

@@ -1,7 +1,3 @@
-
-#define TRUE 1
-#define FALSE 0
-
 #ifdef __cplusplus
 extern "C"
 {

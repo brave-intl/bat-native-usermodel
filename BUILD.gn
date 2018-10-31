@@ -66,22 +66,22 @@ source_set("usermodel") {
   output_name = "bat_native_usermodel"
 
   sources = [
-    "include/usermodel_callback_handler.h",
-    "include/user_profile.h",
-    "include/user_model.h",
-    "include/notification_event_type.h",
-    "include/ad.h",
+    "include/bat/usermodel/ad.h",
+    "include/bat/usermodel/ad_catalog.h",
+    "include/bat/usermodel/notification_event_type.h",
+    "include/bat/usermodel/usermodel_callback_handler.h",
+    "include/bat/usermodel/user_profile.h",
+    "include/bat/usermodel/user_model.h",
     "src/ad.cc",
-    "include/ad_catalog.h",
     "src/ad_catalog.cc",
-    "src/classifier.h",
     "src/bag_of_words_extractor.h",
     "src/bag_of_words_extractor.cc",
     "src/naive_bayes.h",
     "src/naive_bayes.cc",
     "src/stmr.c",
     "src/stmr.h",
-    "src/user_model.cc",
+    "src/user_model_impl.h",
+    "src/user_model_impl.cc",
     "src/user_profile.h",
     "src/user_profile.cc"
   ]

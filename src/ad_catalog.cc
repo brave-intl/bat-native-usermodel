@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "ad_catalog.h"
+#include "bat/usermodel/ad_catalog.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"

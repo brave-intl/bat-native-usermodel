@@ -40,6 +40,9 @@
 #include <string.h>
 #include "stmr.h"
 
+#define TRUE 1
+#define FALSE 0
+
 /* The main part of the stemming algorithm starts here. b is a buffer
  * holding a word to be stemmed. The letters are in b[k0], b[k0+1] ...
  * ending at b[k]. In fact k0 = 0 in this demo program. k is readjusted

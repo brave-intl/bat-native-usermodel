@@ -4,7 +4,17 @@
 
 #include "bag_of_words_extractor.h"
 
+#include <cstring>
+#include <sstream>
+#include <algorithm>
+#include <iostream>
+#include <regex>
+#include <iterator>
+
+#include "stmr.h"
+
 namespace usermodel {
+
 BagOfWords::~BagOfWords() {
 }
 
@@ -45,4 +55,5 @@ bool BagOfWords::Process(const std::string& data) {
 
     return true;
 }
+
 }  // namespace usermodel

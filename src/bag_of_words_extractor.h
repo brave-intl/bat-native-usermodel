@@ -5,16 +5,10 @@
 #ifndef SRC_BAG_OF_WORDS_EXTRACTOR_H_
 #define SRC_BAG_OF_WORDS_EXTRACTOR_H_
 
-#include <stdio.h>
-#include <vector>
 #include <string>
 #include <map>
-#include <cstring>
-#include <sstream>
-#include <algorithm>
-#include <iostream>
-#include <regex>
-#include <iterator>
+#include <vector>
+
 #include "stmr.h"
 
 namespace usermodel {
