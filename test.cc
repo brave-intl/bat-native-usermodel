@@ -15,9 +15,9 @@
 
 #include "bag_of_words_extractor.h"
 #include "naive_bayes.h"
-#include "user_model.h"
+#include "user_model_impl.h"
 
-#include "ad_catalog.h"
+#include "bat/usermodel/ad_catalog.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
@@ -27,7 +27,7 @@
 #include <streambuf>
 #include <numeric>
 
-#include "../include/user_profile.h"
+#include "bat/usermodel/user_profile.h"
 
 #define CATCH_CONFIG_MAIN
 
@@ -109,7 +109,7 @@ TEST_CASE( "Test entropy", "[user_profile]" ) {
 
 
 TEST_CASE( "Test naive bayes", "[classifier]" ) {
-  usermodel::UserModel um;
+  usermodel::UserModelImpl um;
   um.initializePageClassifier(loadFile("model.json"));
 
   auto doc = loadJson("data/predictions.json");
@@ -120,7 +120,7 @@ TEST_CASE( "Test naive bayes", "[classifier]" ) {
 
     auto doc = loadFile(std::string("data/") + std::string(filename));
     auto scores = um.classifyPage(doc);
-    auto predicted = usermodel::UserModel::winningCategory(scores, um.page_classifier.Classes());
+    auto predicted = um.winningCategory(scores);
     REQUIRE( predicted == label );
   }
 }
