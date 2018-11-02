@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef BAT_USERMODEL_USER_MODEL_IMPL_H_
-#define BAT_USERMODEL_USER_MODEL_IMPL_H_
+#ifndef DEPS_BAT_USERMODEL_SRC_USER_MODEL_IMPL_H_
+#define DEPS_BAT_USERMODEL_SRC_USER_MODEL_IMPL_H_
 
 #include "bat/usermodel/user_model.h"
 #include "naive_bayes.h"
@@ -40,4 +40,4 @@ class UserModelImpl : public UserModel {
 
 }  // namespace usermodel
 
-#endif  // BAT_USERMODEL_USER_MODEL_IMPL_H_
+#endif  // DEPS_BAT_USERMODEL_SRC_USER_MODEL_IMPL_H_
