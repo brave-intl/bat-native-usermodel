@@ -5,7 +5,6 @@
 #ifndef BAT_USERMODEL_USER_MODEL_IMPL_H_
 #define BAT_USERMODEL_USER_MODEL_IMPL_H_
 
-#include "base/macros.h"
 #include "bat/usermodel/user_model.h"
 #include "naive_bayes.h"
 
@@ -34,7 +33,9 @@ class UserModelImpl : public UserModel {
   bool initialized_;
   NaiveBayes page_classifier;
 
-  DISALLOW_COPY_AND_ASSIGN(UserModelImpl);
+  // Not copyable, not assignable
+  UserModelImpl(const UserModelImpl&) = delete;
+  UserModelImpl& operator=(const UserModelImpl&) = delete;
 };
 
 }  // namespace usermodel
