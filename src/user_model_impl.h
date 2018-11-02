@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef USER_MODEL_IMPL_H_
-#define USER_MODEL_IMPL_H_
+#ifndef BAT_USERMODEL_USER_MODEL_IMPL_H_
+#define BAT_USERMODEL_USER_MODEL_IMPL_H_
 
 #include "base/macros.h"
 #include "bat/usermodel/user_model.h"
@@ -39,4 +39,4 @@ class UserModelImpl : public UserModel {
 
 }  // namespace usermodel
 
-#endif  // BAT_USERMODEL_USER_MODEL_H_
+#endif  // BAT_USERMODEL_USER_MODEL_IMPL_H_
