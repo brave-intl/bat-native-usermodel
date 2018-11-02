@@ -87,6 +87,7 @@ source_set("usermodel") {
   ]
 
   deps = [
+    "//base",
     rebase_path("bat-native-rapidjson", dep_base),
   ]
 }
