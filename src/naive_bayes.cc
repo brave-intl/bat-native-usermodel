@@ -4,6 +4,8 @@
 
 #include "naive_bayes.h"
 
+#include <algorithm>
+
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
 #include "rapidjson/stringbuffer.h"

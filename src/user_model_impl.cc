@@ -4,6 +4,8 @@
 
 #include "user_model_impl.h"
 
+#include <algorithm>
+
 #include "bag_of_words_extractor.h"
 #include "naive_bayes.h"
 
