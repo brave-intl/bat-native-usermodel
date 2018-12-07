@@ -11,6 +11,7 @@
 #include <regex>
 
 #include "stmr.h"
+#include "static_values.h"
 
 namespace usermodel {
 
@@ -25,7 +26,13 @@ std::map<std::string, double> BagOfWords::GetFrequencies() {
 }
 
 bool BagOfWords::Process(
-    const std::string& data) {
+    const std::string& html) {
+  std::string data = html;
+
+  if (data.length() > kMaximumHtmlLengthToClassify) {
+    data = data.substr(0, kMaximumHtmlLengthToClassify - 1);
+  }
+
   std::regex e1 = std::regex("[^\\w\\s]|_");
   std::regex e2 = std::regex("\\s+");
   std::string str = std::regex_replace(
@@ -35,7 +42,9 @@ bool BagOfWords::Process(
   std::stringstream ss(str);
   std::vector<std::string> words;
 
-  while (ss >> buf) {
+  int word_count = 0;
+
+  while (ss >> buf && word_count < kMaximumWordsToClassify) {
     if (buf.empty()) {
       continue;
     }
@@ -59,8 +68,14 @@ bool BagOfWords::Process(
     std::string word_str = std::string(word);
     words.push_back(word_str);
 
+    word_count++;
+
     delete[] word;
     word = nullptr;
+  }
+
+  if (word_count < kMinimumWordsToClassify) {
+    return false;
   }
 
   for (auto word : words) {

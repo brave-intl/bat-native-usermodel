@@ -37,7 +37,9 @@ bool UserModelImpl::IsInitialized() const {
 const std::vector<double> UserModelImpl::ClassifyPage(
     const std::string& html) {
   BagOfWords bag_of_words;
-  bag_of_words.Process(html);
+  if (!bag_of_words.Process(html)) {
+    return {};
+  }
 
   auto frequencies = bag_of_words.GetFrequencies();
   auto classification = page_classifier_.Predict(frequencies);
@@ -47,6 +49,10 @@ const std::vector<double> UserModelImpl::ClassifyPage(
 
 const std::string UserModelImpl::WinningCategory(
     const std::vector<double>& scores) {
+  if (scores.size() == 0) {
+    return "";
+  }
+
   auto max = std::max_element(scores.begin(), scores.end());
   auto argmax = std::distance(scores.begin(), max);
 

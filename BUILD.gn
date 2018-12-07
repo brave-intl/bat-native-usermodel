@@ -54,6 +54,7 @@ source_set("usermodel") {
     "src/bag_of_words_extractor.cc",
     "src/naive_bayes.h",
     "src/naive_bayes.cc",
+    "src/static_values.h",
     "src/stmr.c",
     "src/stmr.h",
     "src/user_model_impl.h",

@@ -18,7 +18,7 @@ class BagOfWords {
   BagOfWords();
   ~BagOfWords();
 
-  bool Process(const std::string& data);
+  bool Process(const std::string& html);
   std::map<std::string, double> GetFrequencies();
 
  private:

@@ -1,10 +1,6 @@
 {
   "data": [
     {
-      "label": "arts & entertainment-music",
-      "doc": "text95.txt"
-    },
-    {
       "label": "business-advertising",
       "doc": "text4.txt"
     },
@@ -45,14 +41,6 @@
       "doc": "text89.txt"
     },
     {
-      "label": "arts & entertainment-music",
-      "doc": "text95.txt"
-    },
-    {
-      "label": "arts & entertainment-television",
-      "doc": "text96.txt"
-    },
-    {
       "label": "arts & entertainment-arts & entertainment",
       "doc": "text102.txt"
     },
@@ -81,16 +69,8 @@
       "doc": "text129.txt"
     },
     {
-      "label": "sports-racing",
-      "doc": "text131.txt"
-    },
-    {
       "label": "arts & entertainment-arts & entertainment",
       "doc": "text134.txt"
-    },
-    {
-      "label": "travel-hotels",
-      "doc": "text152.txt"
     },
     {
       "label": "arts & entertainment-arts & entertainment",
@@ -193,20 +173,12 @@
       "doc": "text381.txt"
     },
     {
-      "label": "travel-hotels",
-      "doc": "text389.txt"
-    },
-    {
       "label": "sports-baseball",
       "doc": "text391.txt"
     },
     {
       "label": "sports-baseball",
       "doc": "text394.txt"
-    },
-    {
-      "label": "travel-hotels",
-      "doc": "text398.txt"
     },
     {
       "label": "sports-baseball",
@@ -233,16 +205,8 @@
       "doc": "text419.txt"
     },
     {
-      "label": "travel-hotels",
-      "doc": "text423.txt"
-    },
-    {
       "label": "sports-basketball",
       "doc": "text425.txt"
-    },
-    {
-      "label": "travel-hotels",
-      "doc": "text445.txt"
     },
     {
       "label": "arts & entertainment-theatre",
@@ -279,10 +243,6 @@
     {
       "label": "automotive-car brands",
       "doc": "text509.txt"
-    },
-    {
-      "label": "travel-hotels",
-      "doc": "text515.txt"
     },
     {
       "label": "business-business",
@@ -343,10 +303,6 @@
     {
       "label": "business-business",
       "doc": "text673.txt"
-    },
-    {
-      "label": "travel-hotels",
-      "doc": "text679.txt"
     },
     {
       "label": "technology & computing-unix",
