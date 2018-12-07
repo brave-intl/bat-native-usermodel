@@ -18,6 +18,8 @@ namespace usermodel {
 BagOfWords::~BagOfWords() = default;
 
 BagOfWords::BagOfWords() :
+    words_({}),
+    frequencies_({}),
     to_lower_(true) {
 }
 
