@@ -49,7 +49,7 @@ class UserModelTest : public ::testing::Test {
   // Objects declared here can be used by all tests in the test case
   std::string LoadFile(const std::string& filename) {
     base::FilePath path(kTestDataRelativePath);
-    path = path.Append(filename);
+    path = path.AppendASCII(filename);
 
     std::ifstream ifs(path.value());
     if (ifs.fail()) {
