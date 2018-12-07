@@ -4,6 +4,7 @@
 
 #include "user_model_impl.h"
 
+#include <map>
 #include <algorithm>
 
 #include "bag_of_words_extractor.h"
@@ -16,45 +17,40 @@ UserModel* UserModel::CreateInstance() {
   return new UserModelImpl();
 }
 
-UserModelImpl::UserModelImpl() : initialized_(false) {}
-
-bool UserModelImpl::initializePageClassifier(const std::string& model) {
-    if (page_classifier.LoadModel(model)) {
-        initialized_ = true;
-    }
-
-    return initialized_;
+UserModelImpl::UserModelImpl() :
+    is_initialized_(false) {
 }
 
-std::string UserModelImpl::winningCategory(const std::vector<double>& scores) {
-    auto max = std::max_element(scores.begin(), scores.end());
-    auto argmax =  std::distance(scores.begin(), max);
+bool UserModelImpl::InitializePageClassifier(
+    const std::string& model) {
+  if (page_classifier_.LoadModel(model)) {
+    is_initialized_ = true;
+  }
 
-    return page_classifier.Classes().at(argmax);
+  return is_initialized_;
 }
 
-bool UserModelImpl::IsInitialized() {
-    return initialized_;
+bool UserModelImpl::IsInitialized() const {
+  return is_initialized_;
 }
 
-std::vector<double>  UserModelImpl::classifyPage(const std::string& data) {
-    BagOfWords bow;
-    bow.Process(data);
-    return page_classifier.Predict(bow.GetFrequencies());
+const std::vector<double> UserModelImpl::ClassifyPage(
+    const std::string& html) {
+  BagOfWords bag_of_words;
+  bag_of_words.Process(html);
+
+  auto frequencies = bag_of_words.GetFrequencies();
+  auto classification = page_classifier_.Predict(frequencies);
+
+  return classification;
 }
 
-void UserModelImpl::OnPageLoad(const std::string& html, const std::string& url, uint32_t window_id, uint32_t tab_id) {
-    (void)url;
-    (void)window_id;
-    (void)tab_id;
+const std::string UserModelImpl::WinningCategory(
+    const std::vector<double>& scores) {
+  auto max = std::max_element(scores.begin(), scores.end());
+  auto argmax = std::distance(scores.begin(), max);
 
-    // auto profile = this->GetUserProfile();
-
-    auto scores = this->classifyPage(html);
-    // user_profile.update(scores, url);
-    // tabs_classification_store.set(window_id, tab_id, winning_category);
-
-    // this->UpdateProfile(profile);
+  return page_classifier_.Classes().at(argmax);
 }
 
 }  // namespace usermodel

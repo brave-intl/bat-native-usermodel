@@ -12,75 +12,93 @@
 #include "rapidjson/writer.h"
 
 namespace usermodel {
-  NaiveBayes::NaiveBayes() {
+
+NaiveBayes::NaiveBayes() = default;
+NaiveBayes::~NaiveBayes() = default;
+
+bool NaiveBayes::LoadModel(const std::string& json) {
+  if (json.empty()) {
+    return false;
   }
 
-  NaiveBayes::~NaiveBayes() {
+  rapidjson::Document document;
+  document.Parse(json.c_str());
+
+  if (document.HasParseError()) {
+    return false;
   }
 
-  std::vector<std::string> NaiveBayes::Classes() {
-    return classes_;
+  const rapidjson::Value& classes = document["classes"];
+  if (!classes.IsArray()) {
+    return false;
   }
 
-  std::vector<double> NaiveBayes::Predict(std::map<std::string, double> features) {
-    std::vector<double> results;
-
-    // initialize with the priors
-    for (size_t i = 0; i < classes_.size(); i++) {
-      results.push_back(priors_[i]);
-    }
-
-    for (auto feature : features) {
-      if ( features_.find(feature.first) != features_.end() ) {
-        int cl = 0;
-        for (auto v : features_[feature.first]) {
-          results.at(cl++) += v*features[feature.first];
-          // std::cout << results.at(cl-1) << std::endl;
-        }
-      }
-    }
-
-    // logLikToProb
-    auto max_val = *std::max_element(results.begin(), results.end());
-    double sum = 0.0;
-    for (size_t i = 0; i < results.size(); i++) {
-      results.at(i) = std::exp(results.at(i) - max_val);
-      sum += results.at(i);
-    }
-
-    for (size_t i = 0; i < results.size(); i++) {
-      results.at(i) /= sum;
-    }
-
-    return results;
+  for (rapidjson::SizeType i = 0; i < classes.Size(); i++) {
+    classes_.push_back(classes[i].GetString());
   }
 
-  bool NaiveBayes::LoadModel(const std::string& json) {
-    rapidjson::Document d;
-    d.Parse(json.c_str());
+  const rapidjson::Value& priors = document["priors"];
+  if (!priors.IsArray()) {
+    return false;
+  }
 
-    const rapidjson::Value& classes = d["classes"];  // Using a reference for consecutive access is handy and faster.
-    assert(classes.IsArray());
+  for (rapidjson::SizeType i = 0; i < priors.Size(); i++) {
+    priors_.push_back(priors[i].GetDouble());
+  }
+
+  const rapidjson::Value& features = document["logProbs"];
+  if (!features.IsObject()) {
+    return false;
+  }
+
+  for (rapidjson::Value::ConstMemberIterator it = features.MemberBegin();
+      it != features.MemberEnd(); ++it) {
+    std::vector<double> v;
+    const rapidjson::Value& probs = features[it->name.GetString()];
     for (rapidjson::SizeType i = 0; i < classes.Size(); i++) {
-      classes_.push_back(classes[i].GetString());
+      v.push_back(probs[i].GetDouble());
     }
-
-    const rapidjson::Value& priors = d["priors"];  // Using a reference for consecutive access is handy and faster.
-    assert(priors.IsArray());
-    for (rapidjson::SizeType i = 0; i < priors.Size(); i++) {
-      priors_.push_back(priors[i].GetDouble());
-    }
-
-    const rapidjson::Value& features = d["logProbs"];  // Using a reference for consecutive access is handy and faster.
-    for (rapidjson::Value::ConstMemberIterator itr = features.MemberBegin(); itr != features.MemberEnd(); ++itr) {
-      std::vector<double> v;
-      const rapidjson::Value& probs = features[itr->name.GetString()];
-      for (rapidjson::SizeType i = 0; i < classes.Size(); i++) {
-        v.push_back(probs[i].GetDouble());
-      }
-      features_[itr->name.GetString()] = v;
-    }
-
-    return true;
+    features_[it->name.GetString()] = v;
   }
+
+  return true;
+}
+
+std::vector<std::string> NaiveBayes::Classes() {
+  return classes_;
+}
+
+std::vector<double> NaiveBayes::Predict(
+    std::map<std::string, double> features) {
+  std::vector<double> results;
+
+  // Initialize with the priors
+  for (size_t i = 0; i < classes_.size(); i++) {
+    results.push_back(priors_[i]);
+  }
+
+  for (auto feature : features) {
+    if (features_.find(feature.first) != features_.end()) {
+      int cl = 0;
+      for (auto v : features_[feature.first]) {
+        results.at(cl++) += v*features[feature.first];
+      }
+    }
+  }
+
+  // logLikToProb
+  auto max_val = *std::max_element(results.begin(), results.end());
+  double sum = 0.0;
+  for (size_t i = 0; i < results.size(); i++) {
+    results.at(i) = std::exp(results.at(i) - max_val);
+    sum += results.at(i);
+  }
+
+  for (size_t i = 0; i < results.size(); i++) {
+    results.at(i) /= sum;
+  }
+
+  return results;
+}
+
 }  // namespace usermodel

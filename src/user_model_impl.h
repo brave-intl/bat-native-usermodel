@@ -5,6 +5,9 @@
 #ifndef DEPS_BAT_USERMODEL_SRC_USER_MODEL_IMPL_H_
 #define DEPS_BAT_USERMODEL_SRC_USER_MODEL_IMPL_H_
 
+#include <string>
+#include <vector>
+
 #include "bat/usermodel/user_model.h"
 #include "naive_bayes.h"
 
@@ -14,24 +17,19 @@ class UserModelImpl : public UserModel {
  public:
   UserModelImpl();
 
-  bool initializePageClassifier(const std::string& model) override;
-  void OnPageLoad(const std::string& html,
-                  const std::string& url,
-                  uint32_t window_id,
-                  uint32_t tab_id) override;
-  // void onTabFocus(uint32_t window_id, uint32_t tab_id);
-  // void onNotificationEvent(NotificationEventType type);
-  // void updateState();
-  std::vector<double>  classifyPage(const std::string& data) override;
-  std::string winningCategory(const std::vector<double>& scores) override;
-  bool IsInitialized() override;
+  bool InitializePageClassifier(
+      const std::string& model) override;
+  bool IsInitialized() const override;
+
+  const std::vector<double> ClassifyPage(
+      const std::string& html) override;
+  const std::string WinningCategory(
+      const std::vector<double>& scores) override;
 
  private:
-  // UserProfile user_profile;
-  // bool isSearchURL(const std::string& url);
-  // bool isShoppingIntent(const std::string& url, const std::string& html);
-  bool initialized_;
-  NaiveBayes page_classifier;
+  bool is_initialized_;
+
+  NaiveBayes page_classifier_;
 
   // Not copyable, not assignable
   UserModelImpl(const UserModelImpl&) = delete;

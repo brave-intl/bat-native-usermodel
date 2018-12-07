@@ -12,18 +12,21 @@
 #include "stmr.h"
 
 namespace usermodel {
+
 class BagOfWords {
  public:
-    BagOfWords();
-    ~BagOfWords();
-    bool Process(const std::string& data);
-    std::map<std::string, double> GetFrequencies();
+  BagOfWords();
+  ~BagOfWords();
+
+  bool Process(const std::string& data);
+  std::map<std::string, double> GetFrequencies();
 
  private:
-    std::vector<std::string> words_;
-    std::map<std::string, double> frequencies_;
-    bool to_lower_;
+  std::vector<std::string> words_;
+  std::map<std::string, double> frequencies_;
+  bool to_lower_;
 };
+
 }  // namespace usermodel
 
 #endif  // SRC_BAG_OF_WORDS_EXTRACTOR_H_

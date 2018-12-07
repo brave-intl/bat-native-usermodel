@@ -1,3 +1,0 @@
-[submodule "deps/bat-native-rapidjson"]
-	path = deps/bat-native-rapidjson
-	url = https://github.com/brave-intl/bat-native-rapidjson

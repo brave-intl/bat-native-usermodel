@@ -17,14 +17,15 @@ class USERMODEL_EXPORT UserModel {
   static UserModel* CreateInstance();
 
   virtual ~UserModel() = default;
-  virtual bool initializePageClassifier(const std::string& model) = 0;
-  virtual void OnPageLoad(const std::string& html,
-                          const std::string& url,
-                          uint32_t window_id,
-                          uint32_t tab_id) = 0;
-  virtual std::vector<double> classifyPage(const std::string& data) = 0;
-  virtual std::string winningCategory(const std::vector<double>& scores) = 0;
-  virtual bool IsInitialized() = 0;
+
+  virtual bool InitializePageClassifier(
+      const std::string& model) = 0;
+  virtual bool IsInitialized() const = 0;
+
+  virtual const std::vector<double> ClassifyPage(
+      const std::string& html) = 0;
+  virtual const std::string WinningCategory(
+      const std::vector<double>& scores) = 0;
 };
 
 }  // namespace usermodel

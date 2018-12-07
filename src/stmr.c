@@ -36,8 +36,9 @@
  *     step2 and step4 access the byte before the first letter. So we skip
  *     steps after step1ab unless k > k0. */
 
-
+#include <assert.h>
 #include <string.h>
+
 #include "stmr.h"
 
 #define TRUE 1
@@ -52,8 +53,10 @@
  * Note that only lower case sequences are stemmed. Forcing to lower case
  * should be done before stem(...) is called. */
 
-/* buffer for word to be stemmed */
+/* buffer for word to be stemmed, b[bstart], b[bstart+1], ..., b[bend-1] */
 static char *b;
+static int bstart; /* inclusive */
+static int bend;   /* exclusive */
 
 static int k;
 static int k0;
@@ -67,6 +70,7 @@ static int j;
 
 static int
 isConsonant(int index) {
+  assert(index >= bstart && index < bend);
   switch (b[index]) {
     case 'a':
     case 'e':
@@ -165,6 +169,7 @@ vowelInStem() {
 /* `TRUE` when `j` and `(j-1)` are the same consonant. */
 static int
 isDoubleConsonant(int index) {
+  assert(index > bstart && index < bend);
   if (b[index] != b[index - 1]) {
     return FALSE;
   }
@@ -190,6 +195,7 @@ cvc(int index) {
     return FALSE;
   }
 
+  assert(index >= bstart && index < bend);
   character = b[index];
 
   if (character == 'w' || character == 'x' || character == 'y') {
@@ -205,6 +211,8 @@ ends(const char *value) {
   int length = value[0];
 
   /* Tiny speed-up. */
+  assert(length == (int)strlen(value + 1));
+  assert(k >= bstart && k < bend);
   if (value[length] != b[k]) {
     return FALSE;
   }
@@ -213,6 +221,7 @@ ends(const char *value) {
     return FALSE;
   }
 
+  assert(k - length + 1 >= bstart && k < bend);
   if (memcmp(b + k - length + 1, value + 1, length) != 0) {
     return FALSE;
   }
@@ -228,8 +237,13 @@ static void
 setTo(const char *value) {
   int length = value[0];
 
+  assert(length == (int)strlen(value + 1));
+  assert(bstart <= j + 1);
+  assert(j + 1 <= bend);
+  assert(length <= bend - (j + 1));
   memmove(b + j + 1, value + 1, length);
 
+  assert(j + length < bend);
   k = j + length;
 }
 
@@ -267,13 +281,17 @@ static void
 step1ab() {
   int character;
 
+  assert(k >= bstart && k < bend);
   if (b[k] == 's') {
     if (ends("\04" "sses")) {
       k -= 2;
     } else if (ends("\03" "ies")) {
       setTo("\01" "i");
-    } else if (b[k - 1] != 's') {
-      k--;
+    } else {
+      assert(k > bstart && k < bend);
+      if (b[k - 1] != 's') {
+        k--;
+      }
     }
   }
 
@@ -293,6 +311,7 @@ step1ab() {
     } else if (isDoubleConsonant(k)) {
       k--;
 
+      assert(k >= bstart && k < bend);
       character = b[k];
 
       if (character == 'l' || character == 's' || character == 'z') {
@@ -309,6 +328,7 @@ step1ab() {
 static void
 step1c() {
   if (ends("\01" "y") && vowelInStem()) {
+    assert(k >= bstart && k < bend);
     b[k] = 'i';
   }
 }
@@ -319,6 +339,7 @@ step1c() {
  * getMeasure() > 0. */
 static void
 step2() {
+  assert(k > bstart && k < bend);
   switch (b[k - 1]) {
     case 'a':
       if (ends("\07" "ational")) {
@@ -458,6 +479,7 @@ step2() {
  * similar strategy to step2. */
 static void
 step3() {
+  assert(k >= bstart && k < bend);
   switch (b[k]) {
     case 'e':
       if (ends("\05" "icate")) {
@@ -509,6 +531,7 @@ step3() {
  * context <c>vcvc<v>. */
 static void
 step4() {
+  assert(k > bstart && k < bend);
   switch (b[k - 1]) {
     case 'a':
       if (ends("\02" "al")) {
@@ -567,8 +590,11 @@ step4() {
 
       return;
     case 'o':
-      if (ends("\03" "ion") && j >= k0 && (b[j] == 's' || b[j] == 't')) {
-        break;
+      if (ends("\03" "ion") && j >= k0) {
+        assert(j >= bstart && j < bend);
+        if (b[j] == 's' || b[j] == 't') {
+          break;
+        }
       }
 
       /* takes care of -ous */
@@ -629,6 +655,7 @@ step5() {
 
   j = k;
 
+  assert(k >= bstart && k < bend);
   if (b[k] == 'e') {
     a = getMeasure();
 
@@ -637,6 +664,7 @@ step5() {
     }
   }
 
+  assert(k >= bstart && k < bend);
   if (b[k] == 'l' && isDoubleConsonant(k) && getMeasure() > 1) {
     k--;
   }
@@ -657,12 +685,21 @@ step5() {
  * extern, and delete the remainder of this file. */
 int
 stem(char *p, int index, int position) {
+  int len = strlen(p);
+  if (p == NULL || len == 0 || index + position > len - 1) {
+    return -1;
+  }
+
   /* Copy the parameters into statics. */
   b = p;
+  bstart = index;       /* inclusive */
+  bend = position + 1;  /* exclusive */
   k = position;
   k0 = index;
 
   if (k <= k0 + 1) {
+    assert(bstart <= k);
+    assert(k < bend);
     return k; /* --DEPARTURE-- */
   }
 
@@ -680,6 +717,9 @@ stem(char *p, int index, int position) {
     step4();
     step5();
   }
+
+  assert(bstart <= k);
+  assert(k < bend);
 
   return k;
 }
