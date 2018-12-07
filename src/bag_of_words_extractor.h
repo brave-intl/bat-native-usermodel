@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef SRC_BAG_OF_WORDS_EXTRACTOR_H_
-#define SRC_BAG_OF_WORDS_EXTRACTOR_H_
+#ifndef DEPS_BAT_USERMODEL_SRC_BAG_OF_WORDS_EXTRACTOR_H_
+#define DEPS_BAT_USERMODEL_SRC_BAG_OF_WORDS_EXTRACTOR_H_
 
 #include <string>
 #include <map>
@@ -29,4 +29,4 @@ class BagOfWords {
 
 }  // namespace usermodel
 
-#endif  // SRC_BAG_OF_WORDS_EXTRACTOR_H_
+#endif  // DEPS_BAT_USERMODEL_SRC_BAG_OF_WORDS_EXTRACTOR_H_

@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef NAIVE_BAYES_H_
-#define NAIVE_BAYES_H_
+#ifndef DEPS_BAT_USERMODEL_SRC_NAIVE_BAYES_H_
+#define DEPS_BAT_USERMODEL_SRC_NAIVE_BAYES_H_
 
 #include <string>
 #include <vector>
@@ -32,4 +32,4 @@ class NaiveBayes {
 
 }  // namespace usermodel
 
-#endif  // NAIVE_BAYES_H_
+#endif  // DEPS_BAT_USERMODEL_SRC_NAIVE_BAYES_H_
