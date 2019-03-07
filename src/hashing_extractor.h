@@ -9,8 +9,6 @@
 #include <map>
 #include <vector>
 
-#include "stmr.h"
-
 namespace usermodel {
 
 class HashVectorizer {
@@ -22,9 +20,11 @@ class HashVectorizer {
   std::map<std::string, double> GetFrequencies();
 
  private:
-  std::vector<std::string> words_;
+  std::string get_hash(std::string& substring);
+  std::vector<int> substring_sizes;
   std::map<std::string, double> frequencies_;
   bool to_lower_;
+  int num_buckets; // number of buckets to use for hashing
 };
 
 }  // namespace usermodel
