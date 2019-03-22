@@ -2,7 +2,7 @@
 #include <iostream>
 int main(){
 	usermodel::HashVectorizer vectorizer;
-        auto test_string = "eenie meenie minie mo";
+        auto test_string = "tiny";
 	auto status = vectorizer.Process(test_string);
 	if (status){
 		std::cout<< "success\n";
