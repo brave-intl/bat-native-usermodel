@@ -1,20 +1,24 @@
 #include "hashing_extractor.h"
 #include <iostream>
+#include <assert.h>
+#include <rapidjson/document.h>
+#include <rapidjson/istreamwrapper.h>
+#include "rapidjson/stringbuffer.h"
+#include <rapidjson/writer.h>
+
+#include <fstream>
 int main(){
-	usermodel::HashVectorizer vectorizer;
-        auto test_string = "tiny";
-	auto status = vectorizer.Process(test_string);
-	if (status){
-		std::cout<< "success\n";
-	}
-	auto counts = vectorizer.GetFrequencies();
-	for (auto const& x : counts)
-	{
-    		std::cout << x.first  // string (key)
-              	<< ':' 
-              	<< x.second // string's value 
-              	<< std::endl ;
-}
-	
+	std::ifstream ifs("hash_check.json");
+	rapidjson::IStreamWrapper isw(ifs);
+	rapidjson::Document d;
+	d.ParseStream(isw);
+
+	assert(d.IsObject());
+	assert(d.HasMember("testcases"));
+	rapidjson::Value &testcases= d["testcases"];
+	for (rapidjson::Value::ConstValueIterator itr = testcases.Begin(); itr != testcases.End(); ++itr) { 
+		if (itr->HasMember("input")) { 
+    	std::cout<< (*itr)["input"].GetString()<<'\n'; 
+	}}
 	return 0;
 }
