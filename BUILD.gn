@@ -58,11 +58,14 @@ source_set("usermodel") {
     "src/stmr.c",
     "src/stmr.h",
     "src/user_model_impl.h",
-    "src/user_model_impl.cc"
+    "src/user_model_impl.cc",
+    "src/pipeline.pb.h",
+    "src/pipeline.pb.cc"
   ]
 
   deps = [
     "//base",
+    "//third_party/protobuf",
     rebase_path("bat-native-rapidjson", dep_base),
   ]
 }
