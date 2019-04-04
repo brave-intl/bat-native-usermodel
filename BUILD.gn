@@ -1,6 +1,7 @@
 # Copyright 2014 The Chromium Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
+import("//third_party/protobuf/proto_library.gni")
 
 if (is_android) {
   import("//build/config/android/rules.gni")
@@ -62,11 +63,20 @@ source_set("usermodel") {
     "src/data_point.h",
     "src/data_point.cc",
     "src/transformation.h",
-    "src/transformation.cc"
+    "src/transformation.cc",
   ]
 
   deps = [
     "//base",
     rebase_path("bat-native-rapidjson", dep_base),
+  ]
+    public_deps = [
+    ":proto",
+  ]
+}
+
+proto_library("proto") {
+  sources = [
+    "src/pipeline.proto",
   ]
 }
