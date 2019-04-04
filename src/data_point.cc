@@ -1,7 +1,14 @@
 #include "data_point.h"
 #include <stdexcept>
+#include <limits>
 
 namespace usermodel{
+Data_point::Data_point(const Data_point &other_point){
+    type = other_point.type;
+    data_text = other_point.data_text;
+    data_sparse = other_point.data_sparse;
+    data_vector = other_point.data_vector;
+}
 Data_point::~Data_point() = default;    
 Data_point::Data_point(std::string data){
     type = text_data;
@@ -23,12 +30,14 @@ Data_point::Data_point(std::map<unsigned,float> data, int dims){
 
 float operator * (const Data_point a, const Data_point b){
     if ( (a.n_dims==0)||(b.n_dims==0))
-        throw std::invalid_argument("One or more inputs has zero length");
+        // throw std::invalid_argument("One or more inputs has zero length");
+        return std::numeric_limits<double>::quiet_NaN();
     if (a.n_dims!=b.n_dims)
-        throw std::invalid_argument("Inputs have incompatible lengths");
+        // throw std::invalid_argument("Inputs have incompatible lengths");
+        return std::numeric_limits<double>::quiet_NaN();
     float rtn = 0.0;
     if( (a.type == vector_data) && (b.type==vector_data)){
-        for (auto i = 0; i < a.data_vector.size(); i++)
+        for (unsigned i = 0; i < a.data_vector.size(); i++)
             rtn+= a.data_vector[i]*b.data_vector[i];
     }else if ((a.type==vector_data)&&(b.type==sparse_vector)){
         for (auto kv : b.data_sparse)
