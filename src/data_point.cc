@@ -31,34 +31,27 @@ Data_point::Data_point(std::map<unsigned,float> data, int dims){
 }
 
 float operator * (const Data_point a, const Data_point b){
-    std::cout<< "wtf0!"<<'\n';
     if ( (a.n_dims==0)||(b.n_dims==0)){
         // throw std::invalid_argument("One or more inputs has zero length");
-        std::cout<< "wtf1!"<<'\n';
         return std::numeric_limits<double>::quiet_NaN();
     }
         
     if (a.n_dims!=b.n_dims){
-        std::cout<< "wtf2!"<<'\n';
         // throw std::invalid_argument("Inputs have incompatible lengths");
         return std::numeric_limits<double>::quiet_NaN();
     }
 
     float rtn = 0.0;
     if( (a.type == vector_data) && (b.type==vector_data)){
-        std::cout<< "wtf3!"<<'\n';
         for (unsigned i = 0; i < a.data_vector.size(); i++)
             rtn+= a.data_vector[i]*b.data_vector[i];
     }else if ((a.type==vector_data)&&(b.type==sparse_vector)){
-        std::cout<< "wtf4!"<<'\n';
         for (auto kv : b.data_sparse)
             rtn += a.data_vector[kv.first] * kv.second;
     }else if ((a.type==sparse_vector)&&(b.type==vector_data)){
-        std::cout<< "wtf5!"<<'\n';
         for (auto kv : a.data_sparse)
             rtn += b.data_vector[kv.first] * kv.second;
     }else{
-        std::cout<< "wtf6!"<<'\n';
         for (auto kv : a.data_sparse)
             if ( b.data_sparse.count(kv.first)>0 ){
                 // rtn += kv.second*b.data_sparse[kv.first];
