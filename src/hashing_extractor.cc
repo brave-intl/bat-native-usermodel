@@ -5,6 +5,7 @@
 #include "hashing_extractor.h"
 
 #include <cstring>
+#include <codecvt>
 #include <sstream>
 #include <iostream>
 #include <algorithm>
@@ -21,11 +22,16 @@ HashVectorizer::HashVectorizer(){
   frequencies_ = {};
   num_buckets = 10000;
 }
-int HashVectorizer::get_hash(std::string& substring){
-  const char* cstr = substring.data();
+int HashVectorizer::get_hash(std::wstring& substring){
+  // ----> following lines worked for english but c++ and utf-8 are strange bedfellows
+  // auto cstr = substring.data();
   //auto rtn = CRC::Calculate(cstr, strlen(cstr), CRC::CRC_32()) % num_buckets; 
-  auto rtn = CRC::Calculate(cstr, substring.size(), CRC::CRC_32()) % num_buckets; 
-  std::cout << "fragment: "<<cstr<< " hash: "<<rtn<<"\n";
+    
+    
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv1;
+    std::string u8str = conv1.to_bytes(substring);
+    auto rtn = CRC::Calculate(u8str.data(), u8str.size(), CRC::CRC_32()) % num_buckets; 
+  // std::cout << "fragment: "<<cstr<< " hash: "<<rtn<<"\n";
   return rtn;
 }
 
@@ -33,8 +39,8 @@ std::map<int, double> HashVectorizer::GetFrequencies() {
   return frequencies_;
 }
 
-bool HashVectorizer::Process(const std::string& html) {
-  std::string data = html;
+bool HashVectorizer::Process(const std::wstring& html) {
+  std::wstring data = html;
 // TODO: Review maximum length 
   if (data.length() > kMaximumHtmlLengthToClassify) {
     data = data.substr(0, kMaximumHtmlLengthToClassify - 1);

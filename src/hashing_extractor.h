@@ -16,11 +16,11 @@ class HashVectorizer {
   HashVectorizer();
   ~HashVectorizer();
 
-  bool Process(const std::string& html);
+  bool Process(const std::wstring& html);
   std::map<int, double> GetFrequencies();
 
  private:
-  int get_hash(std::string& substring);
+  int get_hash(std::wstring& substring);
   std::vector<unsigned long> substring_sizes;//not ints for type comparison issues
   std::map<int, double> frequencies_;
   int num_buckets; // number of buckets to use for hashing

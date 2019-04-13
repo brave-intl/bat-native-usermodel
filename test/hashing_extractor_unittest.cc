@@ -13,6 +13,9 @@
 #include "testing/gtest/include/gtest/gtest.h"
 #include "brave/vendor/bat-native-usermodel/src/hashing_extractor.h"
 #include <fstream>
+#include <codecvt>
+#include <cmath>
+
 
 const base::FilePath::CharType kTestDataRelativePath[] =
   FILE_PATH_LITERAL("brave/vendor/bat-native-usermodel/test/data");
@@ -44,6 +47,7 @@ std::string LoadFile(const std::string& filename) {
 }
 //If you ever have to convince people for protobuf vs json take a look at the following test: 
 void run_test_case(std::string test_case){
+    float EPS = 0.0000001;
     auto test_json = usermodel::LoadFile("hash_check.json");
     ASSERT_TRUE( (test_json.size() > 0) );
     
@@ -56,15 +60,30 @@ void run_test_case(std::string test_case){
     ASSERT_TRUE(input);
     std::string input_value;
     EXPECT_TRUE(input->GetAsString(&input_value));
+
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    std::wstring w_input_value = converter.from_bytes(input_value);
+
     // EXPECT_TRUE( (0==input_value.size()) ); 
     base::Value* idx = case_params->FindKey("idx");
     ASSERT_TRUE(idx->is_list());
     base::Value* count = case_params->FindKey("count");
     ASSERT_TRUE(count->is_list());
     usermodel::HashVectorizer vectorizer;
-    EXPECT_TRUE(vectorizer.Process(input_value));
+    EXPECT_TRUE(vectorizer.Process(w_input_value));
     auto frequencies = vectorizer.GetFrequencies();
     EXPECT_EQ(idx->GetList().size(), frequencies.size());
+    //if (frequencies.size() > 0){
+    for (unsigned long i = 0; i < frequencies.size(); i++){
+        const base::Value& idx_val = idx->GetList()[i];
+        const base::Value& count_val = count->GetList()[i];
+        ASSERT_TRUE( (count_val.GetInt()- frequencies[idx_val.GetInt()]) <EPS );
+        // ASSERT_TRUE(value1.isint());
+    }
+        
+     
+    //}
+
 
 }
 
@@ -108,13 +127,13 @@ TEST(Hashing_extractor_test, test_greek) {
     usermodel::run_test_case("greek");
 }
 
-// TEST(Hashing_extractor_test, test_japanese) {
-//     usermodel::run_test_case("japanese");
-// }
+TEST(Hashing_extractor_test, test_japanese) {
+    usermodel::run_test_case("japanese");
+}
 
-// TEST(Hashing_extractor_test, test_multilingual) {
-//     usermodel::run_test_case("japanese");
-// }
+TEST(Hashing_extractor_test, test_multilingual) {
+    usermodel::run_test_case("japanese");
+}
 
 
 

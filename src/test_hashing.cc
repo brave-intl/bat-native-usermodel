@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <vector>
 int main(){
-	std::string input_value="καλημέρα μαδαφάκα";
+	std::wstring input_value=L"testing, motherfucker";
 	usermodel::HashVectorizer vectorizer;
     	vectorizer.Process(input_value);
 	auto rez = vectorizer.GetFrequencies();
