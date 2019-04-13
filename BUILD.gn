@@ -64,6 +64,8 @@ source_set("usermodel") {
     "src/data_point.cc",
     "src/transformation.h",
     "src/transformation.cc",
+    "src/hashing_extractor.h",
+    "src/hashing_extractor.cc",
     "src/classifier.h",
     "src/classifier.cc",
   ]

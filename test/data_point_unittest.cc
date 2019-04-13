@@ -16,8 +16,6 @@ namespace usermodel {
 class Data_point_test : public ::testing::Test {
  protected:
   void SetUp() override {
-    float EPS;
-    EPS=0.000001;
   }
   void TearDown() override {}
 
