@@ -62,6 +62,8 @@ source_set("usermodel") {
     "src/user_model_impl.cc",
     "src/data_point.h",
     "src/data_point.cc",
+    "${target_gen_dir}/src/pipeline.pb.cc",
+    "${target_gen_dir}/src/pipeline.pb.h",
     "src/transformation.h",
     "src/transformation.cc",
     "src/hashing_extractor.h",
@@ -73,11 +75,19 @@ source_set("usermodel") {
   deps = [
     "//base",
     rebase_path("bat-native-rapidjson", dep_base),
+    "//third_party/protobuf:protobuf_lite",
   ]
-    public_deps = [
+  public_deps = [
     ":proto",
   ]
+  libs = [ "protobuf_lite" ]
+  lib_dirs = [ "${root_out_dir}/obj/third_party/protobuf", ]
+  # link_deps = [ 
+  #   "//third_party/protobuf:protobuf_full",
+  # ]
+  # use_protobuf_full = true
 }
+
 
 proto_library("proto") {
   sources = [
