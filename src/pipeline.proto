@@ -1,19 +1,19 @@
-syntax = "proto3";
+syntax = "proto2";
 package pipelines;
+
+option optimize_for = LITE_RUNTIME;
 
 message To_lower{
 }
 
 message Hash_ngram{
-    int32 num_buckets = 1; 
+    required int32 num_buckets = 1; 
     repeated int32 hash_sizes = 2;
 }
 
 message Transformation{
-    oneof Representation{
-        To_lower to_lower= 1;
-        Hash_ngram hash_ngram= 2; 
-    }
+        optional To_lower to_lower= 1;
+        optional Hash_ngram hash_ngram= 2; 
 }
 
 message Vector{
@@ -31,16 +31,14 @@ message Linear_classifier{
 }
 
 message Classifier{
-    oneof classifier{
-        Naive_bayes nb = 1;
-        Linear_classifier lc = 2; 
-    }
+      optional  Naive_bayes nb = 1;
+      optional  Linear_classifier lc = 2; 
 }
 
 message Pipeline{
-    int32 version = 1; 
-    string language = 2;
-    string timestamp = 3; 
+    required int32 version = 1; 
+    required string language = 2;
+    required string timestamp = 3; 
     repeated Transformation representation = 4;
-    Classifier classifier = 5;   
+    required Classifier classifier = 5;   
 }

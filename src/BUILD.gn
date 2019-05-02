@@ -1,0 +1,96 @@
+# Copyright 2014 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+import("//third_party/protobuf/proto_library.gni")
+
+if (is_android) {
+  import("//build/config/android/rules.gni")
+}
+
+dep_base = rebase_path("../..", "//")
+
+config("external_config") {
+  include_dirs = [ "include" ]
+}
+
+config("internal_config") {
+  include_dirs = [ "src" ]
+}
+
+group("bat-native-usermodel") {
+  public_deps = [
+    ":usermodel",
+  ]
+
+  data_deps = [
+    ":bat-native-usermodel-standalone",
+  ]
+}
+
+static_library("bat-native-usermodel-standalone") {
+  complete_static_lib = true
+
+  output_dir = root_out_dir
+
+  configs -= [ "//build/config/compiler:thin_archive" ]
+
+  defines = [
+    "STANDALONE_BUILD",
+  ]
+
+  deps = [
+    ":usermodel",
+  ]
+}
+
+source_set("usermodel") {
+  public_configs = [ ":external_config" ]
+  configs += [ ":internal_config" ]
+
+  output_name = "bat_native_usermodel"
+
+  sources = [
+    "include/bat/usermodel/user_model.h",
+    "src/bag_of_words_extractor.h",
+    "src/bag_of_words_extractor.cc",
+    "src/naive_bayes.h",
+    "src/naive_bayes.cc",
+    "src/static_values.h",
+    "src/stmr.c",
+    "src/stmr.h",
+    "src/user_model_impl.h",
+    "src/user_model_impl.cc",
+    "src/data_point.h",
+    "src/data_point.cc",
+    "${target_gen_dir}/src/pipeline.pb.cc",
+    "${target_gen_dir}/src/pipeline.pb.h",
+    "src/transformation.h",
+    "src/transformation.cc",
+    "src/hashing_extractor.h",
+    "src/hashing_extractor.cc",
+    "src/classifier.h",
+    "src/classifier.cc",
+  ]
+
+  deps = [
+    "//base",
+    rebase_path("bat-native-rapidjson", dep_base),
+    "//third_party/protobuf:protobuf_lite",
+  ]
+  public_deps = [
+    ":proto",
+  ]
+  libs = [ "protobuf_lite" ]
+  lib_dirs = [ "${root_out_dir}/obj/third_party/protobuf", ]
+  # link_deps = [ 
+  #   "//third_party/protobuf:protobuf_full",
+  # ]
+  # use_protobuf_full = true
+}
+
+
+proto_library("proto") {
+  sources = [
+    "src/pipeline.proto",
+  ]
+}
