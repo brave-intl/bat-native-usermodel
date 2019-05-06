@@ -51,7 +51,7 @@ class UserModelTest : public ::testing::Test {
     base::FilePath path(kTestDataRelativePath);
     path = path.AppendASCII(filename);
 
-    std::ifstream ifs(path.value());
+    std::ifstream ifs(path.value().c_str());
     if (ifs.fail()) {
       return "";
     }
