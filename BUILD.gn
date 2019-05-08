@@ -82,9 +82,9 @@ source_set("usermodel") {
   ]
   libs = [ "protobuf_lite" ]
   if (is_debug) {
-     lib_dirs = ["${root_out_dir"]
+     lib_dirs = ["${root_out_dir}"]
   } else {
-     lib_dirs = ["${root_out_dir/obj/third_party/protobuf",]
+     lib_dirs = ["${root_out_dir}/obj/third_party/protobuf",]
   }
   # link_deps = [ 
   #   "//third_party/protobuf:protobuf_full",
