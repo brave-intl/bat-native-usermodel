@@ -50,6 +50,19 @@ TEST_F(TransformationTest, ToLowerTest) {
   auto lower_datapoint=to_lower.get();
   EXPECT_EQ(0, lower_datapoint.type);
   EXPECT_EQ(0, lower_case.compare(lower_datapoint.data_text));
-}
 
+  
+}
+TEST_F(TransformationTest, HashingTest) {
+  std::string test_string = "tiny";
+  auto text_datapoint = usermodel::Data_point(test_string);
+  usermodel::Hashed_ngrams hashed_ngrams;
+  hashed_ngrams= usermodel::Hashed_ngrams();
+  hashed_ngrams.apply(text_datapoint);
+  auto vector_data = hashed_ngrams.get();
+  EXPECT_EQ(2, vector_data.type);
+  EXPECT_EQ(1234, vector_data.n_dims);
+  unsigned long expected_elements = 10;
+  EXPECT_EQ(expected_elements, vector_data.data_sparse.size());
+}
 }  // namespace usermodel
