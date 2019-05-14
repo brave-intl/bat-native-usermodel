@@ -1,5 +1,8 @@
+#ifndef TRANSFORMATION_H
+#define TRANSFORMATION_H
 #include <iostream> 
 #include "data_point.h"
+#include "hashing_extractor.h"
 namespace usermodel{
 
 enum transformation_type{
@@ -31,9 +34,13 @@ class To_lower: public Transformation{
 
 class Hashed_ngrams: public Transformation{
     public:
-        bool apply(Data_point inp);
+        Hashed_ngrams();
+        Hashed_ngrams(std::string parameters);
+        bool apply(Data_point &inp);
     private:
+        HashVectorizer vectorizer;
         void transform(Data_point inp);
 };
 
 }
+#endif

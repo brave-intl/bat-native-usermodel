@@ -35,7 +35,7 @@ int HashVectorizer::get_hash(std::wstring& substring){
   return rtn;
 }
 
-std::map<int, double> HashVectorizer::GetFrequencies() {
+std::map<unsigned, float> HashVectorizer::GetFrequencies() {
   return frequencies_;
 }
 
