@@ -77,7 +77,7 @@ void run_test_case(std::string test_case){
     for (unsigned long i = 0; i < frequencies.size(); i++){
         const base::Value& idx_val = idx->GetList()[i];
         const base::Value& count_val = count->GetList()[i];
-        ASSERT_TRUE( (count_val.GetInt()- frequencies[idx_val.GetInt()]) <EPS );
+        EXPECT_TRUE( (count_val.GetInt()- frequencies[idx_val.GetInt()]) <EPS );
         // ASSERT_TRUE(value1.isint());
     }
         

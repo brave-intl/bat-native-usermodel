@@ -1,9 +1,10 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
-
-#ifndef DEPS_BAT_USERMODEL_SRC_BAG_OF_WORDS_EXTRACTOR_H_
-#define DEPS_BAT_USERMODEL_SRC_BAG_OF_WORDS_EXTRACTOR_H_
+#ifndef HASHING_EXTRACTOR_H
+#define HASHING_EXTRACTOR_H
+// #ifndef DEPS_BAT_USERMODEL_SRC_BAG_OF_WORDS_EXTRACTOR_H_
+// #define DEPS_BAT_USERMODEL_SRC_BAG_OF_WORDS_EXTRACTOR_H_
 
 #include <string>
 #include <map>
@@ -17,12 +18,12 @@ class HashVectorizer {
   ~HashVectorizer();
 
   bool Process(const std::wstring& html);
-  std::map<int, double> GetFrequencies();
+  std::map<unsigned,float> GetFrequencies();
 
  private:
   int get_hash(std::wstring& substring);
   std::vector<unsigned long> substring_sizes;//not ints for type comparison issues
-  std::map<int, double> frequencies_;
+  std::map<unsigned, float> frequencies_;
   int num_buckets; // number of buckets to use for hashing
 };
 
