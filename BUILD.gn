@@ -70,6 +70,8 @@ source_set("usermodel") {
     "src/hashing_extractor.cc",
     "src/classifier.h",
     "src/classifier.cc",
+    "src/pipeline.h",
+    "src/pipeline.cc",
   ]
 
   deps = [
