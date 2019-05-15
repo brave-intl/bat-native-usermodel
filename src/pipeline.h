@@ -1,5 +1,5 @@
 #include <iostream> 
-#include <list>
+#include <vector>
 #include <map>
 #include "data_point.h"
 #include "transformation.h"
@@ -11,15 +11,12 @@ class Pipeline{
     public:
         Pipeline();
         Pipeline(Pipeline &other);
-        Pipeline(std::list<Transformation> representation,  Classifier c);
+        Pipeline(std::vector<Transformation> representation,  Linear_classifier c);
         ~Pipeline();
-        Pipeline(std::list<Transformation> representation);
-        // Pipeline(std::string json_spec);
-        // Pipeline() --> protobuf equiv
         std::map<std::string, float> apply(Data_point &inp);
     private:
-        std::list<Transformation> transformations;
-        Classifier classifier;
+        std::vector<Transformation> transformations;
+        Linear_classifier classifier;
 };
 
 }

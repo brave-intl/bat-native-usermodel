@@ -9,23 +9,23 @@ namespace usermodel{
         transformations = other.transformations;
         classifier = other.classifier;
     }
-    Pipeline::Pipeline(std::list<Transformation> representation,  Classifier c){
+    Pipeline::Pipeline(std::vector<Transformation> representation,  Linear_classifier c){
         transformations = representation;
         classifier = c;
     }
-    Pipeline::Pipeline(std::list<Transformation> representation){
-        transformations = representation;
-    }
     std::map<std::string, float> Pipeline::apply(Data_point &inp){
         Data_point last_point = Data_point(inp);
-        for (std::list<Transformation>::iterator it = transformations.begin(); it != transformations.end(); ++it){
-            last_point = it->get(last_point);
+        for (unsigned i = 0; i < transformations.size(); i++){
+            last_point = transformations[i].get(last_point);
+            std::cout << "after loop:  " << i << " type is: "<< last_point.type<< '\n';
         }
+        std::cout << "after final loop type is: "<< last_point.type<< '\n';
+        if (last_point.type == sparse_vector){
+            std::cout << "and dimensionality is: " << last_point.n_dims<<'\n';
+            std::cout <<"while c++ dims are:"<< last_point.data_sparse.size()<<'\n';
+        } 
         return classifier.Predict(last_point);
 
     }
-    // Pipeline(std::string json_spec);
-    
-    // std::map<std::string, float> apply(Data_point &inp);
 
 }

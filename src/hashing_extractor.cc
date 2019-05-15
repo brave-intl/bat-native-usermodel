@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "CRC.h"
 #include "static_values.h"
+#include <vector>
 
 namespace usermodel {
 
@@ -18,6 +19,11 @@ HashVectorizer::HashVectorizer(){
   for (int i = 1; i<=6;i++)
     substring_sizes.push_back(i); 
   num_buckets = 10000;
+}
+HashVectorizer::HashVectorizer(int n_buckets, std::vector<int> subgrams){
+  for (unsigned i = 0; i<subgrams.size();i++)
+    substring_sizes.push_back(subgrams[i]); 
+  num_buckets = n_buckets;
 }
 HashVectorizer::HashVectorizer(const HashVectorizer& other){
   substring_sizes=other.substring_sizes;

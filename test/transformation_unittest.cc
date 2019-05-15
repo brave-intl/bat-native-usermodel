@@ -6,6 +6,9 @@
 // #include "transformation.h"
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
+#include <list>
+#include <iostream>
+#include <vector> 
 
 namespace usermodel {
 
@@ -44,25 +47,57 @@ TEST_F(TransformationTest, ToLowerTest) {
   std::string lower_case = "lower case";
   auto upper_datapoint = usermodel::Data_point(upper_case);
   usermodel::To_lower to_lower;
-  // EXPECT_TRUE(to_lower.apply(upper_datapoint));
-  to_lower.apply(upper_datapoint);
-  
-  auto lower_datapoint=to_lower.get();
+  auto lower_datapoint=to_lower.get(upper_datapoint);
+  std::cout<<"!!! GOT: "<< lower_datapoint.data_text<<'\n';
   EXPECT_EQ(0, lower_datapoint.type);
   EXPECT_EQ(0, lower_case.compare(lower_datapoint.data_text));
-
-  
 }
+
 TEST_F(TransformationTest, HashingTest) {
   std::string test_string = "tiny";
   auto text_datapoint = usermodel::Data_point(test_string);
   usermodel::Hashed_ngrams hashed_ngrams;
   hashed_ngrams= usermodel::Hashed_ngrams();
-  hashed_ngrams.apply(text_datapoint);
-  auto vector_data = hashed_ngrams.get();
+  // hashed_ngrams.apply();
+  auto vector_data = hashed_ngrams.get(text_datapoint);
   EXPECT_EQ(2, vector_data.type);
-  EXPECT_EQ(1234, vector_data.n_dims);
-  unsigned long expected_elements = 10;
+  EXPECT_EQ(10000, vector_data.n_dims);//10k is the default size
+  unsigned long expected_elements = 10;// hashes for [t,i,n,y, ti,in, ny, tin, iny, tiny]==> 10 total
   EXPECT_EQ(expected_elements, vector_data.data_sparse.size());
 }
+
+TEST_F(TransformationTest, CustomHashingTest) {
+  std::string test_string = "tiny";
+  auto text_datapoint = usermodel::Data_point(test_string);
+  usermodel::Hashed_ngrams hashed_ngrams;
+  hashed_ngrams= usermodel::Hashed_ngrams(3, std::vector<int>{1, 2, 3} );
+  auto vector_data = hashed_ngrams.get(text_datapoint);
+  EXPECT_EQ(2, vector_data.type);
+  EXPECT_EQ(3, vector_data.n_dims);//3 is the custom size
+  unsigned long expected_elements = 3;// all 3 buckets should be nonempty
+  EXPECT_EQ(expected_elements, vector_data.data_sparse.size());
+}
+TEST_F(TransformationTest, ChainingTest) {
+  //chain a mixture of the above tests together / things should be talking to each other ok
+  std::vector<Transformation> chain;
+  usermodel::To_lower to_lower;
+  chain.push_back(to_lower);
+  usermodel::Hashed_ngrams hashed_ngrams;
+  hashed_ngrams= usermodel::Hashed_ngrams();
+  chain.push_back(hashed_ngrams);
+  
+  std::string test_string = "TINY";
+  auto last_point = Data_point(test_string);
+  
+  for (unsigned i = 0; i<chain.size();i++){
+    auto transform = chain[i];
+    last_point = transform.get(last_point);
+  }
+
+  EXPECT_EQ(2, last_point.type);
+  EXPECT_EQ(10000, last_point.n_dims);
+  unsigned long expected_elements = 10;// hashes for [t,i,n,y, ti,in, ny, tin, iny, tiny]==> 10 total
+  EXPECT_EQ(expected_elements, last_point.data_sparse.size());
+}
+
 }  // namespace usermodel

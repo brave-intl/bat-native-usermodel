@@ -16,6 +16,7 @@ class HashVectorizer {
  public:
   HashVectorizer();
   HashVectorizer(const HashVectorizer& other);
+  HashVectorizer(int n_buckets, std::vector<int> subgrams);
   ~HashVectorizer();
 
   // bool Process(const std::wstring& html);

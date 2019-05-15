@@ -41,7 +41,11 @@ To_lower::To_lower(){type = TO_LOWER;}
 Hashed_ngrams::Hashed_ngrams(){ 
     type = HASHED_NGRAMS;
     hash_vectorizer = HashVectorizer();
+}        
 
+Hashed_ngrams::Hashed_ngrams(int n_b, std::vector<int> subgrams){
+    type = HASHED_NGRAMS;
+    hash_vectorizer = HashVectorizer(n_b, subgrams);
 }
 Hashed_ngrams::Hashed_ngrams(std::string config){}
 

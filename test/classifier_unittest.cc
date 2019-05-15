@@ -64,7 +64,21 @@ TEST_F(Classifier_Test, Biases_test) {
   auto rez = biased_classifier.Predict(avg_point);
   EXPECT_TRUE(rez["class_3"] > rez["class_1"]);
   EXPECT_TRUE(rez["class_3"] > rez["class_2"]);
-
+}
+TEST_F(Classifier_Test, Softmax_test) {
+  std::map<std::string,float> group_1 = {{"c1", -1.0}, {"c2",2.0}, {"c3", 3.0} };
+  auto sm = usermodel::Softmax(group_1);
+  
+  EXPECT_TRUE(sm["c3"]>sm["c1"]);
+  EXPECT_TRUE(sm["c3"]>sm["c2"]);
+  EXPECT_TRUE(sm["c2"]>sm["c1"]);
+  EXPECT_TRUE(sm["c1"]>0.0);
+  EXPECT_TRUE(sm["c3"]<1.0);
+  float sum = 0.0;
+  for (auto const& x : sm){
+    sum += x.second;
+  }
+  EXPECT_TRUE((sum-1.0) < 0.00000001);
 
 }
 

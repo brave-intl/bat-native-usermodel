@@ -3,6 +3,7 @@
 #include <iostream> 
 #include "data_point.h"
 #include "hashing_extractor.h"
+#include <vector>
 namespace usermodel{
 
 enum transformation_type{
@@ -36,6 +37,7 @@ class To_lower: public Transformation{
 class Hashed_ngrams: public Transformation{
     public:
         Hashed_ngrams();
+        Hashed_ngrams(int n_b, std::vector<int> subgrams);
         Hashed_ngrams(std::string parameters);
 };
 
