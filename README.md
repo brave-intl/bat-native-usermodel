@@ -80,12 +80,13 @@ supercategory of "sports" with a subcategory of "rugby".
 
 ## API
 
-Initialize the User Model by calling `InitializePageClassifier(model)` where
+Initialize the User Model by calling `InitializePageClassifier(model, region)`
+where `region` is a `std::string` containing the region of the user model and
 `model` is a `std::string` containing the contents of the `model.json` file as
 follows:
 
 ```
-bool success = InitializePageClassifier(model)
+bool success = InitializePageClassifier(model, region)
 ```
 
 Check if the page classifier has already been initialized by calling
@@ -104,9 +105,9 @@ containing the pages HTML content, a vector of scores is returned as follows:
 std::vector<double> scores = ClassifyPage(html);
 ```
 
-Get the winning category by calling `GetWinningCategory(scores)` where
-`scores` is a `std::vector<double>` of immediate or over time winning
-scores, the winning category is returned as follows:
+Get the winning category by calling `GetWinningCategory(scores)` where `scores`
+is a `std::vector<double>` of immediate or over time winning scores, the winning
+category is returned as follows:
 
 ```
 std::string winning_category = GetWinningCategory(scores);

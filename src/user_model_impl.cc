@@ -18,13 +18,19 @@ UserModel* UserModel::CreateInstance() {
 }
 
 UserModelImpl::UserModelImpl() :
-    is_initialized_(false) {
+    is_initialized_(false),
+    region_("US") {
 }
 
 bool UserModelImpl::InitializePageClassifier(
-    const std::string& model) {
+    const std::string& model,
+    const std::string& region) {
   if (page_classifier_.LoadModel(model)) {
     is_initialized_ = true;
+
+    region_ = region;
+  } else {
+    is_initialized_ = false;
   }
 
   return is_initialized_;

@@ -4,7 +4,6 @@
 
 #include <fstream>
 #include <streambuf>
-#include <iostream>
 
 #include "base/files/file_path.h"
 
@@ -68,28 +67,28 @@ TEST_F(UserModelTest, ValidModelTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("model.json");
-  EXPECT_TRUE(user_model.InitializePageClassifier(model));
+  EXPECT_TRUE(user_model.InitializePageClassifier(model, "US"));
 }
 
 TEST_F(UserModelTest, InvalidModelTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("invalid-model.json");
-  EXPECT_FALSE(user_model.InitializePageClassifier(model));
+  EXPECT_FALSE(user_model.InitializePageClassifier(model, "US"));
 }
 
 TEST_F(UserModelTest, MissingModelTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("missing-model.json");
-  EXPECT_FALSE(user_model.InitializePageClassifier(model));
+  EXPECT_FALSE(user_model.InitializePageClassifier(model, "US"));
 }
 
 TEST_F(UserModelTest, ClassifierTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("model.json");
-  EXPECT_TRUE(user_model.InitializePageClassifier(model));
+  EXPECT_TRUE(user_model.InitializePageClassifier(model, "US"));
 
   rapidjson::Document predictions;
   auto predictions_json = LoadFile("predictions.json");
@@ -100,17 +99,8 @@ TEST_F(UserModelTest, ClassifierTest) {
   EXPECT_TRUE(predictions.HasMember("data"));
 
   for (const auto& prediction : predictions["data"].GetArray()) {
-    if (!prediction["label"].IsString()) {
-      std::cout << "FAILED 1" << std::endl;
-    }
-
     EXPECT_TRUE(prediction["label"].IsString());
     std::string label = prediction["label"].GetString();
-
-    if (!prediction["doc"].IsString()) {
-      std::cout << "FAILED 2" << std::endl;
-      std::cout << "LABEL: " << label << std::endl;
-    }
 
     EXPECT_TRUE(prediction["doc"].IsString());
     std::string doc = prediction["doc"].GetString();
@@ -118,15 +108,6 @@ TEST_F(UserModelTest, ClassifierTest) {
     auto html = LoadFile(doc);
     auto scores = user_model.ClassifyPage(html);
     auto predicted = user_model.GetWinningCategory(scores);
-
-    if (predicted != label) {
-      std::cout << "FAILED 3" << std::endl;
-      std::cout << "SCORES: " << scores.size() << std::endl;
-      std::cout << "DOC: " << doc << std::endl;
-      std::cout << "HTML: " << html << std::endl;
-      std::cout << "PREDICTED: " << predicted << std::endl;
-      std::cout << "WINNING_CATEGORY: " << label << std::endl;
-    }
 
     EXPECT_TRUE(predicted == label);
   }
@@ -136,7 +117,7 @@ TEST_F(UserModelTest, InvalidWordCountClassifierTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("model.json");
-  EXPECT_TRUE(user_model.InitializePageClassifier(model));
+  EXPECT_TRUE(user_model.InitializePageClassifier(model, "US"));
 
   rapidjson::Document predictions;
   auto predictions_json = LoadFile("invalid-predictions.json");
@@ -147,17 +128,8 @@ TEST_F(UserModelTest, InvalidWordCountClassifierTest) {
   EXPECT_TRUE(predictions.HasMember("data"));
 
   for (const auto& prediction : predictions["data"].GetArray()) {
-    if (!prediction["label"].IsString()) {
-      std::cout << "FAILED 1" << std::endl;
-    }
-
     EXPECT_TRUE(prediction["label"].IsString());
     std::string label = prediction["label"].GetString();
-
-    if (!prediction["doc"].IsString()) {
-      std::cout << "FAILED 2" << std::endl;
-      std::cout << "LABEL: " << label << std::endl;
-    }
 
     EXPECT_TRUE(prediction["doc"].IsString());
     std::string doc = prediction["doc"].GetString();
@@ -165,15 +137,6 @@ TEST_F(UserModelTest, InvalidWordCountClassifierTest) {
     auto html = LoadFile(doc);
     auto scores = user_model.ClassifyPage(html);
     auto predicted = user_model.GetWinningCategory(scores);
-
-    if (predicted != label) {
-      std::cout << "FAILED 3" << std::endl;
-      std::cout << "SCORES: " << scores.size() << std::endl;
-      std::cout << "DOC: " << doc << std::endl;
-      std::cout << "HTML: " << html << std::endl;
-      std::cout << "PREDICTED: " << predicted << std::endl;
-      std::cout << "WINNING_CATEGORY: " << label << std::endl;
-    }
 
     EXPECT_TRUE(predicted == label);
   }

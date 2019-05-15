@@ -18,7 +18,8 @@ class UserModelImpl : public UserModel {
   UserModelImpl();
 
   bool InitializePageClassifier(
-      const std::string& model) override;
+      const std::string& model,
+      const std::string& region) override;
   bool IsInitialized() const override;
 
   const std::vector<double> ClassifyPage(
@@ -34,6 +35,8 @@ class UserModelImpl : public UserModel {
   bool is_initialized_;
 
   NaiveBayes page_classifier_;
+
+  std::string region_;
 
   // Not copyable, not assignable
   UserModelImpl(const UserModelImpl&) = delete;
