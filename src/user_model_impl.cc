@@ -24,7 +24,7 @@ UserModelImpl::UserModelImpl() :
 
 bool UserModelImpl::InitializePageClassifier(
     const std::string& model,
-    const std::string& region) {
+    const std::string& locale) {
   if (page_classifier_.LoadModel(model)) {
     is_initialized_ = true;
 

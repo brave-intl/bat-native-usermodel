@@ -20,7 +20,7 @@ class USERMODEL_EXPORT UserModel {
 
   virtual bool InitializePageClassifier(
       const std::string& model,
-      const std::string& region) = 0;
+      const std::string& locale) = 0;
   virtual bool IsInitialized() const = 0;
 
   virtual const std::vector<double> ClassifyPage(

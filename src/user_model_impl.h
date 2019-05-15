@@ -19,7 +19,7 @@ class UserModelImpl : public UserModel {
 
   bool InitializePageClassifier(
       const std::string& model,
-      const std::string& region) override;
+      const std::string& locale) override;
   bool IsInitialized() const override;
 
   const std::vector<double> ClassifyPage(
