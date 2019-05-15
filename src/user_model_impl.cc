@@ -19,7 +19,7 @@ UserModel* UserModel::CreateInstance() {
 
 UserModelImpl::UserModelImpl() :
     is_initialized_(false),
-    region_("US") {
+    locale_("US") {
 }
 
 bool UserModelImpl::InitializePageClassifier(
@@ -28,7 +28,7 @@ bool UserModelImpl::InitializePageClassifier(
   if (page_classifier_.LoadModel(model)) {
     is_initialized_ = true;
 
-    region_ = region;
+    locale_ = locale;
   } else {
     is_initialized_ = false;
   }

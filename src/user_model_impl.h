@@ -36,7 +36,7 @@ class UserModelImpl : public UserModel {
 
   NaiveBayes page_classifier_;
 
-  std::string region_;
+  std::string locale_;
 
   // Not copyable, not assignable
   UserModelImpl(const UserModelImpl&) = delete;
