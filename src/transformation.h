@@ -13,33 +13,30 @@ enum transformation_type{
 class Transformation{
     public:
         Transformation();
-        Transformation(data_type type);
+        Transformation(transformation_type t);
         Transformation(std::string parameters);
         ~Transformation();
-        bool apply(Data_point &inp);
-        Data_point get();
+        Data_point get(Data_point inp);
+        transformation_type getType();
     protected:
-        void transform(Data_point inp);
-        data_type transformation_type;
-        Data_point *input, *output;
+        HashVectorizer hash_vectorizer;
+        transformation_type type;
+    private:
+        Data_point get_lower(Data_point inp);
+        Data_point get_ngrams(Data_point inp);
+
 };
 
 class To_lower: public Transformation{
     public:
         To_lower();
-        bool apply(Data_point &inp);
-    private:
-        void transform(Data_point inp);
+        // Data_point get(Data_point inp);
 };
 
 class Hashed_ngrams: public Transformation{
     public:
         Hashed_ngrams();
         Hashed_ngrams(std::string parameters);
-        bool apply(Data_point &inp);
-    private:
-        HashVectorizer vectorizer;
-        void transform(Data_point inp);
 };
 
 }

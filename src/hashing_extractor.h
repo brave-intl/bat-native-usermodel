@@ -15,11 +15,12 @@ namespace usermodel {
 class HashVectorizer {
  public:
   HashVectorizer();
+  HashVectorizer(const HashVectorizer& other);
   ~HashVectorizer();
 
   // bool Process(const std::wstring& html);
   std::map<unsigned,float> GetFrequencies( const std::wstring& html );
-
+  int get_buckets();
  private:
   int get_hash(std::wstring& substring);
   std::vector<unsigned long> substring_sizes;//not ints for type comparison issues

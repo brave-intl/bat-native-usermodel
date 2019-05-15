@@ -14,23 +14,22 @@
 namespace usermodel {
 
 HashVectorizer::~HashVectorizer() = default;
-
 HashVectorizer::HashVectorizer(){
   for (int i = 1; i<=6;i++)
     substring_sizes.push_back(i); 
-  // frequencies_ = {};
   num_buckets = 10000;
 }
-int HashVectorizer::get_hash(std::wstring& substring){
-  // ----> following lines worked for english but c++ and utf-8 are strange bedfellows
-  // auto cstr = substring.data();
-  //auto rtn = CRC::Calculate(cstr, strlen(cstr), CRC::CRC_32()) % num_buckets; 
-    
-    
+HashVectorizer::HashVectorizer(const HashVectorizer& other){
+  substring_sizes=other.substring_sizes;
+  num_buckets=other.num_buckets;
+}
+int HashVectorizer::get_buckets(){
+  return num_buckets;
+}
+int HashVectorizer::get_hash(std::wstring& substring){    
     std::wstring_convert<std::codecvt_utf8<wchar_t>> conv1;
     std::string u8str = conv1.to_bytes(substring);
     auto rtn = CRC::Calculate(u8str.data(), u8str.size(), CRC::CRC_32()) % num_buckets; 
-  // std::cout << "fragment: "<<cstr<< " hash: "<<rtn<<"\n";
   return rtn;
 }
 

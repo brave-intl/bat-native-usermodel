@@ -3,53 +3,47 @@
 namespace usermodel {
 
 Transformation::Transformation(){}
-Transformation::Transformation(data_type type){
-    transformation_type=type;
+
+Transformation::Transformation(transformation_type t){
+    type=t;
 }
 Transformation::~Transformation() = default;
-
-To_lower::To_lower(){Transformation{text_data};}
-
-Data_point Transformation::get(){
-    return *output;
+transformation_type Transformation::getType(){
+    return type;
 }
-void Transformation::transform(Data_point inp){}
 
-bool Transformation::apply(Data_point &data_point){
-    if (transformation_type!=data_point.type)
-        return false;
-    else
-        transform(data_point);
-    return true;
+Data_point Transformation::get(Data_point inp){
+    if (type == TO_LOWER)
+        return get_lower(inp);
+    if (type == HASHED_NGRAMS)
+        return get_ngrams(inp);
+    return Data_point("");
 }
-bool To_lower::apply(Data_point &data_point){
-    auto tmp = Transformation::apply(data_point);
-    transform(data_point);
-    return tmp;
-}
-void To_lower::transform(Data_point inp){
+Data_point Transformation::get_lower(Data_point data_point){
     std::string rtn_str;
-    rtn_str.assign(inp.data_text);
+    rtn_str.assign(data_point.data_text);
     std::transform(rtn_str.begin(), rtn_str.end(), rtn_str.begin(), ::tolower);
-    output = new usermodel::Data_point(rtn_str);
+    return Data_point(rtn_str);
 }
-
-Hashed_ngrams::Hashed_ngrams(){}
-Hashed_ngrams::Hashed_ngrams(std::string config){
-    //TODO: Config json parsing
-}
-
-bool Hashed_ngrams::apply(Data_point &data_point){
+Data_point Transformation::get_ngrams(Data_point data_point){
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     std::wstring widened_text = converter.from_bytes(data_point.data_text); 
-    auto hashed_vector = vectorizer.GetFrequencies(widened_text);
-    output = new Data_point(hashed_vector,1234);
-    return true;
+    auto hashed_vector = hash_vectorizer.GetFrequencies(widened_text);
+    return Data_point(hashed_vector,hash_vectorizer.get_buckets());
 }
-// Data_point Hashed_ngrams::get(){
-//     auto vector_data = vectorizer.GetFrequencies();
-//     auto tmp = Data_point(vector_data,1234); 
-//     return 
-// }
+///////////////////////////////////////////////////////////
+
+To_lower::To_lower(){type = TO_LOWER;}
+
+
+///////////////////////////////////////////////////////////
+
+Hashed_ngrams::Hashed_ngrams(){ 
+    type = HASHED_NGRAMS;
+    hash_vectorizer = HashVectorizer();
+
+}
+Hashed_ngrams::Hashed_ngrams(std::string config){}
+
 
 }
