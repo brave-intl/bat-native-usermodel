@@ -70,8 +70,7 @@ void run_test_case(std::string test_case){
     base::Value* count = case_params->FindKey("count");
     ASSERT_TRUE(count->is_list());
     usermodel::HashVectorizer vectorizer;
-    EXPECT_TRUE(vectorizer.Process(w_input_value));
-    auto frequencies = vectorizer.GetFrequencies();
+    auto frequencies = vectorizer.GetFrequencies(w_input_value);
     EXPECT_EQ(idx->GetList().size(), frequencies.size());
     //if (frequencies.size() > 0){
     for (unsigned long i = 0; i < frequencies.size(); i++){

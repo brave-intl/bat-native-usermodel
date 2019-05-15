@@ -3,7 +3,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "hashing_extractor.h"
-
 #include <cstring>
 #include <codecvt>
 #include <sstream>
@@ -19,7 +18,7 @@ HashVectorizer::~HashVectorizer() = default;
 HashVectorizer::HashVectorizer(){
   for (int i = 1; i<=6;i++)
     substring_sizes.push_back(i); 
-  frequencies_ = {};
+  // frequencies_ = {};
   num_buckets = 10000;
 }
 int HashVectorizer::get_hash(std::wstring& substring){
@@ -35,13 +34,11 @@ int HashVectorizer::get_hash(std::wstring& substring){
   return rtn;
 }
 
-std::map<unsigned, float> HashVectorizer::GetFrequencies() {
-  return frequencies_;
-}
-
-bool HashVectorizer::Process(const std::wstring& html) {
+std::map<unsigned, float> HashVectorizer::GetFrequencies(const std::wstring& html) {
   std::wstring data = html;
-// TODO: Review maximum length 
+  std::map<unsigned, float> frequencies;
+  frequencies = {};
+  // TODO: Review maximum length 
   if (data.length() > kMaximumHtmlLengthToClassify) {
     data = data.substr(0, kMaximumHtmlLengthToClassify - 1);
   }
@@ -51,11 +48,11 @@ bool HashVectorizer::Process(const std::wstring& html) {
       for (unsigned long i = 0; i <= ( data.length()-substring_size) ; i++){
         auto ss = data.substr(i, substring_size);
         auto idx = get_hash(ss);
-        ++frequencies_[idx];
+        ++frequencies[idx];
       }
     }
   }
-  return true;
+  return frequencies;
 }
 
 }  // namespace usermodel

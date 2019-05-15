@@ -17,13 +17,13 @@ class HashVectorizer {
   HashVectorizer();
   ~HashVectorizer();
 
-  bool Process(const std::wstring& html);
-  std::map<unsigned,float> GetFrequencies();
+  // bool Process(const std::wstring& html);
+  std::map<unsigned,float> GetFrequencies( const std::wstring& html );
 
  private:
   int get_hash(std::wstring& substring);
   std::vector<unsigned long> substring_sizes;//not ints for type comparison issues
-  std::map<unsigned, float> frequencies_;
+  // std::map<unsigned, float> frequencies_;
   int num_buckets; // number of buckets to use for hashing
 };
 

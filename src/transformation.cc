@@ -42,10 +42,9 @@ Hashed_ngrams::Hashed_ngrams(std::string config){
 bool Hashed_ngrams::apply(Data_point &data_point){
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     std::wstring widened_text = converter.from_bytes(data_point.data_text); 
-    bool rtn =  vectorizer.Process(widened_text);
-    auto hashed_vector = vectorizer.GetFrequencies();
+    auto hashed_vector = vectorizer.GetFrequencies(widened_text);
     output = new Data_point(hashed_vector,1234);
-    return rtn;
+    return true;
 }
 // Data_point Hashed_ngrams::get(){
 //     auto vector_data = vectorizer.GetFrequencies();
