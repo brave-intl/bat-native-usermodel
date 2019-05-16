@@ -52,14 +52,6 @@ TEST_F(Pipeline_test, Build_simple_pipeline) {
     pipeline = Pipeline(transformations, linear_classifier);
     auto rez = pipeline.apply(string_data_point);
     
-    for (auto const& x : rez)
-    {
-    std::cout << x.first  // string (key)
-              << ':' 
-              << x.second // string's value 
-              << std::endl ;
-    }
-
     EXPECT_EQ(expected_len, rez.size());
 }
 }
