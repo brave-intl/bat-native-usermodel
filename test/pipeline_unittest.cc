@@ -54,4 +54,12 @@ TEST_F(Pipeline_test, Build_simple_pipeline) {
     
     EXPECT_EQ(expected_len, rez.size());
 }
+TEST_F(Pipeline_test, Load_representation_json) {
+    std::string test_string = "{\"transforms\": [{\"transformation_type\": \"TO_LOWER\", \"params\": null}, {\"transformation_type\": \"HASHED_NGRAMS\", \"params\": {\"n_range\": [1, 2, 3, 4, 5], \"num_buckets\": 500}}]}"  //  NOLINT    
+    Rep = load_rep(test_string);
+    
+    EXPECT_EQ(expected_len, rez.size());
+}
+
+
 }
