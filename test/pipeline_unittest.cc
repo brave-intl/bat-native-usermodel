@@ -11,6 +11,11 @@
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
+
+const base::FilePath::CharType kTestDataRelativePath[] =
+  FILE_PATH_LITERAL("brave/vendor/bat-native-usermodel/test/data");
+
+
 namespace usermodel {
 
 class Pipeline_test : public ::testing::Test {
@@ -21,6 +26,21 @@ class Pipeline_test : public ::testing::Test {
 
 };
 
+std::string LoadFile(const std::string& filename) {
+    base::FilePath path(kTestDataRelativePath);
+    path = path.AppendASCII(filename);
+
+    std::ifstream ifs(path.value());
+    if (ifs.fail()) {
+      return "";
+    }
+
+    std::stringstream stream;
+    stream << ifs.rdbuf();
+    std::string value = stream.str();
+
+    return value;
+}
 
 TEST_F(Pipeline_test, Build_simple_pipeline) {
     std::string test_string = "Test String";
@@ -54,12 +74,41 @@ TEST_F(Pipeline_test, Build_simple_pipeline) {
     
     EXPECT_EQ(expected_len, rez.size());
 }
-TEST_F(Pipeline_test, Load_representation_json) {
-    std::string test_string = "{\"transforms\": [{\"transformation_type\": \"TO_LOWER\", \"params\": null}, {\"transformation_type\": \"HASHED_NGRAMS\", \"params\": {\"n_range\": [1, 2, 3, 4, 5], \"num_buckets\": 500}}]}"  //  NOLINT    
-    Rep = load_rep(test_string);
-    
-    EXPECT_EQ(expected_len, rez.size());
+
+// TEST_F(Pipeline_test, Load_representation_json) {
+//     std::string test_string = "{\"transforms\": [{\"transformation_type\": \"TO_LOWER\", \"params\": null}, {\"transformation_type\": \"HASHED_NGRAMS\", \"params\": {\"n_range\": [1, 2, 3, 4, 5], \"num_buckets\": 500}}]}"  //  NOLINT    
+//     Rep = load_rep(test_string);
+
+//     EXPECT_EQ(expected_len, rez.size());
+// }
+
+
+//Test compatibility with a simple python generated model 
+
+TEST_F(Pipeline_test, Test_Python_Compat){
+
+std::vector<std::string> test_messages{ "This is a spam email.", 
+                                        "Another spam trying to sell you viagra",
+                                        "Message from mom with no real subject", 
+                                        "Another messase from mom with no real subject",
+                                        "Yadayada"};
+
+std::vector<std::string> test_labels{"spam", "spam", "ham", "ham", "junk"};
+
+auto test_json = LoadFile("pipeline.json");
+usermodel::Pipeline pipeline; 
+auto load_success = pipeline.from_json(test_json);
+EXPECT_TRUE(load_success);
+for (long unsigned i = 0; i < test_messages.size(); i++){
+    auto tmp = Data_point(test_messages[i]);
+    auto predictions = pipeline.apply(tmp);
+    EXPECT_EQ(3, predictions.size());
+    for (auto const& prediction : predictions){
+        EXPECT_TRUE(prediction.second <= predictions[test_labels[i]]);
+    } 
+
 }
 
+}
 
 }
