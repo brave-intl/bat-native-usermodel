@@ -76,18 +76,21 @@ source_set("usermodel") {
 
   deps = [
     "//base",
-    rebase_path("bat-native-rapidjson", dep_base),
     "//third_party/protobuf:protobuf_lite",
+    rebase_path("bat-native-rapidjson", dep_base),
   ]
+
   public_deps = [
     ":proto",
   ]
+
   libs = [ "protobuf_lite" ]
   if (is_debug) {
      lib_dirs = ["${root_out_dir}"]
   } else {
      lib_dirs = ["${root_out_dir}/obj/third_party/protobuf",]
   }
+
   # link_deps = [ 
   #   "//third_party/protobuf:protobuf_full",
   # ]

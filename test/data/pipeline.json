@@ -1,28 +1,25 @@
 {
     "version": 1,
-    "time": "2019-03-13 17:33:31.708151",
-    "language": "EN",
-    "representation": {
-      "transforms": [
-        {
-          "transformation_type": "TO_LOWER",
-          "params": null
-        },
-        {
-          "transformation_type": "HASHED_NGRAMS",
-          "params": {
-            "n_range": [
-              1,
-              2,
-              3,
-              4,
-              5
-            ],
-            "num_buckets": 500
-          }
+    "timestamp": "2019-03-13 17:33:31.708151",
+    "locale": "en",
+    "transformations": [
+      {
+        "transformation_type": "TO_LOWER",
+      },
+      {
+        "transformation_type": "HASHED_NGRAMS",
+        "params": {
+          "ngrams_range": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "num_buckets": 500
         }
-      ]
-    },
+      }
+    ],
     "classifier": {
       "classifier_type": "Linear",
       "classes": [
