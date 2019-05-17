@@ -18,6 +18,5 @@ class Pipeline{
     private:
         std::vector<Transformation> transformations;
         Linear_classifier classifier;
-};
-Pipeline pipeline_from_json
+
 }

@@ -25,6 +25,7 @@ namespace usermodel{
             //BLOG(ERROR) << "Failed to get dictionary: " << json;
             return false;
         }
+        
         return true;
     }
     std::map<std::string, float> Pipeline::apply(Data_point &inp){

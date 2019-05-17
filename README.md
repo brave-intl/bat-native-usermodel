@@ -122,6 +122,4 @@ npm run test -- brave_unit_tests --filter=UserModelTest.*
 ## Limitations
 
 - BAT Native User Model should be run in a single thread in a subprocess.
-- Log probabilities are encoded as negative numbers, future revisions may omit
-  the minus-sign
 - Consider implementing Porter Stemmer in C++
