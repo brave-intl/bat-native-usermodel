@@ -4,7 +4,7 @@
     "locale": "en",
     "transformations": [
       {
-        "transformation_type": "TO_LOWER",
+        "transformation_type": "TO_LOWER"
       },
       {
         "transformation_type": "HASHED_NGRAMS",
@@ -21,7 +21,7 @@
       }
     ],
     "classifier": {
-      "classifier_type": "Linear",
+      "classifier_type": "LINEAR",
       "classes": [
         "ham",
         "junk",

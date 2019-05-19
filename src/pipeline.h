@@ -29,7 +29,7 @@ class Pipeline {
   ~Pipeline();
 
   bool FromJson(const std::string& json);
-  std::map<std::string, float> Apply(const Data_point &inp);
+  std::map<std::string, float> Apply(Data_point inp);
 
  private:
   uint16_t version_;
@@ -37,13 +37,15 @@ class Pipeline {
   std::string locale_;
   std::vector<Transformation> transformations_;
   Linear_classifier classifier_;
-
+  bool parse_classifier(base::Value* classifier);
+  bool parse_transformations(base::Value* transformations);
   bool GetVersionFromJSON(base::DictionaryValue* dictionary);
   bool GetTimestampFromJSON(base::DictionaryValue* dictionary);
   bool GetLocaleFromJSON(base::DictionaryValue* dictionary);
   bool GetTransformationsFromJSON(base::DictionaryValue* dictionary);
   bool GetClassifierFromJSON(base::DictionaryValue* dictionary);
-}
+  bool GetTransformationsFromList(base::ListValue List);
+};
 
 }  // namespace usermodel
 

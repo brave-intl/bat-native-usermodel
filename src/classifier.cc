@@ -5,14 +5,6 @@
 
 namespace usermodel{
 
-// Classifier::Classifier(){}
-// Classifier::~Classifier()= default;
-// std::map<std::string, float> Classifier::Predict(Data_point x){
-//     std::map<std::string,float> rtn = {{"N/A",0.0}};
-//     return rtn;
-// }
-
-
 std::map<std::string, float> Softmax( std::map<std::string, float> y){
     //first pass get minimum
     float maximum = -std::numeric_limits<float>::infinity();
@@ -37,13 +29,7 @@ std::map<std::string, float> Softmax( std::map<std::string, float> y){
     return rtn;
 }
 Linear_classifier::Linear_classifier(){}
-// Linear_classifier::Linear_classifier(std::map<std::string, std::vector<float>> weights_, std::map<std::string,float> biases_){
-//     for (auto const& x : weights_){
-//         auto tmp = Data_point(x.second);
-//         weights[x.first] = tmp; 
-//     }
-//     biases = biases_;
-// }
+
 Linear_classifier::Linear_classifier(std::map<std::string, Data_point> weights_, std::map<std::string,float> biases_){
     weights = weights_;
     biases = biases_;
