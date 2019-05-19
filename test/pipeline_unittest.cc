@@ -81,42 +81,26 @@ TEST_F(Pipeline_test, Build_simple_pipeline) {
 }
 
 TEST_F(Pipeline_test, Test_Load_From_Json){
-auto test_json = LoadFile("pipeline.json");
-//std::cout<<"INPUT::\n"<<test_json<<std::endl;
-usermodel::Pipeline pipeline; 
-auto load_success = pipeline.FromJson(test_json);
-EXPECT_TRUE(load_success);
-
+  auto test_json = LoadFile("pipeline.json");
+  usermodel::Pipeline pipeline; 
+  auto load_success = pipeline.FromJson(test_json);
+  EXPECT_TRUE(load_success);
+  std::vector<std::string> train_texts = {
+    "This is a spam email.", 
+    "Another spam trying to sell you viagra",
+    "Message from mom with no real subject", 
+    "Another messase from mom with no real subject",
+    "Yadayada"
+  };
+  std::vector<std::string> train_labels = {"spam", "spam", "ham", "ham", "junk"};
+  //let's see if results match as well: 
+  for (unsigned long i = 0 ; i < train_texts.size();i++){
+    auto preds = pipeline.Apply(Data_point(train_texts[i]));
+    for (auto const& pred : preds){
+      auto other_predictions = pred.second;
+      EXPECT_TRUE(preds[train_labels[i]] >=other_predictions );
+    }
+  }
 }
-
-
-
-// //Test compatibility with a simple python generated model 
-
-// TEST_F(Pipeline_test, Test_Python_Compat){
-
-// std::vector<std::string> test_messages{ "This is a spam email.", 
-//                                         "Another spam trying to sell you viagra",
-//                                         "Message from mom with no real subject", 
-//                                         "Another messase from mom with no real subject",
-//                                         "Yadayada"};
-
-// std::vector<std::string> test_labels{"spam", "spam", "ham", "ham", "junk"};
-
-// auto test_json = LoadFile("pipeline.json");
-// usermodel::Pipeline pipeline; 
-// auto load_success = pipeline.from_json(test_json);
-// EXPECT_TRUE(load_success);
-// for (long unsigned i = 0; i < test_messages.size(); i++){
-//     auto tmp = Data_point(test_messages[i]);
-//     auto predictions = pipeline.apply(tmp);
-//     EXPECT_EQ(3, predictions.size());
-//     for (auto const& prediction : predictions){
-//         EXPECT_TRUE(prediction.second <= predictions[test_labels[i]]);
-//     } 
-
-// }
-
-// }
 
 }
