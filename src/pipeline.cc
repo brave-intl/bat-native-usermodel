@@ -7,7 +7,7 @@
 // #include "vector"
 #include "base/json/json_reader.h"
 #include "base/values.h"
-
+#include "advertising_categories.h"
 
 namespace usermodel {
 
@@ -16,19 +16,21 @@ Pipeline::Pipeline(){
     timestamp_ ="";
     locale_ = "en";
     transformations_ = {};
+    advertising_categories_ = get_advertising_categories();
     // classifier_ = nullptr;
 }
 
 Pipeline::Pipeline(const Pipeline &pipeline) {
   transformations_ = pipeline.transformations_;
   classifier_ = pipeline.classifier_;
+  advertising_categories_ = get_advertising_categories();
 }
 
-Pipeline::Pipeline(
-    std::vector<Transformation> transformations,
-    Linear_classifier classifier) {
+Pipeline::Pipeline(std::vector<Transformation> transformations,
+  Linear_classifier classifier) {
   transformations_ = transformations;
   classifier_ = classifier;
+  advertising_categories_ = get_advertising_categories();
 }
 
 Pipeline::~Pipeline() = default;
@@ -269,6 +271,22 @@ std::map<std::string, float> Pipeline::Apply( Data_point inp) {
   }
 
   return classifier_.Predict(last_point);
+}
+std::vector<double> Pipeline::Get_Advertising_Predictions(std::string html){
+  Data_point data = Data_point(html);
+  auto predictions = Softmax(Apply(data));
+  std::vector<double> rtn = {};
+  for (unsigned long i = 0 ; i < advertising_categories_.size();i++){
+    rtn.push_back(0.0);
+  }
+  for (auto const& prediction: predictions){
+    auto class_name = prediction.first;
+    auto value = prediction.second;
+    if (advertising_categories_.count(class_name) > 0 ){
+      rtn[advertising_categories_[class_name]] = value;
+    }
+  }
+  return rtn;
 }
 
 }  // namespace usermodel

@@ -30,12 +30,14 @@ class Pipeline {
 
   bool FromJson(const std::string& json);
   std::map<std::string, float> Apply(Data_point inp);
+  std::vector<double> Get_Advertising_Predictions(std::string html);
 
  private:
   uint16_t version_;
   std::string timestamp_;
   std::string locale_;
   std::vector<Transformation> transformations_;
+  std::map<std::string,int> advertising_categories_;
   Linear_classifier classifier_;
   bool parse_classifier(base::Value* classifier);
   bool parse_transformations(base::Value* transformations);

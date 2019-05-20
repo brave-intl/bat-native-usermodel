@@ -103,4 +103,38 @@ TEST_F(Pipeline_test, Test_Load_From_Json){
   }
 }
 
+TEST_F(Pipeline_test, Test_GetAdvertisingPredictions) {
+    std::string test_string = "Test String";
+    std::vector<Transformation> transformations;
+    usermodel::To_lower to_lower;
+    transformations.push_back(to_lower);
+    auto hashed_ngrams = usermodel::Hashed_ngrams(3, std::vector<int>{1, 2, 3} );
+    transformations.push_back(hashed_ngrams);
+    std::map<std::string,Data_point> weights = {
+        {"arts & entertainment-opera", Data_point(std::vector<float>{1.0, 2.0, 3.0}) },
+        {"home-garden", Data_point(std::vector<float>{3.0, 2.0, 1.0}) }, 
+        {"travel-hotels", Data_point(std::vector<float>{2.0, 2.0, 2.0}) }
+    };
+    std::map<std::string,float> biases = {
+        {"arts & entertainment-opera",0.0},
+        {"home-garden", 0.0},
+        {"travel-hotels", 0.0}
+    };
+    Linear_classifier linear_classifier(weights,biases);
+    // auto pipeline = Pipeline(transformations, linear_classifier);
+    Pipeline pipeline;
+    pipeline = Pipeline(transformations, linear_classifier);    
+    unsigned int expected_len = 203;//203 categories
+    auto rez = pipeline.Get_Advertising_Predictions(test_string);
+    EXPECT_EQ(expected_len, rez.size());
+    double sum = 0.0;
+    for (unsigned long i = 0 ; i < rez.size(); i++ ){
+      EXPECT_TRUE(rez[i]>=0);
+      EXPECT_TRUE(rez[i]<=1);
+      sum+=rez[i];
+    }
+    EXPECT_TRUE(std::abs(sum-1.0)<0.000001);
+}
+
+
 }
