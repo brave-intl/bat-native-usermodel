@@ -22,18 +22,31 @@ UserModelImpl::UserModelImpl() :
     locale_("US") {
 }
 
+bool UserModelImpl::iequals(const std::string& a, const std::string& b)
+{
+    unsigned int sz = a.size();
+    if (b.size() != sz)
+        return false;
+    for (unsigned int i = 0; i < sz; ++i)
+        if (tolower(a[i]) != tolower(b[i]))
+            return false;
+    return true;
+}
+
 bool UserModelImpl::InitializePageClassifier(
     const std::string& model,
     const std::string& locale) {
-  if (page_classifier_.LoadModel(model)) {
-    is_initialized_ = true;
-
-    locale_ = locale;
-  } else {
-    is_initialized_ = false;
+  if (iequals(locale,"ja")) { 
+    page_classifier_();
+    is_initialized_ = page_classifier_pipeline_.fromjson(model);
+  }else{
+    is_initialized_= page_classifier_.LoadModel(model);
   }
+  if is_initialized_ {
+    locale_ = locale;
+  } 
+return is_initialized_;
 
-  return is_initialized_;
 }
 
 bool UserModelImpl::IsInitialized() const {
@@ -42,14 +55,17 @@ bool UserModelImpl::IsInitialized() const {
 
 const std::vector<double> UserModelImpl::ClassifyPage(
     const std::string& html) {
-  BagOfWords bag_of_words;
-  if (!bag_of_words.Process(html)) {
-    return {};
+  std::vector<double> = classification; 
+  if (iequals(locale_, "ja")){
+   return pipeline.get_advertising_predictions(html);
+  }else{
+    BagOfWords bag_of_words;
+    if (!bag_of_words.Process(html)) {
+      return {};
+    }
+    auto frequencies = bag_of_words.GetFrequencies();
+    classification = page_classifier_.Predict(frequencies);
   }
-
-  auto frequencies = bag_of_words.GetFrequencies();
-  auto classification = page_classifier_.Predict(frequencies);
-
   return classification;
 }
 
