@@ -37,12 +37,12 @@ bool UserModelImpl::InitializePageClassifier(
     const std::string& model,
     const std::string& locale) {
   if (iequals(locale,"ja")) { 
-    page_classifier_();
-    is_initialized_ = page_classifier_pipeline_.fromjson(model);
+    // page_classifier_pipeline_=Pipeline();
+    is_initialized_ = page_classifier_pipeline_.FromJson(model);
   }else{
     is_initialized_= page_classifier_.LoadModel(model);
   }
-  if is_initialized_ {
+  if (is_initialized_) {
     locale_ = locale;
   } 
 return is_initialized_;
@@ -55,9 +55,9 @@ bool UserModelImpl::IsInitialized() const {
 
 const std::vector<double> UserModelImpl::ClassifyPage(
     const std::string& html) {
-  std::vector<double> = classification; 
+  std::vector<double>  classification; 
   if (iequals(locale_, "ja")){
-   return pipeline.get_advertising_predictions(html);
+   return page_classifier_pipeline_.Get_Advertising_Predictions(html);
   }else{
     BagOfWords bag_of_words;
     if (!bag_of_words.Process(html)) {

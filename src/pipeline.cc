@@ -17,7 +17,7 @@ Pipeline::Pipeline(){
     locale_ = "en";
     transformations_ = {};
     advertising_categories_ = get_advertising_categories();
-    get_reverse_categories()
+    get_reverse_categories();
     // classifier_ = nullptr;
 }
 
@@ -25,7 +25,7 @@ Pipeline::Pipeline(const Pipeline &pipeline) {
   transformations_ = pipeline.transformations_;
   classifier_ = pipeline.classifier_;
   advertising_categories_ = get_advertising_categories();
-  get_reverse_categories()
+  get_reverse_categories();
 }
 
 Pipeline::Pipeline(std::vector<Transformation> transformations,
@@ -33,10 +33,10 @@ Pipeline::Pipeline(std::vector<Transformation> transformations,
   transformations_ = transformations;
   classifier_ = classifier;
   advertising_categories_ = get_advertising_categories();
-  get_reverse_categories()
+  get_reverse_categories();
 }
 
-Pipeline::get_reverse_categories(){
+void Pipeline::get_reverse_categories(){
   for (auto const& category : advertising_categories_){
     reverse_categories_[category.second] = category.first;
   }
