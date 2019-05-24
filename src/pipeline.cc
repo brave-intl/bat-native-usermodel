@@ -165,7 +165,7 @@ bool Pipeline::parse_classifier(base::Value* classifier){
     return false;
   }
 
-  for (unsigned long i = 0 ; i < specified_classes->GetList().size();i++){
+  for (size_t i = 0 ; i < specified_classes->GetList().size();i++){
     const base::Value& class_name = specified_classes->GetList()[i];
     classes.push_back(class_name.GetString());
   }
@@ -175,13 +175,13 @@ bool Pipeline::parse_classifier(base::Value* classifier){
   }
   std::map<std::string,Data_point> weights;
   weights = {};
-  for (unsigned long i = 0 ; i < classes.size();i++){
+  for (size_t i = 0 ; i < classes.size();i++){
     base::Value* this_class = class_weights->FindKey(classes[i]);
     if ( !this_class->is_list()) {
       return false;
     } 
     std::vector<float> tmp_weights = {};
-    for (unsigned long j = 0 ; j < this_class->GetList().size(); j++ ){
+    for (size_t j = 0 ; j < this_class->GetList().size(); j++ ){
       const base::Value& weight = this_class->GetList()[j];
       tmp_weights.push_back( static_cast<float> (weight.GetDouble()) );
     }
@@ -197,7 +197,7 @@ bool Pipeline::parse_classifier(base::Value* classifier){
   if (biases->GetList().size() != classes.size()){
     return false;
   }
-  for (unsigned long i = 0 ; i < biases->GetList().size();i++){
+  for (size_t i = 0 ; i < biases->GetList().size();i++){
     const base::Value& this_bias = biases->GetList()[i];
     specified_biases.insert({classes[i], static_cast<float> (this_bias.GetDouble())}) ;
   }
@@ -248,7 +248,7 @@ std::vector<double> Pipeline::Get_Advertising_Predictions(std::string html){
   Data_point data = Data_point(html);
   auto predictions = Softmax(Apply(data));
   std::vector<double> rtn = {};
-  for (unsigned long i = 0 ; i < advertising_categories_.size();i++){
+  for (size_t i = 0 ; i < advertising_categories_.size();i++){
     rtn.push_back(0.0);
   }
   for (auto const& prediction: predictions){

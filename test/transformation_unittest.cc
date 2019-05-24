@@ -59,7 +59,7 @@ TEST_F(TransformationTest, HashingTest) {
   auto vector_data = hashed_ngrams.get(text_datapoint);
   EXPECT_EQ(2, vector_data.type);
   EXPECT_EQ(10000, vector_data.n_dims);//10k is the default size
-  unsigned long expected_elements = 10;// hashes for [t,i,n,y, ti,in, ny, tin, iny, tiny]==> 10 total
+  size_t expected_elements = 10;// hashes for [t,i,n,y, ti,in, ny, tin, iny, tiny]==> 10 total
   EXPECT_EQ(expected_elements, vector_data.data_sparse.size());
 }
 
@@ -71,7 +71,7 @@ TEST_F(TransformationTest, CustomHashingTest) {
   auto vector_data = hashed_ngrams.get(text_datapoint);
   EXPECT_EQ(2, vector_data.type);
   EXPECT_EQ(3, vector_data.n_dims);//3 is the custom size
-  unsigned long expected_elements = 3;// all 3 buckets should be nonempty
+  size_t expected_elements = 3;// all 3 buckets should be nonempty
   EXPECT_EQ(expected_elements, vector_data.data_sparse.size());
 }
 TEST_F(TransformationTest, ChainingTest) {
@@ -93,7 +93,7 @@ TEST_F(TransformationTest, ChainingTest) {
 
   EXPECT_EQ(2, last_point.type);
   EXPECT_EQ(10000, last_point.n_dims);
-  unsigned long expected_elements = 10;// hashes for [t,i,n,y, ti,in, ny, tin, iny, tiny]==> 10 total
+  size_t expected_elements = 10;// hashes for [t,i,n,y, ti,in, ny, tin, iny, tiny]==> 10 total
   EXPECT_EQ(expected_elements, last_point.data_sparse.size());
 }
 

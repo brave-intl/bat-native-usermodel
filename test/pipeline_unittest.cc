@@ -94,7 +94,7 @@ TEST_F(Pipeline_test, Test_Load_From_Json){
   };
   std::vector<std::string> train_labels = {"spam", "spam", "ham", "ham", "junk"};
   //let's see if results match as well: 
-  for (unsigned long i = 0 ; i < train_texts.size();i++){
+  for (size_t i = 0 ; i < train_texts.size();i++){
     auto preds = pipeline.Apply(Data_point(train_texts[i]));
     for (auto const& pred : preds){
       auto other_predictions = pred.second;
@@ -128,7 +128,7 @@ TEST_F(Pipeline_test, Test_GetAdvertisingPredictions) {
     auto rez = pipeline.Get_Advertising_Predictions(test_string);
     EXPECT_EQ(expected_len, rez.size());
     double sum = 0.0;
-    for (unsigned long i = 0 ; i < rez.size(); i++ ){
+    for (size_t i = 0 ; i < rez.size(); i++ ){
       EXPECT_TRUE(rez[i]>=0);
       EXPECT_TRUE(rez[i]<=1);
       sum+=rez[i];

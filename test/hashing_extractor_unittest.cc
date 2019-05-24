@@ -73,7 +73,7 @@ void run_test_case(std::string test_case){
     auto frequencies = vectorizer.GetFrequencies(w_input_value);
     EXPECT_EQ(idx->GetList().size(), frequencies.size());
     //if (frequencies.size() > 0){
-    for (unsigned long i = 0; i < frequencies.size(); i++){
+    for (size_t i = 0; i < frequencies.size(); i++){
         const base::Value& idx_val = idx->GetList()[i];
         const base::Value& count_val = count->GetList()[i];
         EXPECT_TRUE( (count_val.GetInt()- frequencies[idx_val.GetInt()]) <EPS );

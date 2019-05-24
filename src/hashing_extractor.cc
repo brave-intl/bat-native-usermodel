@@ -50,7 +50,7 @@ std::map<unsigned, float> HashVectorizer::GetFrequencies(const std::wstring& htm
   // get hashes of substrings for each of the substring lengths defined:
   for(auto const& substring_size : substring_sizes) {
     if (substring_size <= data.length()){
-      for (unsigned long i = 0; i <= ( data.length()-substring_size) ; i++){
+      for (size_t i = 0; i <= ( data.length()-substring_size) ; i++){
         auto ss = data.substr(i, substring_size);
         auto idx = get_hash(ss);
         ++frequencies[idx];
