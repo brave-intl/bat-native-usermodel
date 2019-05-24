@@ -47,11 +47,12 @@ bool Pipeline::FromJson(const std::string& json) {
   base::Optional<base::Value> root = base::JSONReader::Read(json);
   if (!root){
     return false;
-  } 
+  }
   base::Value* version = root->FindKeyOfType("version", base::Value::Type::INTEGER);
   int version_number;
   bool parsed_version_number = version->GetAsInteger(&version_number);
   if (!parsed_version_number){
+
     return false;
   }
   version_ = version_number;
@@ -92,48 +93,52 @@ bool Pipeline::FromJson(const std::string& json) {
   return true;
 }
 
-bool Pipeline::parse_transformations(base::Value* transformations){
-  if (!transformations->is_list()){
+bool Pipeline::parse_transformations(base::Value* transformations) {
+  if (!transformations->is_list()) {
     return false;
   }
   std::vector<Transformation> transformation_sequence;
-  for (unsigned long i = 0 ; i < transformations->GetList().size();i++){
+  for (size_t i = 0; i < transformations->GetList().size(); i++) {
     const base::Value& transformation = transformations->GetList()[i];
-    const base::Value* transformation_type = transformation.FindKey("transformation_type");
-    if (!transformation_type){
+    const base::Value* transformation_type =
+        transformation.FindKey("transformation_type");
+    if (!transformation_type) {
       return false;
     }
     std::string parsed_transformation_type;
-    bool parsed_transformation_success = transformation_type->GetAsString(&parsed_transformation_type);
-    if (!parsed_transformation_success){
+    bool parsed_transformation_success =
+        transformation_type->GetAsString(&parsed_transformation_type);
+    if (!parsed_transformation_success) {
       return false;
     }
-    if (parsed_transformation_type.compare("TO_LOWER")==0){
+    if (parsed_transformation_type.compare("TO_LOWER") == 0) {
       transformation_sequence.push_back(To_lower());
     }
-    if (parsed_transformation_type.compare("HASHED_NGRAMS")==0){
-       const base::Value* transformation_params = transformation.FindKey("params");
-       if (!transformation_params){
-         return false;
-       }
-    const base::Value* nb = transformation_params->FindKey("num_buckets");
-    int num_buckets;
-    bool parsed_num_buckets = nb->GetAsInteger(&num_buckets);
-    if (!parsed_num_buckets){
-      return false;
-    }
-    const base::Value* n_gram_sizes = transformation_params->FindKey("ngrams_range");
-    if (!n_gram_sizes->is_list()){
-      return false;
-    }
-    std::vector<int> ngram_range = {};
-    for (unsigned long i =0; i < n_gram_sizes->GetList().size();i++){
-      const base::Value& n = n_gram_sizes->GetList()[i];
-      ngram_range.push_back(n.GetInt());
-    }
-    usermodel::Hashed_ngrams hashed_ngrams;
-    hashed_ngrams = usermodel::Hashed_ngrams(num_buckets, ngram_range);
-    transformation_sequence.push_back(hashed_ngrams);
+    if (parsed_transformation_type.compare("HASHED_NGRAMS") == 0) {
+      const base::Value* transformation_params =
+          transformation.FindKey("params");
+      if (!transformation_params) {
+        return false;
+      }
+
+      const base::Value* nb = transformation_params->FindKey("num_buckets");
+      int num_buckets;
+      bool parsed_num_buckets = nb->GetAsInteger(&num_buckets);
+      if (!parsed_num_buckets) {
+        return false;
+      }
+      const base::Value* n_gram_sizes = transformation_params->FindKey("ngrams_range");
+      if (!n_gram_sizes->is_list()) {
+        return false;
+      }
+      std::vector<int> ngram_range = {};
+      for (size_t i = 0; i < n_gram_sizes->GetList().size(); i++) {
+        const base::Value& n = n_gram_sizes->GetList()[i];
+        ngram_range.push_back(n.GetInt());
+      }
+      usermodel::Hashed_ngrams hashed_ngrams;
+      hashed_ngrams = usermodel::Hashed_ngrams(num_buckets, ngram_range);
+      transformation_sequence.push_back(hashed_ngrams);
     }
   }
   transformations_ = transformation_sequence;
