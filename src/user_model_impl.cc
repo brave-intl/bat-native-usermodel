@@ -29,6 +29,7 @@ bool UserModelImpl::InitializePageClassifier(
   std::transform(lowercase_region.begin(), lowercase_region.end(),
       lowercase_region.begin(), ::tolower);
   if (lowercase_region == "ja") {
+    page_classifier_pipeline_ = Pipeline();
     is_initialized_ = page_classifier_pipeline_.FromJson(model);
   } else {
     is_initialized_ = page_classifier_.LoadModel(model);
@@ -74,7 +75,15 @@ const std::string UserModelImpl::GetWinningCategory(
   auto max = std::max_element(scores.begin(), scores.end());
   auto argmax = std::distance(scores.begin(), max);
 
-  return page_classifier_.Classes().at(argmax);
+  std::string winning_category;
+
+  if (region_ == "ja") {
+    winning_category = page_classifier_pipeline_.get_category(argmax);
+  } else {
+    winning_category = page_classifier_.Classes().at(argmax);
+  }
+
+  return winning_category;
 }
 
 const std::string UserModelImpl::GetTaxonomyAtIndex(
