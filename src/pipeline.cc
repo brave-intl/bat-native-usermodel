@@ -183,7 +183,7 @@ bool Pipeline::parse_classifier(base::Value* classifier){
     std::vector<float> tmp_weights = {};
     for (unsigned long j = 0 ; j < this_class->GetList().size(); j++ ){
       const base::Value& weight = this_class->GetList()[j];
-      tmp_weights.push_back( (float) weight.GetDouble());
+      tmp_weights.push_back( static_cast<float> (weight.GetDouble()) );
     }
     auto dubs = usermodel::Data_point(tmp_weights);
     weights.insert({classes[i], dubs});
@@ -199,7 +199,7 @@ bool Pipeline::parse_classifier(base::Value* classifier){
   }
   for (unsigned long i = 0 ; i < biases->GetList().size();i++){
     const base::Value& this_bias = biases->GetList()[i];
-    specified_biases.insert({classes[i], (float) this_bias.GetDouble()});
+    specified_biases.insert({classes[i], static_cast<float> (this_bias.GetDouble())}) ;
   }
   classifier_ = Linear_classifier(weights, specified_biases);
   return true;
