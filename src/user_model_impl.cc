@@ -2,10 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#include "user_model_impl.h"
-
 #include <map>
 #include <algorithm>
+
+#include "user_model_impl.h"
 
 #include "bag_of_words_extractor.h"
 #include "naive_bayes.h"
@@ -19,34 +19,26 @@ UserModel* UserModel::CreateInstance() {
 
 UserModelImpl::UserModelImpl() :
     is_initialized_(false),
-    locale_("US") {
-}
-
-bool UserModelImpl::iequals(const std::string& a, const std::string& b)
-{
-    unsigned int sz = a.size();
-    if (b.size() != sz)
-        return false;
-    for (unsigned int i = 0; i < sz; ++i)
-        if (tolower(a[i]) != tolower(b[i]))
-            return false;
-    return true;
+    region_("en") {
 }
 
 bool UserModelImpl::InitializePageClassifier(
     const std::string& model,
-    const std::string& locale) {
-  if (iequals(locale,"ja")) { 
-    // page_classifier_pipeline_=Pipeline();
+    const std::string& region) {
+  auto lowercase_region = region;
+  std::transform(lowercase_region.begin(), lowercase_region.end(),
+      lowercase_region.begin(), ::tolower);
+  if (lowercase_region == "ja") {
     is_initialized_ = page_classifier_pipeline_.FromJson(model);
-  }else{
-    is_initialized_= page_classifier_.LoadModel(model);
+  } else {
+    is_initialized_ = page_classifier_.LoadModel(model);
   }
-  if (is_initialized_) {
-    locale_ = locale;
-  } 
-return is_initialized_;
 
+  if (is_initialized_) {
+    region_ = lowercase_region;
+  }
+
+  return is_initialized_;
 }
 
 bool UserModelImpl::IsInitialized() const {
@@ -55,17 +47,21 @@ bool UserModelImpl::IsInitialized() const {
 
 const std::vector<double> UserModelImpl::ClassifyPage(
     const std::string& html) {
-  std::vector<double>  classification; 
-  if (iequals(locale_, "ja")){
-   return page_classifier_pipeline_.Get_Advertising_Predictions(html);
-  }else{
+  std::vector<double> classification;
+
+  if (region_ == "ja") {
+    classification =
+        page_classifier_pipeline_.Get_Advertising_Predictions(html);
+  } else {
     BagOfWords bag_of_words;
     if (!bag_of_words.Process(html)) {
       return {};
     }
+
     auto frequencies = bag_of_words.GetFrequencies();
     classification = page_classifier_.Predict(frequencies);
   }
+
   return classification;
 }
 

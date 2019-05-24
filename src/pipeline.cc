@@ -4,7 +4,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "pipeline.h"
-// #include "vector"
 #include "base/json/json_reader.h"
 #include "base/values.h"
 #include "advertising_categories.h"
@@ -12,7 +11,7 @@
 namespace usermodel {
 
 Pipeline::Pipeline(){
-    version_ = 0; 
+    version_ = 0;
     timestamp_ ="";
     locale_ = "en";
     transformations_ = {};
@@ -45,53 +44,39 @@ void Pipeline::get_reverse_categories(){
 Pipeline::~Pipeline() = default;
 
 bool Pipeline::FromJson(const std::string& json) {
-  std::cout<<"*** IN: "<<std::endl;
   base::Optional<base::Value> root = base::JSONReader::Read(json);
   if (!root){
-    std::cout<<"*** wtf root!: "<<std::endl;
     return false;
   } 
-  std::cout<<"*** Loaded root: "<<std::endl;
   base::Value* version = root->FindKeyOfType("version", base::Value::Type::INTEGER);
   int version_number;
   bool parsed_version_number = version->GetAsInteger(&version_number);
   if (!parsed_version_number){
-    std::cout<<"*** version number poopoo: "<<std::endl;
     return false;
   }
   version_ = version_number;
-  std::cout<<"*** version number: "<< version_<<std::endl;
-  
   
   base::Value* timestamp = root->FindKey("timestamp");
   if (!timestamp){
-    std::cout<< "*** timestamp poopoo "<<std::endl;
     return false;
   }
   std::string parsed_timestamp;
   bool parsed_timestamp_success = timestamp->GetAsString(&parsed_timestamp);
   if (!parsed_timestamp_success){
-    std::cout<<"*** timestamp poopoo 2 "<<std::endl;
     return false;
   }
   timestamp_ = parsed_timestamp;
-  std::cout<<"*** timestamp: "<< timestamp_<<std::endl;
 
   base::Value* locale = root->FindKey("locale");
   if (!locale){
-    std::cout<< "*** locale poopoo "<<std::endl;
     return false;
   }
   std::string parsed_locale;
   bool parsed_locale_success = locale->GetAsString(&parsed_locale);
   if (!parsed_locale_success){
-    std::cout<<"*** locale poopoo 2 "<<std::endl;
     return false;
   }
   locale_ = parsed_locale;
-  std::cout<<"*** locale: "<< locale_<<std::endl;
-
-  std::cout<<"*** about to load transformations "<<std::endl;
 
   base::Value* transformations = root->FindKey("transformations");
   
@@ -109,11 +94,9 @@ bool Pipeline::FromJson(const std::string& json) {
 
 bool Pipeline::parse_transformations(base::Value* transformations){
   if (!transformations->is_list()){
-    std::cout<<"No valid transformations"<<std::endl;
     return false;
   }
   std::vector<Transformation> transformation_sequence;
-  std::cout<<"Now have: "<< transformations->GetList().size()<<" transformations to process"<<std::endl;
   for (unsigned long i = 0 ; i < transformations->GetList().size();i++){
     const base::Value& transformation = transformations->GetList()[i];
     const base::Value* transformation_type = transformation.FindKey("transformation_type");
@@ -123,43 +106,34 @@ bool Pipeline::parse_transformations(base::Value* transformations){
     std::string parsed_transformation_type;
     bool parsed_transformation_success = transformation_type->GetAsString(&parsed_transformation_type);
     if (!parsed_transformation_success){
-      std::cout<<"*** transformation type poopoo 2 "<<std::endl;
       return false;
     }
     if (parsed_transformation_type.compare("TO_LOWER")==0){
-      std::cout<<"*** "<<i<<": pushing to lower "<< std::endl;
       transformation_sequence.push_back(To_lower());
     }
     if (parsed_transformation_type.compare("HASHED_NGRAMS")==0){
-       std::cout<<"*** "<<i<<": pushing hashed_ngrams "<< std::endl;
        const base::Value* transformation_params = transformation.FindKey("params");
        if (!transformation_params){
-         std::cout<< "*** NO PARAMS FOUND"<<std::endl;
          return false;
        }
     const base::Value* nb = transformation_params->FindKey("num_buckets");
     int num_buckets;
     bool parsed_num_buckets = nb->GetAsInteger(&num_buckets);
     if (!parsed_num_buckets){
-      std::cout<<"*** num buckets poopoo: "<<std::endl;
       return false;
     }
-    std::cout<<"*** num_buckets: "<< num_buckets <<std::endl;
     const base::Value* n_gram_sizes = transformation_params->FindKey("ngrams_range");
     if (!n_gram_sizes->is_list()){
-      std::cout << "*** failed to load n-grams list"<<std::endl;
       return false;
     }
     std::vector<int> ngram_range = {};
     for (unsigned long i =0; i < n_gram_sizes->GetList().size();i++){
       const base::Value& n = n_gram_sizes->GetList()[i];
-      std::cout<< "*** pushing back n: "<<n <<std::endl;
       ngram_range.push_back(n.GetInt());
     }
     usermodel::Hashed_ngrams hashed_ngrams;
     hashed_ngrams = usermodel::Hashed_ngrams(num_buckets, ngram_range);
     transformation_sequence.push_back(hashed_ngrams);
-    std::cout<< "*** pushed back hashed ngrams";
     }
   }
   transformations_ = transformation_sequence;
@@ -167,36 +141,27 @@ bool Pipeline::parse_transformations(base::Value* transformations){
 }
 
 bool Pipeline::parse_classifier(base::Value* classifier){
-  std::cout << "*** parsing classifier:"<<std::endl;
   std::vector<std::string> classes;
   base::Value* classifier_type = classifier->FindKey("classifier_type");
   if (!classifier_type){
-    std::cout<< "*** classifier_type poopoo "<<std::endl;
     return false;
   }
   std::string parsed_classifier_type;
   bool parsed_classifier_type_success = classifier_type->GetAsString(&parsed_classifier_type);
   if (!parsed_classifier_type_success){
-    std::cout<<"*** class_type poopoo 2 "<<std::endl;
     return false;
   }
   if (parsed_classifier_type.compare("LINEAR")){
-    std::cout<<"*** unknown class type"<<std::endl;
     return false;
   }
-  std::cout<<"*** classifier_type: "<< parsed_classifier_type <<std::endl;
   
   base::Value* specified_classes = classifier->FindKey("classes");
-
   if (!specified_classes->is_list()){
-    std::cout<<"No valid specified classes"<<std::endl;
     return false;
   }
 
-  std::cout<<"Now have: "<< specified_classes->GetList().size()<<" classes to process"<<std::endl;
   for (unsigned long i = 0 ; i < specified_classes->GetList().size();i++){
     const base::Value& class_name = specified_classes->GetList()[i];
-    std::cout << "got class: " << class_name << std::endl;     
     classes.push_back(class_name.GetString());
   }
   base::Value* class_weights = classifier->FindKey("class_weights");
@@ -205,10 +170,8 @@ bool Pipeline::parse_classifier(base::Value* classifier){
   }
   std::map<std::string,Data_point> weights;
   weights = {};
-  std::cout<<" Loaded class weights "<<std::endl;
   for (unsigned long i = 0 ; i < classes.size();i++){
     base::Value* this_class = class_weights->FindKey(classes[i]);
-    std::cout << "Loading weights for "<< classes[i] <<std::endl;
     if ( !this_class->is_list()) {
       return false;
     } 
@@ -224,11 +187,9 @@ bool Pipeline::parse_classifier(base::Value* classifier){
   std::map<std::string, float> specified_biases = {};
   base::Value* biases = classifier->FindKey("biases");
   if (!biases->is_list()){
-    std::cout<<"biases not list"<<std::endl;
     return false;
   }
   if (biases->GetList().size() != classes.size()){
-    std::cout<< "sizes don't match" << std::endl;
     return false;
   }
   for (unsigned long i = 0 ; i < biases->GetList().size();i++){
@@ -247,7 +208,6 @@ bool Pipeline::GetVersionFromJSON(base::DictionaryValue* dictionary) {
   }
 
   version_ = std::stoull(version_value->GetString());
-  std::cout<< "***READ VERSION: "<< version_ << std::endl;
   return true;
 }
 
@@ -258,7 +218,6 @@ bool Pipeline::GetTimestampFromJSON(base::DictionaryValue* dictionary) {
   }
 
   timestamp_ = timestamp_value->GetString();
-  std::cout<< "***READ timestamp: "<< timestamp_ << std::endl;
   return true;
 }
 
@@ -269,7 +228,6 @@ bool Pipeline::GetLocaleFromJSON(base::DictionaryValue* dictionary) {
   }
 
   locale_ = locale_value->GetString();
-  std::cout<< "READ locale: "<< locale_ << std::endl;
   return true;
 }
 

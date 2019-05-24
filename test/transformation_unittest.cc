@@ -3,11 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "brave/vendor/bat-native-usermodel/src/transformation.h"
-// #include "transformation.h"
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
 #include <list>
-#include <iostream>
 #include <vector> 
 
 namespace usermodel {
@@ -48,7 +46,6 @@ TEST_F(TransformationTest, ToLowerTest) {
   auto upper_datapoint = usermodel::Data_point(upper_case);
   usermodel::To_lower to_lower;
   auto lower_datapoint=to_lower.get(upper_datapoint);
-  std::cout<<"!!! GOT: "<< lower_datapoint.data_text<<'\n';
   EXPECT_EQ(0, lower_datapoint.type);
   EXPECT_EQ(0, lower_case.compare(lower_datapoint.data_text));
 }

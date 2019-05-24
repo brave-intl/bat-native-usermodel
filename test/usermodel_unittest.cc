@@ -67,28 +67,28 @@ TEST_F(UserModelTest, ValidModelTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("model.json");
-  EXPECT_TRUE(user_model.InitializePageClassifier(model, "US"));
+  EXPECT_TRUE(user_model.InitializePageClassifier(model, "en"));
 }
 
 TEST_F(UserModelTest, InvalidModelTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("invalid-model.json");
-  EXPECT_FALSE(user_model.InitializePageClassifier(model, "US"));
+  EXPECT_FALSE(user_model.InitializePageClassifier(model, "en"));
 }
 
 TEST_F(UserModelTest, MissingModelTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("missing-model.json");
-  EXPECT_FALSE(user_model.InitializePageClassifier(model, "US"));
+  EXPECT_FALSE(user_model.InitializePageClassifier(model, "en"));
 }
 
 TEST_F(UserModelTest, ClassifierTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("model.json");
-  EXPECT_TRUE(user_model.InitializePageClassifier(model, "US"));
+  EXPECT_TRUE(user_model.InitializePageClassifier(model, "en"));
 
   rapidjson::Document predictions;
   auto predictions_json = LoadFile("predictions.json");
@@ -117,7 +117,7 @@ TEST_F(UserModelTest, InvalidWordCountClassifierTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("model.json");
-  EXPECT_TRUE(user_model.InitializePageClassifier(model, "US"));
+  EXPECT_TRUE(user_model.InitializePageClassifier(model, "en"));
 
   rapidjson::Document predictions;
   auto predictions_json = LoadFile("invalid-predictions.json");

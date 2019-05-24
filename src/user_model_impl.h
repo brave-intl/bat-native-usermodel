@@ -20,7 +20,7 @@ class UserModelImpl : public UserModel {
 
   bool InitializePageClassifier(
       const std::string& model,
-      const std::string& locale) override;
+      const std::string& region) override;
   bool IsInitialized() const override;
 
   const std::vector<double> ClassifyPage(
@@ -33,12 +33,11 @@ class UserModelImpl : public UserModel {
       const int index) override;
 
  private:
-  bool iequals(const std::string& a, const std::string& b);
   bool is_initialized_;
 
   NaiveBayes page_classifier_;
   Pipeline page_classifier_pipeline_;
-  std::string locale_;
+  std::string region_;
 
   // Not copyable, not assignable
   UserModelImpl(const UserModelImpl&) = delete;

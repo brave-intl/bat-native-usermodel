@@ -1,4 +1,3 @@
-#include <iostream>
 #include "classifier.h"
 #include <cmath>
 #include <limits>
@@ -40,14 +39,11 @@ Linear_classifier::Linear_classifier(Linear_classifier &other){
 }
 Linear_classifier::~Linear_classifier()=default;
 std::map<std::string, float> Linear_classifier::Predict(Data_point x){
-    std::cout<< "*** IN classifier classify"<<"\n";
     std::map<std::string, float> rtn;
     for (auto kv: weights){
         rtn[kv.first] = kv.second*x;
         rtn[kv.first] += biases[kv.first];
-        std::cout<< "***category: "<<kv.first << " : "<< rtn[kv.first]<<"\n"; 
     }
-    std::cout<< "*** OUT classifier classify"<<"\n";
     return rtn;
 }
 
