@@ -70,7 +70,7 @@ Priors are "document frequencies" aka the probability of a class in the corpus
 of documents.
 
 For a better understanding of the text analysis approach, take a look at the
-[quanteda](https://docs.quanteda.io/) package.
+[quanteda](https://quanteda.io/) package.
 
 ### Taxonomies
 
