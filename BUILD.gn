@@ -1,8 +1,6 @@
 # Copyright 2014 The Chromium Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
-import("//third_party/protobuf/proto_library.gni")
-
 if (is_android) {
   import("//build/config/android/rules.gni")
 }
@@ -63,8 +61,6 @@ source_set("usermodel") {
     "src/user_model_impl.cc",
     "src/data_point.h",
     "src/data_point.cc",
-    "${target_gen_dir}/src/pipeline.pb.cc",
-    "${target_gen_dir}/src/pipeline.pb.h",
     "src/transformation.h",
     "src/transformation.cc",
     "src/hashing_extractor.h",
@@ -77,30 +73,6 @@ source_set("usermodel") {
 
   deps = [
     "//base",
-    "//third_party/protobuf:protobuf_lite",
     rebase_path("bat-native-rapidjson", dep_base),
-  ]
-
-  public_deps = [
-    ":proto",
-  ]
-
-  libs = [ "protobuf_lite" ]
-  if (is_debug) {
-     lib_dirs = ["${root_out_dir}"]
-  } else {
-     lib_dirs = ["${root_out_dir}/obj/third_party/protobuf",]
-  }
-
-  # link_deps = [ 
-  #   "//third_party/protobuf:protobuf_full",
-  # ]
-  # use_protobuf_full = true
-}
-
-
-proto_library("proto") {
-  sources = [
-    "src/pipeline.proto",
   ]
 }
