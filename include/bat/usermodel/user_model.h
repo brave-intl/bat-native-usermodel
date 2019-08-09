@@ -24,8 +24,12 @@ class USERMODEL_EXPORT UserModel {
 
   virtual const std::vector<double> ClassifyPage(
       const std::string& html) = 0;
-  virtual const std::string WinningCategory(
+
+  virtual const std::string GetWinningCategory(
       const std::vector<double>& scores) = 0;
+
+  virtual const std::string GetTaxonomyAtIndex(
+      const int index) = 0;
 };
 
 }  // namespace usermodel

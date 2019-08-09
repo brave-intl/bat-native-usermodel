@@ -47,7 +47,7 @@ const std::vector<double> UserModelImpl::ClassifyPage(
   return classification;
 }
 
-const std::string UserModelImpl::WinningCategory(
+const std::string UserModelImpl::GetWinningCategory(
     const std::vector<double>& scores) {
   if (scores.size() == 0) {
     return "";
@@ -57,6 +57,12 @@ const std::string UserModelImpl::WinningCategory(
   auto argmax = std::distance(scores.begin(), max);
 
   return page_classifier_.Classes().at(argmax);
+}
+
+const std::string UserModelImpl::GetTaxonomyAtIndex(
+    const int index) {
+  auto classes = page_classifier_.Classes();
+  return classes.at(index);
 }
 
 }  // namespace usermodel
