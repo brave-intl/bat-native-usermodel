@@ -117,7 +117,7 @@ TEST_F(UserModelTest, ClassifierTest) {
 
     auto html = LoadFile(doc);
     auto scores = user_model.ClassifyPage(html);
-    auto predicted = user_model.WinningCategory(scores);
+    auto predicted = user_model.GetWinningCategory(scores);
 
     if (predicted != label) {
       std::cout << "FAILED 3" << std::endl;
@@ -164,7 +164,7 @@ TEST_F(UserModelTest, InvalidWordCountClassifierTest) {
 
     auto html = LoadFile(doc);
     auto scores = user_model.ClassifyPage(html);
-    auto predicted = user_model.WinningCategory(scores);
+    auto predicted = user_model.GetWinningCategory(scores);
 
     if (predicted != label) {
       std::cout << "FAILED 3" << std::endl;

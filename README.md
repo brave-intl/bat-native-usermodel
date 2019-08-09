@@ -104,12 +104,12 @@ containing the pages HTML content, a vector of scores is returned as follows:
 std::vector<double> scores = ClassifyPage(html);
 ```
 
-Get the winning category by calling `WinningCategory(scores)` where `scores` is
-a `std::vector<double>` of immediate or over time winning scores, the winning
-category is returned as follows:
+Get the winning category by calling `GetWinningCategory(scores)` where
+`scores` is a `std::vector<double>` of immediate or over time winning
+scores, the winning category is returned as follows:
 
 ```
-std::string winning_category = WinningCategory(scores);
+std::string winning_category = GetWinningCategory(scores);
 ```
 
 ## Unit Tests
