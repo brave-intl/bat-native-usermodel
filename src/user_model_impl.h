@@ -23,8 +23,12 @@ class UserModelImpl : public UserModel {
 
   const std::vector<double> ClassifyPage(
       const std::string& html) override;
-  const std::string WinningCategory(
+
+  const std::string GetWinningCategory(
       const std::vector<double>& scores) override;
+
+  const std::string GetTaxonomyAtIndex(
+      const int index) override;
 
  private:
   bool is_initialized_;
