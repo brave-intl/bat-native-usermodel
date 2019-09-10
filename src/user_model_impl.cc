@@ -88,8 +88,12 @@ const std::string UserModelImpl::GetWinningCategory(
 
 const std::string UserModelImpl::GetTaxonomyAtIndex(
     const int index) {
-  auto classes = page_classifier_.Classes();
-  return classes.at(index);
+  if (region_ == "ja") {
+    return page_classifier_pipeline_.get_category(index);
+  } else {
+    auto classes = page_classifier_.Classes();
+    return classes.at(index);
+  }
 }
 
 }  // namespace usermodel
