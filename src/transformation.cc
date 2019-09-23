@@ -1,6 +1,6 @@
 #include "transformation.h"
 #include <codecvt>
-#include <math>
+#include <math.h>
 namespace usermodel {
 
 Transformation::Transformation(){}
@@ -19,7 +19,7 @@ Data_point Transformation::get(Data_point inp){
     if (type == HASHED_NGRAMS)
         return get_ngrams(inp);
     if (type == NORMALIZE)
-        return normalize(inp);
+        return get_normalized(inp);
     return Data_point("");
 }
 
@@ -40,13 +40,17 @@ Data_point Transformation::get_ngrams(Data_point data_point){
 Data_point Transformation::get_normalized(Data_point data_point){
     // return an l2-normalized sparse datapoint
     auto s = 0.0;
-    //sum over the squared values of the datapoint
-    for (auto const& x : symbolTable){
-              s += x.second ;
+    std::map<unsigned, float> normalized_vector;
+    //sum over the squared values of the datapoint and calculate norm
+    for (auto const& x : data_point.data_sparse){
+        s += x.second ;
     }
     auto norm = sqrt(s);
-
-    return Data_point(hashed_vector,hash_vectorizer.get_buckets());
+    //divide original datapoint entries by the norm
+    for (auto const& x : data_point.data_sparse){
+        normalized_vector[x.first]= x.second / norm;
+    }
+    return Data_point(normalized_vector,hash_vectorizer.get_buckets());
 }
 ///////////////////////////////////////////////////////////
 
