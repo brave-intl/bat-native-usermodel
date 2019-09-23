@@ -74,6 +74,23 @@ TEST_F(TransformationTest, CustomHashingTest) {
   size_t expected_elements = 3;// all 3 buckets should be nonempty
   EXPECT_EQ(expected_elements, vector_data.data_sparse.size());
 }
+
+TEST_F(TransformationTest, NormalizationTest) {
+  std::string test_string = "quite a small test string";
+  auto text_datapoint = usermodel::Data_point(test_string);
+  usermodel::Hashed_ngrams hashed_ngrams;
+  hashed_ngrams= usermodel::Hashed_ngrams(10, std::vector<int>{3, 4} );
+  auto vector_data = hashed_ngrams.get(text_datapoint);
+  usermodel::Normalize normalize;
+  auto normalized_datapoint = normalize.get(hashed_ngrams);
+  auto s = 0.0; 
+  for (auto const& x : normalized_datapoint.data_sparse){
+        EXPECT_TRUE(x.second>=0.0);
+        s += x.second*x.seconod ;
+    }
+  EXPECT_TRUE((s-1)<0.0000001);
+}
+
 TEST_F(TransformationTest, ChainingTest) {
   //chain a mixture of the above tests together / things should be talking to each other ok
   std::vector<Transformation> chain;
