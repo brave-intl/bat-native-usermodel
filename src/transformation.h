@@ -8,7 +8,8 @@ namespace usermodel{
 
 enum transformation_type{
     TO_LOWER = 1,
-    HASHED_NGRAMS=2
+    HASHED_NGRAMS=2,
+    NORMALIZE=3
 };
 
 class Transformation{
@@ -25,6 +26,7 @@ class Transformation{
     private:
         Data_point get_lower(Data_point inp);
         Data_point get_ngrams(Data_point inp);
+        Data_point get_normalized(Data_point inp);
 
 };
 
@@ -39,6 +41,12 @@ class Hashed_ngrams: public Transformation{
         Hashed_ngrams();
         Hashed_ngrams(int n_b, std::vector<int> subgrams);
         Hashed_ngrams(std::string parameters);
+};
+
+class Normalize: public Transformation{
+    public:
+        Normalize();
+        // Data_point get(Data_point inp);
 };
 
 }
