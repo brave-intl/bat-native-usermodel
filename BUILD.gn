@@ -52,6 +52,8 @@ source_set("usermodel") {
     "include/bat/usermodel/user_model.h",
     "src/bag_of_words_extractor.h",
     "src/bag_of_words_extractor.cc",
+    "src/bigram_extractor.h",
+    "src/bigram_extractor.cc",
     "src/naive_bayes.h",
     "src/naive_bayes.cc",
     "src/static_values.h",

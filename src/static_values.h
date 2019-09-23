@@ -7,8 +7,8 @@
 
 namespace usermodel {
 
-static const int kMinimumWordsToClassify = 20;
-static const int kMaximumWordsToClassify = 1234;
+static const int kMinimumWordsToClassify = 1;
+static const int kMaximumWordsToClassify = 1024 * 8;
 static const int kMaximumHtmlLengthToClassify = 1024 * 1024;
 
 }  // namespace usermodel

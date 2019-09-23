@@ -4,10 +4,12 @@
 
 #include <map>
 #include <algorithm>
+#include <iostream>
 
 #include "user_model_impl.h"
 
 #include "bag_of_words_extractor.h"
+#include "bigram_extractor.h"
 #include "naive_bayes.h"
 
 namespace usermodel {
@@ -64,6 +66,17 @@ const std::vector<double> UserModelImpl::ClassifyPage(
   }
 
   return classification;
+}
+
+// TODO(Moritz Haller): getting pulled from new realease
+const std::map<std::string, double> UserModelImpl::GetBigrams(
+    const std::string& html) {
+  BiGram bigram;
+  if (!bigram.Process(html)) {
+    return {};
+  }
+
+  return bigram.GetFrequencies();
 }
 
 const std::string UserModelImpl::GetWinningCategory(

@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "bat/usermodel/export.h"
 
@@ -25,6 +26,9 @@ class USERMODEL_EXPORT UserModel {
 
   virtual const std::vector<double> ClassifyPage(
       const std::string& html) = 0;
+
+  virtual const std::map<std::string, double> GetBigrams(
+    const std::string& html) = 0;
 
   virtual const std::string GetWinningCategory(
       const std::vector<double>& scores) = 0;

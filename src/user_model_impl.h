@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "bat/usermodel/user_model.h"
 #include "naive_bayes.h"
@@ -25,6 +26,9 @@ class UserModelImpl : public UserModel {
 
   const std::vector<double> ClassifyPage(
       const std::string& html) override;
+
+  const std::map<std::string, double> GetBigrams(
+    const std::string& html) override;
 
   const std::string GetWinningCategory(
       const std::vector<double>& scores) override;
