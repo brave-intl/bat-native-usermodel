@@ -27,8 +27,9 @@ class UserModelImpl : public UserModel {
   const std::vector<double> ClassifyPage(
       const std::string& html) override;
 
-  const std::map<std::string, double> GetBigrams(
-    const std::string& html) override;
+  const std::string GetShoppingSegment(
+        const std::string& text,
+        std::map<std::string, std::string> segment_keywords) override;
 
   const std::string GetWinningCategory(
       const std::vector<double>& scores) override;

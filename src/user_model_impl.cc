@@ -68,15 +68,40 @@ const std::vector<double> UserModelImpl::ClassifyPage(
   return classification;
 }
 
-// TODO(Moritz Haller): getting pulled from new realease
-const std::map<std::string, double> UserModelImpl::GetBigrams(
-    const std::string& html) {
+const std::string UserModelImpl::GetShoppingSegment(
+    const std::string& text,
+    std::map<std::string, std::string> segment_keywords) {
   BiGram bigram;
-  if (!bigram.Process(html)) {
-    return {};
+  if (!bigram.Process(text)) {
+    return "";
+  }
+  auto bag_of_words = bigram.GetFrequencies();
+
+  // TODO(Moritz Haller): Remove logging
+  // for (auto x : bag_of_words) {
+  //   BLOG(INFO) << "" << x.first << ": " << x.second << std::endl ;
+  // }
+
+  std::string winning_segment = "";
+  std::string winning_keyword = "";
+  int winning_word_count = 0;
+
+  for(auto elem : segment_keywords) {
+      auto segment = elem.first;
+      auto keyword = elem.second;
+
+      // Lookup word count
+      auto word_count = bag_of_words[keyword];
+
+      // Keep current segment as winning in case of equal word count
+      if (word_count > winning_word_count) {
+          winning_segment = segment;
+          winning_keyword = keyword;
+          winning_word_count = word_count;
+      }
   }
 
-  return bigram.GetFrequencies();
+  return winning_segment;
 }
 
 const std::string UserModelImpl::GetWinningCategory(

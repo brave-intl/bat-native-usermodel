@@ -27,8 +27,9 @@ class USERMODEL_EXPORT UserModel {
   virtual const std::vector<double> ClassifyPage(
       const std::string& html) = 0;
 
-  virtual const std::map<std::string, double> GetBigrams(
-    const std::string& html) = 0;
+  virtual const std::string GetShoppingSegment(
+      const std::string& text,
+      std::map<std::string, std::string> segment_keywords) = 0;
 
   virtual const std::string GetWinningCategory(
       const std::vector<double>& scores) = 0;
