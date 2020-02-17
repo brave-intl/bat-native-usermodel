@@ -22,23 +22,9 @@ UserModelImpl::UserModelImpl() :
     region_("en") {
 }
 
-bool UserModelImpl::InitializePageClassifier(
-    const std::string& model,
-    const std::string& region) {
-  auto lowercase_region = region;
-  std::transform(lowercase_region.begin(), lowercase_region.end(),
-      lowercase_region.begin(), ::tolower);
-  if (lowercase_region == "ja") {
-    page_classifier_pipeline_ = Pipeline();
-    is_initialized_ = page_classifier_pipeline_.FromJson(model);
-  } else {
-    is_initialized_ = page_classifier_.LoadModel(model);
-  }
-
-  if (is_initialized_) {
-    region_ = lowercase_region;
-  }
-
+bool UserModelImpl::InitializePageClassifier(const std::string& model) {
+  page_classifier_pipeline_ = Pipeline();
+  is_initialized_ = page_classifier_pipeline_.FromJson(model);
   return is_initialized_;
 }
 
@@ -46,23 +32,9 @@ bool UserModelImpl::IsInitialized() const {
   return is_initialized_;
 }
 
-const std::vector<double> UserModelImpl::ClassifyPage(
-    const std::string& html) {
+const std::vector<double> UserModelImpl::ClassifyPage(const std::string& html) {
   std::vector<double> classification;
-
-  if (region_ == "ja") {
-    classification =
-        page_classifier_pipeline_.Get_Advertising_Predictions(html);
-  } else {
-    BagOfWords bag_of_words;
-    if (!bag_of_words.Process(html)) {
-      return {};
-    }
-
-    auto frequencies = bag_of_words.GetFrequencies();
-    classification = page_classifier_.Predict(frequencies);
-  }
-
+  classification = page_classifier_pipeline_.Get_Advertising_Predictions(html);
   return classification;
 }
 
@@ -74,26 +46,13 @@ const std::string UserModelImpl::GetWinningCategory(
 
   auto max = std::max_element(scores.begin(), scores.end());
   auto argmax = std::distance(scores.begin(), max);
-
   std::string winning_category;
-
-  if (region_ == "ja") {
-    winning_category = page_classifier_pipeline_.get_category(argmax);
-  } else {
-    winning_category = page_classifier_.Classes().at(argmax);
-  }
-
+  winning_category = page_classifier_pipeline_.get_category(argmax);
   return winning_category;
 }
 
-const std::string UserModelImpl::GetTaxonomyAtIndex(
-    const int index) {
-  if (region_ == "ja") {
-    return page_classifier_pipeline_.get_category(index);
-  } else {
-    auto classes = page_classifier_.Classes();
-    return classes.at(index);
-  }
+const std::string UserModelImpl::GetTaxonomyAtIndex(const int index) {
+  return page_classifier_pipeline_.get_category(index);
 }
 
 }  // namespace usermodel
