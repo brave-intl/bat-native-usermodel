@@ -66,80 +66,24 @@ class UserModelTest : public ::testing::Test {
 TEST_F(UserModelTest, ValidModelTest) {
   UserModelImpl user_model;
 
-  auto model = LoadFile("model.json");
-  EXPECT_TRUE(user_model.InitializePageClassifier(model, "en"));
+  auto model = LoadFile("hashing_model.json");
+  EXPECT_TRUE(user_model.InitializePageClassifier(model));
 }
 
 TEST_F(UserModelTest, InvalidModelTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("invalid-model.json");
-  EXPECT_FALSE(user_model.InitializePageClassifier(model, "en"));
+  EXPECT_FALSE(user_model.InitializePageClassifier(model));
 }
 
 TEST_F(UserModelTest, MissingModelTest) {
   UserModelImpl user_model;
 
   auto model = LoadFile("missing-model.json");
-  EXPECT_FALSE(user_model.InitializePageClassifier(model, "en"));
+  EXPECT_FALSE(user_model.InitializePageClassifier(model));
 }
 
-TEST_F(UserModelTest, ClassifierTest) {
-  UserModelImpl user_model;
 
-  auto model = LoadFile("model.json");
-  EXPECT_TRUE(user_model.InitializePageClassifier(model, "en"));
-
-  rapidjson::Document predictions;
-  auto predictions_json = LoadFile("predictions.json");
-  predictions.Parse(predictions_json.c_str());
-
-  EXPECT_FALSE(predictions.HasParseError());
-
-  EXPECT_TRUE(predictions.HasMember("data"));
-
-  for (const auto& prediction : predictions["data"].GetArray()) {
-    EXPECT_TRUE(prediction["label"].IsString());
-    std::string label = prediction["label"].GetString();
-
-    EXPECT_TRUE(prediction["doc"].IsString());
-    std::string doc = prediction["doc"].GetString();
-
-    auto html = LoadFile(doc);
-    auto scores = user_model.ClassifyPage(html);
-    auto predicted = user_model.GetWinningCategory(scores);
-
-    EXPECT_TRUE(predicted == label);
-  }
-}
-
-TEST_F(UserModelTest, InvalidWordCountClassifierTest) {
-  UserModelImpl user_model;
-
-  auto model = LoadFile("model.json");
-  EXPECT_TRUE(user_model.InitializePageClassifier(model, "en"));
-
-  rapidjson::Document predictions;
-  auto predictions_json = LoadFile("invalid-predictions.json");
-  predictions.Parse(predictions_json.c_str());
-
-  EXPECT_FALSE(predictions.HasParseError());
-
-  EXPECT_TRUE(predictions.HasMember("data"));
-
-  for (const auto& prediction : predictions["data"].GetArray()) {
-    EXPECT_TRUE(prediction["label"].IsString());
-    std::string label = prediction["label"].GetString();
-
-    EXPECT_TRUE(prediction["doc"].IsString());
-    std::string doc = prediction["doc"].GetString();
-
-    auto html = LoadFile(doc);
-    auto scores = user_model.ClassifyPage(html);
-    auto predicted = user_model.GetWinningCategory(scores);
-
-    EXPECT_TRUE(predicted == label);
-  }
-}
 
 }  // namespace usermodel
