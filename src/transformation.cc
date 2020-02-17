@@ -43,7 +43,7 @@ Data_point Transformation::get_normalized(Data_point data_point){
     std::map<unsigned, float> normalized_vector;
     //sum over the squared values of the datapoint and calculate norm
     for (auto const& x : data_point.data_sparse){
-        s += x.second ;
+        s += x.second*x.second ;
     }
     auto norm = sqrt(s);
     //divide original datapoint entries by the norm

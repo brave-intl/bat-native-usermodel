@@ -82,11 +82,12 @@ TEST_F(TransformationTest, NormalizationTest) {
   hashed_ngrams= usermodel::Hashed_ngrams(10, std::vector<int>{3, 4} );
   auto vector_data = hashed_ngrams.get(text_datapoint);
   usermodel::Normalize normalize;
-  auto normalized_datapoint = normalize.get(hashed_ngrams);
+  auto normalized_datapoint = normalize.get(vector_data);
   auto s = 0.0; 
   for (auto const& x : normalized_datapoint.data_sparse){
         EXPECT_TRUE(x.second>=0.0);
-        s += x.second*x.seconod ;
+        EXPECT_TRUE(x.second<=1.0);
+        s += x.second*x.second ;
     }
   EXPECT_TRUE((s-1)<0.0000001);
 }
