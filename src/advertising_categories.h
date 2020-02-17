@@ -205,5 +205,7 @@ std::map<std::string, int> get_advertising_categories(){
 	advertising_categories["travel-hotels"] = 200;
 	advertising_categories["travel-travel"] = 201;
 	advertising_categories["weather-weather"] = 202;
+	advertising_categories["crypto-crypto"] = 203;
+
     return advertising_categories;
 }

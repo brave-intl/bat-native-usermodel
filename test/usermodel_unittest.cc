@@ -84,6 +84,18 @@ TEST_F(UserModelTest, MissingModelTest) {
   EXPECT_FALSE(user_model.InitializePageClassifier(model));
 }
 
+TEST_F(UserModelTest, E2EPipelineTest) {
+  UserModelImpl user_model;
+
+  auto model = LoadFile("hashing_model.json");
+  EXPECT_TRUE(user_model.InitializePageClassifier(model));
+  std::string test_page = "ethereum bitcoin bat zcash crypto tokens!";
+  auto preds = user_model.ClassifyPage(test_page);
+  // crypto category is currently #203
+  for (auto const& pred: preds){
+    EXPECT_TRUE(pred<=preds[203]);
+  }
+}
 
 
 }  // namespace usermodel
