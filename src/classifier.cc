@@ -29,7 +29,7 @@ std::map<std::string, float> Softmax( std::map<std::string, float> y){
 }
 Linear_classifier::Linear_classifier(){}
 
-Linear_classifier::Linear_classifier(std::map<std::string, Data_point> weights_, std::map<std::string,float> biases_){
+Linear_classifier::Linear_classifier(std::map<std::string, DataPoint> weights_, std::map<std::string,float> biases_){
     weights = weights_;
     biases = biases_;
 }
@@ -38,7 +38,7 @@ Linear_classifier::Linear_classifier(Linear_classifier &other){
     biases = other.biases;
 }
 Linear_classifier::~Linear_classifier()=default;
-std::map<std::string, float> Linear_classifier::Predict(Data_point x){
+std::map<std::string, float> Linear_classifier::Predict(DataPoint x){
     std::map<std::string, float> rtn;
     for (auto kv: weights){
         rtn[kv.first] = kv.second*x;

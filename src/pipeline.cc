@@ -173,7 +173,7 @@ bool Pipeline::parse_classifier(base::Value* classifier){
   if ( !class_weights->is_dict()) {
     return false;
   }
-  std::map<std::string,Data_point> weights;
+  std::map<std::string,DataPoint> weights;
   weights = {};
   for (size_t i = 0 ; i < classes.size();i++){
     base::Value* this_class = class_weights->FindKey(classes[i]);
@@ -185,7 +185,7 @@ bool Pipeline::parse_classifier(base::Value* classifier){
       const base::Value& weight = this_class->GetList()[j];
       tmp_weights.push_back( static_cast<float> (weight.GetDouble()) );
     }
-    auto dubs = usermodel::Data_point(tmp_weights);
+    auto dubs = usermodel::DataPoint(tmp_weights);
     weights.insert({classes[i], dubs});
   }
   //finally do the biases: 
@@ -236,8 +236,8 @@ bool Pipeline::GetLocaleFromJSON(base::DictionaryValue* dictionary) {
   return true;
 }
 
-std::map<std::string, float> Pipeline::Apply( Data_point inp) {
-  Data_point last_point = Data_point(inp);
+std::map<std::string, float> Pipeline::Apply( DataPoint inp) {
+  DataPoint last_point = DataPoint(inp);
   for ( auto& transformation : transformations_) {
     last_point = transformation.get(last_point);
   }
@@ -245,7 +245,7 @@ std::map<std::string, float> Pipeline::Apply( Data_point inp) {
   return classifier_.Predict(last_point);
 }
 std::vector<double> Pipeline::Get_Advertising_Predictions(std::string html){
-  Data_point data = Data_point(html);
+  DataPoint data = DataPoint(html);
   auto predictions = Softmax(Apply(data));
   std::vector<double> rtn = {};
   for (size_t i = 0 ; i < advertising_categories_.size();i++){

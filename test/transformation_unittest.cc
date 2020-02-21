@@ -43,7 +43,7 @@ class TransformationTest : public ::testing::Test {
 TEST_F(TransformationTest, ToLowerTest) {
   std::string upper_case = "LOWER CASE";
   std::string lower_case = "lower case";
-  auto upper_datapoint = usermodel::Data_point(upper_case);
+  auto upper_datapoint = usermodel::DataPoint(upper_case);
   usermodel::To_lower to_lower;
   auto lower_datapoint=to_lower.get(upper_datapoint);
   EXPECT_TRUE(data_type::text_data == lower_datapoint.type);
@@ -52,7 +52,7 @@ TEST_F(TransformationTest, ToLowerTest) {
 
 TEST_F(TransformationTest, HashingTest) {
   std::string test_string = "tiny";
-  auto text_datapoint = usermodel::Data_point(test_string);
+  auto text_datapoint = usermodel::DataPoint(test_string);
   usermodel::Hashed_ngrams hashed_ngrams;
   hashed_ngrams= usermodel::Hashed_ngrams();
   // hashed_ngrams.apply();
@@ -65,7 +65,7 @@ TEST_F(TransformationTest, HashingTest) {
 
 TEST_F(TransformationTest, CustomHashingTest) {
   std::string test_string = "tiny";
-  auto text_datapoint = usermodel::Data_point(test_string);
+  auto text_datapoint = usermodel::DataPoint(test_string);
   usermodel::Hashed_ngrams hashed_ngrams;
   hashed_ngrams= usermodel::Hashed_ngrams(3, std::vector<int>{1, 2, 3} );
   auto vector_data = hashed_ngrams.get(text_datapoint);
@@ -77,7 +77,7 @@ TEST_F(TransformationTest, CustomHashingTest) {
 
 TEST_F(TransformationTest, NormalizationTest) {
   std::string test_string = "quite a small test string";
-  auto text_datapoint = usermodel::Data_point(test_string);
+  auto text_datapoint = usermodel::DataPoint(test_string);
   usermodel::Hashed_ngrams hashed_ngrams;
   hashed_ngrams= usermodel::Hashed_ngrams(10, std::vector<int>{3, 4} );
   auto vector_data = hashed_ngrams.get(text_datapoint);
@@ -102,7 +102,7 @@ TEST_F(TransformationTest, ChainingTest) {
   chain.push_back(hashed_ngrams);
   
   std::string test_string = "TINY";
-  auto last_point = Data_point(test_string);
+  auto last_point = DataPoint(test_string);
   
   for (unsigned i = 0; i<chain.size();i++){
     auto transform = chain[i];

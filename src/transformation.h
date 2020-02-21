@@ -6,7 +6,7 @@
 #include <vector>
 namespace usermodel{
 
-enum class transformation_type{
+enum class TransformationType{
     TO_LOWER = 1,
     HASHED_NGRAMS=2,
     NORMALIZE=3
@@ -15,25 +15,25 @@ enum class transformation_type{
 class Transformation{
     public:
         Transformation();
-        Transformation(transformation_type t);
+        Transformation(TransformationType t);
         Transformation(std::string parameters);
         ~Transformation();
-        Data_point get(Data_point inp);
-        transformation_type getType();
+        DataPoint get(DataPoint inp);
+        TransformationType getType();
     protected:
         HashVectorizer hash_vectorizer;
-        transformation_type type;
+        TransformationType type;
     private:
-        Data_point get_lower(Data_point inp);
-        Data_point get_ngrams(Data_point inp);
-        Data_point get_normalized(Data_point inp);
+        DataPoint get_lower(DataPoint inp);
+        DataPoint get_ngrams(DataPoint inp);
+        DataPoint get_normalized(DataPoint inp);
 
 };
 
 class To_lower: public Transformation{
     public:
         To_lower();
-        // Data_point get(Data_point inp);
+        // DataPoint get(DataPoint inp);
 };
 
 class Hashed_ngrams: public Transformation{
@@ -46,7 +46,7 @@ class Hashed_ngrams: public Transformation{
 class Normalize: public Transformation{
     public:
         Normalize();
-        // Data_point get(Data_point inp);
+        // DataPoint get(DataPoint inp);
 };
 
 }

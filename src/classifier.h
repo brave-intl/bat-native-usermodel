@@ -17,11 +17,11 @@ class Linear_classifier{
         Linear_classifier(Linear_classifier &other);
         Linear_classifier(std::string model);
         // Linear_classifier(std::map<std::string, std::vector<float> > weights_, std::map<std::string,float> biases_);
-        Linear_classifier(std::map<std::string, Data_point> weights_, std::map<std::string,float> biases_);
+        Linear_classifier(std::map<std::string, DataPoint> weights_, std::map<std::string,float> biases_);
         ~Linear_classifier();
-        std::map<std::string, float> Predict(Data_point x);
+        std::map<std::string, float> Predict(DataPoint x);
     private: 
-        std::map<std::string, Data_point> weights;
+        std::map<std::string, DataPoint> weights;
         std::map<std::string,float> biases;
 };
 }

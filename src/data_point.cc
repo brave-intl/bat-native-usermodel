@@ -3,7 +3,7 @@
 #include <limits>
 
 namespace usermodel{
-Data_point::Data_point(const Data_point &other_point){
+DataPoint::DataPoint(const DataPoint &other_point){
     type = other_point.type;
     data_text = other_point.data_text;
     data_sparse = other_point.data_sparse;
@@ -11,26 +11,26 @@ Data_point::Data_point(const Data_point &other_point){
     n_dims = other_point.n_dims;
     type = other_point.type;
 }
-Data_point::~Data_point() = default;    
-Data_point::Data_point(const std::string &data){
+DataPoint::~DataPoint() = default;    
+DataPoint::DataPoint(const std::string &data){
     type = data_type::text_data;
     data_text = data;
     n_dims=0;
 }
 
-Data_point::Data_point(const std::vector<float> &data){
+DataPoint::DataPoint(const std::vector<float> &data){
     type = data_type::vector_data;
     data_vector = data;
     n_dims = data.size();
 }
 
-Data_point::Data_point(const std::map<unsigned,float> &data, int dims){
+DataPoint::DataPoint(const std::map<unsigned,float> &data, int dims){
     type = data_type::sparse_vector;
     n_dims=dims;
     data_sparse = data;
 }
 
-float operator * (const Data_point a, const Data_point b){
+float operator * (const DataPoint a, const DataPoint b){
     if ( (a.n_dims==0)||(b.n_dims==0)){
         // throw std::invalid_argument("One or more inputs has zero length");
         return std::numeric_limits<double>::quiet_NaN();
