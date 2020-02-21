@@ -8,7 +8,7 @@
 #include <iostream>
 namespace usermodel{
 
-enum data_type{
+enum class data_type{
     text_data = 0,
     vector_data = 1,
     sparse_vector = 2 
