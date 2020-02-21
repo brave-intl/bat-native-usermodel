@@ -14,13 +14,16 @@ TransformationType Transformation::getType(){
 }
 
 DataPoint Transformation::get(DataPoint inp){
-    if (type == TransformationType::TO_LOWER)
-        return get_lower(inp);
-    if (type == TransformationType::HASHED_NGRAMS)
-        return get_ngrams(inp);
-    if (type == TransformationType::NORMALIZE)
-        return get_normalized(inp);
-    return DataPoint("");
+    switch(type){
+        case TransformationType::TO_LOWER:
+            return get_lower(inp);
+        case TransformationType::HASHED_NGRAMS:
+            return get_ngrams(inp);
+        case TransformationType::NORMALIZE:
+            return get_normalized(inp);
+        default:
+            return DataPoint("");
+    }
 }
 
 DataPoint Transformation::get_lower(DataPoint datapoint){
