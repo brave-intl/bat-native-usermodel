@@ -8,7 +8,7 @@
 #include <iostream>
 namespace usermodel{
 
-enum class data_type{
+enum class DataType{
     text_data = 0,
     vector_data = 1,
     sparse_vector = 2 
@@ -23,9 +23,9 @@ class DataPoint {
         ~DataPoint();
         friend float operator * (const DataPoint a, const DataPoint b);
         // friend 
-        data_type get_type();
+        DataType get_type();
         int get_dims();
-        data_type type;
+        DataType type;
         int n_dims;
         std::string data_text;
         std::vector<float> data_vector;

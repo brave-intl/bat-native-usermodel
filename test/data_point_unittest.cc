@@ -26,25 +26,25 @@ TEST_F(DataPoint_test, Datapoint_type_assertions) {
   //string:
   std::string a = "trololol";
   auto string_DataPoint = usermodel::DataPoint(a);
-  EXPECT_EQ(data_type::text_data, string_DataPoint.type);
+  EXPECT_EQ(DataType::text_data, string_DataPoint.type);
   EXPECT_EQ(0,string_DataPoint.n_dims);
   //dense vectors:
   std::vector<float> v_5{1.0,2.0,3.0,4.0,5.0};
   auto dense_datapoint_5 = usermodel::DataPoint(v_5);
-  EXPECT_EQ(data_type::vector_data, dense_datapoint_5.type);
+  EXPECT_EQ(DataType::vector_data, dense_datapoint_5.type);
   EXPECT_EQ(5, dense_datapoint_5.n_dims);
   std::vector<float> v_3{1.0,2.0,3.0};
   auto dense_datapoint_3 = usermodel::DataPoint(v_3);
-  EXPECT_EQ(data_type::vector_data, dense_datapoint_3.type);
+  EXPECT_EQ(DataType::vector_data, dense_datapoint_3.type);
   EXPECT_EQ(3, dense_datapoint_3.n_dims);
   //sparse vectors:
   std::map<unsigned,float> s_3 = {{0,1.0}, {2,2.0}};// dense equivalent:[1,0,2]
   auto sparse_datapoint_3=usermodel::DataPoint(s_3,3);
-  EXPECT_EQ(data_type::sparse_vector, sparse_datapoint_3.type);
+  EXPECT_EQ(DataType::sparse_vector, sparse_datapoint_3.type);
   EXPECT_EQ(3, sparse_datapoint_3.n_dims);
   std::map<unsigned,float> s_5 = {{0,1.0}, {2,3.0}, {3, -2.0}};// dense equivalent:[1,0,3,2,0]
   auto sparse_datapoint_5=usermodel::DataPoint(s_5,5);
-  EXPECT_EQ(data_type::sparse_vector, sparse_datapoint_5.type);
+  EXPECT_EQ(DataType::sparse_vector, sparse_datapoint_5.type);
   EXPECT_EQ(5, sparse_datapoint_5.n_dims);
 }
 

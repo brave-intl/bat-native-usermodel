@@ -13,19 +13,19 @@ DataPoint::DataPoint(const DataPoint &other_point){
 }
 DataPoint::~DataPoint() = default;    
 DataPoint::DataPoint(const std::string &data){
-    type = data_type::text_data;
+    type = DataType::text_data;
     data_text = data;
     n_dims=0;
 }
 
 DataPoint::DataPoint(const std::vector<float> &data){
-    type = data_type::vector_data;
+    type = DataType::vector_data;
     data_vector = data;
     n_dims = data.size();
 }
 
 DataPoint::DataPoint(const std::map<unsigned,float> &data, int dims){
-    type = data_type::sparse_vector;
+    type = DataType::sparse_vector;
     n_dims=dims;
     data_sparse = data;
 }
@@ -42,13 +42,13 @@ float operator * (const DataPoint a, const DataPoint b){
     }
 
     float rtn = 0.0;
-    if( (a.type == data_type::vector_data) && (b.type==data_type::vector_data)){
+    if( (a.type == DataType::vector_data) && (b.type==DataType::vector_data)){
         for (unsigned i = 0; i < a.data_vector.size(); i++)
             rtn+= a.data_vector[i]*b.data_vector[i];
-    }else if ((a.type==data_type::vector_data)&&(b.type==data_type::sparse_vector)){
+    }else if ((a.type==DataType::vector_data)&&(b.type==DataType::sparse_vector)){
         for (auto kv : b.data_sparse)
             rtn += a.data_vector[kv.first] * kv.second;
-    }else if ((a.type==data_type::sparse_vector)&&(b.type==data_type::vector_data)){
+    }else if ((a.type==DataType::sparse_vector)&&(b.type==DataType::vector_data)){
         for (auto kv : a.data_sparse)
             rtn += b.data_vector[kv.first] * kv.second;
     }else{

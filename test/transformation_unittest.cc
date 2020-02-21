@@ -46,7 +46,7 @@ TEST_F(TransformationTest, ToLowerTest) {
   auto upper_datapoint = usermodel::DataPoint(upper_case);
   usermodel::To_lower to_lower;
   auto lower_datapoint=to_lower.get(upper_datapoint);
-  EXPECT_TRUE(data_type::text_data == lower_datapoint.type);
+  EXPECT_TRUE(DataType::text_data == lower_datapoint.type);
   EXPECT_EQ(0, lower_case.compare(lower_datapoint.data_text));
 }
 
@@ -57,7 +57,7 @@ TEST_F(TransformationTest, HashingTest) {
   hashed_ngrams= usermodel::Hashed_ngrams();
   // hashed_ngrams.apply();
   auto vector_data = hashed_ngrams.get(text_datapoint);
-  EXPECT_EQ(data_type::sparse_vector, vector_data.type);
+  EXPECT_EQ(DataType::sparse_vector, vector_data.type);
   EXPECT_EQ(10000, vector_data.n_dims);//10k is the default size
   size_t expected_elements = 10;// hashes for [t,i,n,y, ti,in, ny, tin, iny, tiny]==> 10 total
   EXPECT_EQ(expected_elements, vector_data.data_sparse.size());
@@ -69,7 +69,7 @@ TEST_F(TransformationTest, CustomHashingTest) {
   usermodel::Hashed_ngrams hashed_ngrams;
   hashed_ngrams= usermodel::Hashed_ngrams(3, std::vector<int>{1, 2, 3} );
   auto vector_data = hashed_ngrams.get(text_datapoint);
-  EXPECT_EQ(data_type::sparse_vector, vector_data.type);
+  EXPECT_EQ(DataType::sparse_vector, vector_data.type);
   EXPECT_EQ(3, vector_data.n_dims);//3 is the custom size
   size_t expected_elements = 3;// all 3 buckets should be nonempty
   EXPECT_EQ(expected_elements, vector_data.data_sparse.size());
@@ -109,7 +109,7 @@ TEST_F(TransformationTest, ChainingTest) {
     last_point = transform.get(last_point);
   }
 
-  EXPECT_EQ(data_type::sparse_vector, last_point.type);
+  EXPECT_EQ(DataType::sparse_vector, last_point.type);
   EXPECT_EQ(10000, last_point.n_dims);
   size_t expected_elements = 10;// hashes for [t,i,n,y, ti,in, ny, tin, iny, tiny]==> 10 total
   EXPECT_EQ(expected_elements, last_point.data_sparse.size());

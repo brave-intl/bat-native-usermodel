@@ -49,24 +49,24 @@ std::string LoadFile(const std::string& filename) {
 
 TEST_F(Pipeline_test, Build_simple_pipeline) {
     std::string test_string = "Test String";
-    auto string_data_point = Data_point(test_string);
+    auto string_data_point = DataPoint(test_string);
     std::vector<Transformation> transformations;
     usermodel::To_lower to_lower;
     transformations.push_back(to_lower);
     // usermodel::Hashed_ngrams hashed_ngrams;
     auto hashed_ngrams = usermodel::Hashed_ngrams(3, std::vector<int>{1, 2, 3} );
     transformations.push_back(hashed_ngrams);
-    std::map<std::string,Data_point> weights = {
-        {"class_1", Data_point(std::vector<float>{1.0, 2.0, 3.0}) },
-        {"class_2", Data_point(std::vector<float>{3.0, 2.0, 1.0}) }, 
-        {"class_3", Data_point(std::vector<float>{2.0, 2.0, 2.0}) }
+    std::map<std::string,DataPoint> weights = {
+        {"class_1", DataPoint(std::vector<float>{1.0, 2.0, 3.0}) },
+        {"class_2", DataPoint(std::vector<float>{3.0, 2.0, 1.0}) }, 
+        {"class_3", DataPoint(std::vector<float>{2.0, 2.0, 2.0}) }
     };
     std::map<std::string,float> biases = {
         {"class_1",0.0},
         {"class_2", 0.0},
         {"class_3", 0.0}
     };
-    auto class0 = Data_point(std::vector<float>{1.0, 0.0, 0.0});
+    auto class0 = DataPoint(std::vector<float>{1.0, 0.0, 0.0});
     unsigned int expected_len = 3;
     Linear_classifier linear_classifier(weights,biases);
     //auto linear_classifier = Linear_classifier(weights, biases);
@@ -95,7 +95,7 @@ TEST_F(Pipeline_test, Test_Load_From_Json){
   std::vector<std::string> train_labels = {"spam", "spam", "ham", "ham", "junk"};
   //let's see if results match as well: 
   for (size_t i = 0 ; i < train_texts.size();i++){
-    auto preds = pipeline.Apply(Data_point(train_texts[i]));
+    auto preds = pipeline.Apply(DataPoint(train_texts[i]));
     for (auto const& pred : preds){
       auto other_predictions = pred.second;
       EXPECT_TRUE(preds[train_labels[i]] >=other_predictions );
@@ -110,10 +110,10 @@ TEST_F(Pipeline_test, Test_GetAdvertisingPredictions) {
     transformations.push_back(to_lower);
     auto hashed_ngrams = usermodel::Hashed_ngrams(3, std::vector<int>{1, 2, 3} );
     transformations.push_back(hashed_ngrams);
-    std::map<std::string,Data_point> weights = {
-        {"arts & entertainment-opera", Data_point(std::vector<float>{1.0, 2.0, 3.0}) },
-        {"home-garden", Data_point(std::vector<float>{3.0, 2.0, 1.0}) }, 
-        {"travel-hotels", Data_point(std::vector<float>{2.0, 2.0, 2.0}) }
+    std::map<std::string,DataPoint> weights = {
+        {"arts & entertainment-opera", DataPoint(std::vector<float>{1.0, 2.0, 3.0}) },
+        {"home-garden", DataPoint(std::vector<float>{3.0, 2.0, 1.0}) }, 
+        {"travel-hotels", DataPoint(std::vector<float>{2.0, 2.0, 2.0}) }
     };
     std::map<std::string,float> biases = {
         {"arts & entertainment-opera",0.0},
@@ -124,7 +124,7 @@ TEST_F(Pipeline_test, Test_GetAdvertisingPredictions) {
     // auto pipeline = Pipeline(transformations, linear_classifier);
     Pipeline pipeline;
     pipeline = Pipeline(transformations, linear_classifier);    
-    unsigned int expected_len = 203;//203 categories
+    unsigned int expected_len = 204;//204 categories
     auto rez = pipeline.Get_Advertising_Predictions(test_string);
     EXPECT_EQ(expected_len, rez.size());
     double sum = 0.0;
