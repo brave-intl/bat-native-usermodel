@@ -3,14 +3,15 @@
 #include <limits>
 
 namespace usermodel{
-DataPoint::DataPoint(const DataPoint &other_point){
-    type = other_point.type;
-    data_text = other_point.data_text;
-    data_sparse = other_point.data_sparse;
-    data_vector = other_point.data_vector;
-    n_dims = other_point.n_dims;
-    type = other_point.type;
-}
+// DataPoint::DataPoint(const DataPoint &other_point){
+//     type = other_point.type;
+//     data_text = other_point.data_text;
+//     data_sparse = other_point.data_sparse;
+//     data_vector = other_point.data_vector;
+//     n_dims = other_point.n_dims;
+//     type = other_point.type;
+// }
+DataPoint::DataPoint(const DataPoint &other_point)=default;
 DataPoint::~DataPoint() = default;    
 DataPoint::DataPoint(const std::string &data){
     type = DataType::text_data;
