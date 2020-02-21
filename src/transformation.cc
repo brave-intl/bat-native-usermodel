@@ -14,11 +14,11 @@ transformation_type Transformation::getType(){
 }
 
 Data_point Transformation::get(Data_point inp){
-    if (type == TO_LOWER)
+    if (type == transformation_type::TO_LOWER)
         return get_lower(inp);
-    if (type == HASHED_NGRAMS)
+    if (type == transformation_type::HASHED_NGRAMS)
         return get_ngrams(inp);
-    if (type == NORMALIZE)
+    if (type == transformation_type::NORMALIZE)
         return get_normalized(inp);
     return Data_point("");
 }
@@ -54,19 +54,19 @@ Data_point Transformation::get_normalized(Data_point data_point){
 }
 ///////////////////////////////////////////////////////////
 
-To_lower::To_lower(){type = TO_LOWER;}
+To_lower::To_lower(){type = transformation_type::TO_LOWER;}
 
-Normalize::Normalize(){type = NORMALIZE;}
+Normalize::Normalize(){type = transformation_type::NORMALIZE;}
 
 ///////////////////////////////////////////////////////////
 
 Hashed_ngrams::Hashed_ngrams(){ 
-    type = HASHED_NGRAMS;
+    type = transformation_type::HASHED_NGRAMS;
     hash_vectorizer = HashVectorizer();
 }        
 
 Hashed_ngrams::Hashed_ngrams(int n_b, std::vector<int> subgrams){
-    type = HASHED_NGRAMS;
+    type = transformation_type::HASHED_NGRAMS;
     hash_vectorizer = HashVectorizer(n_b, subgrams);
 }
 Hashed_ngrams::Hashed_ngrams(std::string config){}

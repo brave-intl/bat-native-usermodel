@@ -6,7 +6,7 @@
 #include <vector>
 namespace usermodel{
 
-enum transformation_type{
+enum class transformation_type{
     TO_LOWER = 1,
     HASHED_NGRAMS=2,
     NORMALIZE=3
