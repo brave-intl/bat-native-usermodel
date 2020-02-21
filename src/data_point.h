@@ -17,11 +17,11 @@ enum class data_type{
 class Data_point {
     public:
         Data_point(const Data_point &other_point);
-        Data_point(std::string data);
-        Data_point(std::vector<float> data);
-        Data_point(std::map<unsigned,float> data, int ndims);
+        Data_point(const std::string &data);
+        Data_point(const std::vector<float> &data);
+        Data_point(const std::map<unsigned,float> &data, int ndims);
         ~Data_point();
-        friend float operator * (Data_point a,Data_point b);
+        friend float operator * (const Data_point a, const Data_point b);
         // friend 
         data_type get_type();
         int get_dims();

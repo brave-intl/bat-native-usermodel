@@ -12,19 +12,19 @@ Data_point::Data_point(const Data_point &other_point){
     type = other_point.type;
 }
 Data_point::~Data_point() = default;    
-Data_point::Data_point(std::string data){
+Data_point::Data_point(const std::string &data){
     type = data_type::text_data;
     data_text = data;
     n_dims=0;
 }
 
-Data_point::Data_point(std::vector<float> data){
+Data_point::Data_point(const std::vector<float> &data){
     type = data_type::vector_data;
     data_vector = data;
     n_dims = data.size();
 }
 
-Data_point::Data_point(std::map<unsigned,float> data, int dims){
+Data_point::Data_point(const std::map<unsigned,float> &data, int dims){
     type = data_type::sparse_vector;
     n_dims=dims;
     data_sparse = data;
