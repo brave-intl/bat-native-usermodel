@@ -3,14 +3,6 @@
 #include <limits>
 
 namespace usermodel{
-// DataPoint::DataPoint(const DataPoint &other_point){
-//     type = other_point.type;
-//     data_text = other_point.data_text;
-//     data_sparse = other_point.data_sparse;
-//     data_vector = other_point.data_vector;
-//     n_dims = other_point.n_dims;
-//     type = other_point.type;
-// }
 DataPoint::DataPoint(const DataPoint &other_point)=default;
 DataPoint::~DataPoint() = default;    
 DataPoint::DataPoint(const std::string &data){
@@ -33,12 +25,10 @@ DataPoint::DataPoint(const std::map<unsigned,float> &data, int dims){
 
 float operator * (const DataPoint a, const DataPoint b){
     if ( (a.n_dims==0)||(b.n_dims==0)){
-        // throw std::invalid_argument("One or more inputs has zero length");
         return std::numeric_limits<double>::quiet_NaN();
     }
         
     if (a.n_dims!=b.n_dims){
-        // throw std::invalid_argument("Inputs have incompatible lengths");
         return std::numeric_limits<double>::quiet_NaN();
     }
 
@@ -55,7 +45,6 @@ float operator * (const DataPoint a, const DataPoint b){
     }else{
         for (auto kv : a.data_sparse)
             if ( b.data_sparse.count(kv.first)>0 ){
-                // rtn += kv.second*b.data_sparse[kv.first];
                 auto tmp = b.data_sparse.at(kv.first);
                 rtn+=kv.second*tmp; 
             }

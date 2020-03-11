@@ -32,8 +32,6 @@ class DataPoint {
         std::map<unsigned,float> data_sparse;
 };
 
-// float inner_product(DataPoint a, DataPoint b);
-// float sum(DataPoint a, DataPoint b);
 
 }
 

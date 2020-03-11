@@ -43,7 +43,6 @@ std::map<unsigned, float> HashVectorizer::GetFrequencies(const std::wstring& htm
   std::wstring data = html;
   std::map<unsigned, float> frequencies;
   frequencies = {};
-  // TODO: Review maximum length 
   if (data.length() > kMaximumHtmlLengthToClassify) {
     data = data.substr(0, kMaximumHtmlLengthToClassify - 1);
   }

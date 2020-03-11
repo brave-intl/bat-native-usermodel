@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "bat/usermodel/user_model.h"
-// #include "naive_bayes.h"
 #include "pipeline.h"
 
 namespace usermodel {
@@ -34,7 +33,6 @@ class UserModelImpl : public UserModel {
  private:
   bool is_initialized_;
 
-//   NaiveBayes page_classifier_;
   Pipeline page_classifier_pipeline_;
   std::string region_;
 
