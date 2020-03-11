@@ -9,7 +9,7 @@
 
 namespace usermodel{
 
-std::map<std::string, float> Softmax( std::map<std::string, float> y){
+std::map<std::string, float> Softmax( const std::map<std::string, float> &y){
     //first pass get minimum
     float maximum = -std::numeric_limits<float>::infinity();
     for (auto const& x : y){
@@ -34,20 +34,20 @@ std::map<std::string, float> Softmax( std::map<std::string, float> y){
 }
 Linear_classifier::Linear_classifier(){}
 
-Linear_classifier::Linear_classifier(std::map<std::string, DataPoint> weights_, std::map<std::string,float> biases_){
-    weights = weights_;
-    biases = biases_;
+Linear_classifier::Linear_classifier(const std::map<std::string, DataPoint> &weights, const std::map<std::string,float> &biases){
+    weights_ = weights;
+    biases_ = biases;
 }
 Linear_classifier::Linear_classifier(Linear_classifier &other){
-    weights = other.weights;
-    biases = other.biases;
+    weights_ = other.weights_;
+    biases_ = other.biases_;
 }
 Linear_classifier::~Linear_classifier()=default;
 std::map<std::string, float> Linear_classifier::Predict(DataPoint x){
     std::map<std::string, float> rtn;
-    for (auto kv: weights){
+    for (auto kv: weights_){
         rtn[kv.first] = kv.second*x;
-        rtn[kv.first] += biases[kv.first];
+        rtn[kv.first] += biases_[kv.first];
     }
     return rtn;
 }
