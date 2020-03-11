@@ -1,3 +1,8 @@
+/* Copyright (c) 2020 The Brave Authors. All rights reserved.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+ 
 #ifndef TRANSFORMATION_H
 #define TRANSFORMATION_H
 #include <iostream> 
@@ -7,6 +12,7 @@
 namespace usermodel{
 
 enum class TransformationType{
+    NONE = 0,
     TO_LOWER = 1,
     HASHED_NGRAMS=2,
     NORMALIZE=3

@@ -1,3 +1,8 @@
+/* Copyright (c) 2020 The Brave Authors. All rights reserved.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+ 
 #include "transformation.h"
 #include <codecvt>
 #include <math.h>
@@ -21,7 +26,7 @@ DataPoint Transformation::get(DataPoint inp){
             return get_ngrams(inp);
         case TransformationType::NORMALIZE:
             return get_normalized(inp);
-        default:
+        case TransformationType::NONE:
             return DataPoint("");
     }
 }
