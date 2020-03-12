@@ -53,4 +53,10 @@ const std::string UserModelImpl::GetTaxonomyAtIndex(const int index) {
   return page_classifier_pipeline_.get_category(index);
 }
 
+const std::map<std::string,float> UserModelImpl::TopPredictionsForPage(const std::string& html) {
+  std::map<std::string,float> topPredictions;
+  topPredictions = page_classifier_pipeline_.Get_Top_Predictions(html);
+  return topPredictions;
+}
+
 }  // namespace usermodel

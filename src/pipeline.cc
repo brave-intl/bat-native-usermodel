@@ -174,7 +174,6 @@ bool Pipeline::parse_classifier(base::Value* classifier){
     return false;
   }
   std::map<std::string,DataPoint> weights;
-  weights = {};
   for (size_t i = 0 ; i < classes.size();i++){
     base::Value* this_class = class_weights->FindKey(classes[i]);
     if ( !this_class->is_list()) {
@@ -199,7 +198,7 @@ bool Pipeline::parse_classifier(base::Value* classifier){
   }
   for (size_t i = 0 ; i < biases->GetList().size();i++){
     const base::Value& this_bias = biases->GetList()[i];
-    specified_biases.insert({classes[i], static_cast<float> (this_bias.GetDouble())}) ;
+    specified_biases.insert({classes.at(i), static_cast<float> (this_bias.GetDouble())}) ;
   }
   classifier_ = Linear_classifier(weights, specified_biases);
   return true;
@@ -244,6 +243,20 @@ std::map<std::string, float> Pipeline::Apply( const DataPoint &inp) {
 
   return classifier_.Predict(last_point);
 }
+
+std::map<std::string, float> Pipeline::Get_Top_Predictions(const std::string &html){
+  std::map<std::string, float> rtn;
+  DataPoint data = DataPoint(html);
+  auto predictions = Softmax(Apply(data));
+  float expected_prob = 1.0 / predictions.size();
+  for (auto const &prediction: predictions){
+    if (prediction.second>expected_prob) {
+      rtn[prediction.first] = prediction.second;
+    }
+  }
+  return rtn;
+}
+
 std::vector<double> Pipeline::Get_Advertising_Predictions(const std::string &html){
   DataPoint data = DataPoint(html);
   auto predictions = Softmax(Apply(data));
@@ -260,6 +273,7 @@ std::vector<double> Pipeline::Get_Advertising_Predictions(const std::string &htm
   }
   return rtn;
 }
+
 std::string Pipeline::get_category(int c){
   return reverse_categories_[c];
 }

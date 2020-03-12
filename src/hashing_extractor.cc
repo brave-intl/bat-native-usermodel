@@ -44,7 +44,6 @@ int HashVectorizer::get_hash(std::wstring& substring){
 std::map<unsigned, float> HashVectorizer::GetFrequencies(const std::wstring& html) {
   std::wstring data = html;
   std::map<unsigned, float> frequencies;
-  frequencies = {};
   if (data.length() > kMaximumHtmlLengthToClassify) {
     data = data.substr(0, kMaximumHtmlLengthToClassify - 1);
   }

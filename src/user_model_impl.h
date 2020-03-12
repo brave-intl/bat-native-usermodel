@@ -30,7 +30,7 @@ class UserModelImpl : public UserModel {
 
   const std::string GetTaxonomyAtIndex(
       const int index) override;
-
+  const std::map<std::string,float> TopPredictionsForPage(const std::string& html);
  private:
   bool is_initialized_;
 

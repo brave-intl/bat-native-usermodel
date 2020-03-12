@@ -97,5 +97,20 @@ TEST_F(UserModelTest, E2EPipelineTest) {
   }
 }
 
+TEST_F(UserModelTest, TopPredUnitTest) {
+  UserModelImpl user_model;
+
+  auto model = LoadFile("hashing_model.json");
+  EXPECT_TRUE(user_model.InitializePageClassifier(model));
+  std::string test_page = "ethereum bitcoin bat zcash crypto tokens!";
+  auto preds = user_model.TopPredictionsForPage(test_page);
+  EXPECT_TRUE(preds.size()<100);
+  EXPECT_TRUE(preds.size()>0);
+  EXPECT_TRUE(preds.count("crypto-crypto") >0 );
+  for (auto const& pred: preds){
+    EXPECT_TRUE(pred.second<=preds["crypto-crypto"]);
+  }
+}
+
 
 }  // namespace usermodel
