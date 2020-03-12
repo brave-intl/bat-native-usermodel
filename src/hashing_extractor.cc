@@ -4,6 +4,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "hashing_extractor.h"
+#include "static_values.h"
 #include <cstring>
 #include <codecvt>
 #include <sstream>
@@ -17,9 +18,9 @@ namespace usermodel {
 
 HashVectorizer::~HashVectorizer() = default;
 HashVectorizer::HashVectorizer(){
-  for (int i = 1; i<=6;i++)
+  for (int i = 1; i<=kMaxSubLen;i++)
     substring_sizes.push_back(i); 
-  num_buckets = 10000;
+  num_buckets = kNumBuckets;
 }
 HashVectorizer::HashVectorizer(int n_buckets, std::vector<int> subgrams){
   for (unsigned i = 0; i<subgrams.size();i++)

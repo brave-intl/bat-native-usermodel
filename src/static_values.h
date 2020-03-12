@@ -11,6 +11,8 @@ namespace usermodel {
 static const int kMinimumWordsToClassify = 20;
 static const int kMaximumWordsToClassify = 1234;
 static const int kMaximumHtmlLengthToClassify = 1024 * 1024;
+static const int kMaxSubLen = 6; 
+static const int kNumBuckets = 10000;
 
 }  // namespace usermodel
 
