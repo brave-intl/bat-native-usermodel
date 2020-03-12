@@ -23,7 +23,7 @@ HashVectorizer::HashVectorizer(){
   num_buckets = kNumBuckets;
 }
 HashVectorizer::HashVectorizer(int n_buckets, std::vector<int> subgrams){
-  for (unsigned i = 0; i<subgrams.size();i++)
+  for (size_t i = 0; i<subgrams.size();i++)
     substring_sizes.push_back(subgrams[i]); 
   num_buckets = n_buckets;
 }

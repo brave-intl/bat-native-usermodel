@@ -29,8 +29,8 @@ class Pipeline {
   ~Pipeline();
 
   bool FromJson(const std::string& json);
-  std::map<std::string, float> Apply(DataPoint inp);
-  std::vector<double> Get_Advertising_Predictions(std::string html);
+  std::map<std::string, float> Apply(const DataPoint &inp);
+  std::vector<double> Get_Advertising_Predictions(const std::string &html);
   std::string get_category(int c);
  private:
   uint16_t version_;

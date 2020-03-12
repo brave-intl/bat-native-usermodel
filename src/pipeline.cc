@@ -236,7 +236,7 @@ bool Pipeline::GetLocaleFromJSON(base::DictionaryValue* dictionary) {
   return true;
 }
 
-std::map<std::string, float> Pipeline::Apply( DataPoint inp) {
+std::map<std::string, float> Pipeline::Apply( const DataPoint &inp) {
   DataPoint last_point = DataPoint(inp);
   for ( auto& transformation : transformations_) {
     last_point = transformation.get(last_point);
@@ -244,7 +244,7 @@ std::map<std::string, float> Pipeline::Apply( DataPoint inp) {
 
   return classifier_.Predict(last_point);
 }
-std::vector<double> Pipeline::Get_Advertising_Predictions(std::string html){
+std::vector<double> Pipeline::Get_Advertising_Predictions(const std::string &html){
   DataPoint data = DataPoint(html);
   auto predictions = Softmax(Apply(data));
   std::vector<double> rtn = {};
