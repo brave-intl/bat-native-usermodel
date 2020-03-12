@@ -11,9 +11,9 @@
 namespace usermodel{
 
 enum class DataType{
-    text_data = 0,
-    vector_data = 1,
-    sparse_vector = 2 
+    TextData = 0,
+    VectorData = 1,
+    SparseVector = 2 
 };
 
 class DataPoint {
