@@ -244,8 +244,8 @@ std::map<std::string, float> Pipeline::Apply( const DataPoint &inp) {
   return classifier_.Predict(last_point);
 }
 
-std::map<std::string, float> Pipeline::Get_Top_Predictions(const std::string &html){
-  std::map<std::string, float> rtn;
+std::map<std::string, double> Pipeline::Get_Top_Predictions(const std::string &html){
+  std::map<std::string, double> rtn;
   DataPoint data = DataPoint(html);
   auto predictions = Softmax(Apply(data));
   float expected_prob = 1.0 / predictions.size();

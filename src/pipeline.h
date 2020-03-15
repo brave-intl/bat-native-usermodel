@@ -30,7 +30,7 @@ class Pipeline {
 
   bool FromJson(const std::string& json);
   std::map<std::string, float> Apply(const DataPoint &inp);
-  std::map<std::string, float> Get_Top_Predictions(const std::string &html);
+  std::map<std::string, double> Get_Top_Predictions(const std::string &content);
   std::vector<double> Get_Advertising_Predictions(const std::string &html);
   std::string get_category(int c);
  private:

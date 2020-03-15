@@ -22,15 +22,8 @@ class UserModelImpl : public UserModel {
       const std::string& model) override;
   bool IsInitialized() const override;
 
-  const std::vector<double> ClassifyPage(
-      const std::string& html) override;
 
-  const std::string GetWinningCategory(
-      const std::vector<double>& scores) override;
-
-  const std::string GetTaxonomyAtIndex(
-      const int index) override;
-  const std::map<std::string,float> TopPredictionsForPage(const std::string& html);
+  const std::map<std::string,double> ClassifyPage(const std::string& content) override;
  private:
   bool is_initialized_;
 

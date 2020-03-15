@@ -30,31 +30,8 @@ bool UserModelImpl::IsInitialized() const {
   return is_initialized_;
 }
 
-const std::vector<double> UserModelImpl::ClassifyPage(const std::string& html) {
-  std::vector<double> classification;
-  classification = page_classifier_pipeline_.Get_Advertising_Predictions(html);
-  return classification;
-}
-
-const std::string UserModelImpl::GetWinningCategory(
-    const std::vector<double>& scores) {
-  if (scores.size() == 0) {
-    return "";
-  }
-
-  auto max = std::max_element(scores.begin(), scores.end());
-  auto argmax = std::distance(scores.begin(), max);
-  std::string winning_category;
-  winning_category = page_classifier_pipeline_.get_category(argmax);
-  return winning_category;
-}
-
-const std::string UserModelImpl::GetTaxonomyAtIndex(const int index) {
-  return page_classifier_pipeline_.get_category(index);
-}
-
-const std::map<std::string,float> UserModelImpl::TopPredictionsForPage(const std::string& html) {
-  std::map<std::string,float> topPredictions;
+const std::map<std::string,double> UserModelImpl::ClassifyPage(const std::string& html) {
+  std::map<std::string,double> topPredictions;
   topPredictions = page_classifier_pipeline_.Get_Top_Predictions(html);
   return topPredictions;
 }
