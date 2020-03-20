@@ -34,15 +34,14 @@ HashVectorizer::HashVectorizer(const HashVectorizer& other){
 int HashVectorizer::get_buckets(){
   return num_buckets;
 }
-int HashVectorizer::get_hash(std::wstring& substring){    
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv1;
-    std::string u8str = conv1.to_bytes(substring);
-    auto rtn = CRC::Calculate(u8str.data(), u8str.size(), CRC::CRC_32()) % num_buckets; 
+int HashVectorizer::get_hash(std::string& substring){    
+    auto* u8str = substring.c_str();
+    auto rtn = CRC::Calculate(u8str, strlen(u8str), CRC::CRC_32()) % num_buckets; 
   return rtn;
 }
 
-std::map<unsigned, float> HashVectorizer::GetFrequencies(const std::wstring& html) {
-  std::wstring data = html;
+std::map<unsigned, float> HashVectorizer::GetFrequencies(const std::string& html) {
+  std::string data = html;
   std::map<unsigned, float> frequencies;
   if (data.length() > kMaximumHtmlLengthToClassify) {
     data = data.substr(0, kMaximumHtmlLengthToClassify - 1);

@@ -40,9 +40,9 @@ DataPoint Transformation::get_lower(DataPoint datapoint){
 }
 
 DataPoint Transformation::get_ngrams(DataPoint datapoint){
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::wstring widened_text = converter.from_bytes(datapoint.data_text); 
-    auto hashed_vector = hash_vectorizer.GetFrequencies(widened_text);
+    // std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    // std::wstring widened_text = converter.from_bytes(datapoint.data_text); 
+    auto hashed_vector = hash_vectorizer.GetFrequencies(datapoint.data_text);
     return DataPoint(hashed_vector,hash_vectorizer.get_buckets());
 }
 

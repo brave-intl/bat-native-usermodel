@@ -62,7 +62,7 @@ void run_test_case(std::string test_case){
     EXPECT_TRUE(input->GetAsString(&input_value));
 
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::wstring w_input_value = converter.from_bytes(input_value);
+    // std::wstring w_input_value = converter.from_bytes(input_value);
 
     // EXPECT_TRUE( (0==input_value.size()) ); 
     base::Value* idx = case_params->FindKey("idx");
@@ -70,7 +70,7 @@ void run_test_case(std::string test_case){
     base::Value* count = case_params->FindKey("count");
     ASSERT_TRUE(count->is_list());
     usermodel::HashVectorizer vectorizer;
-    auto frequencies = vectorizer.GetFrequencies(w_input_value);
+    auto frequencies = vectorizer.GetFrequencies(input_value);
     EXPECT_EQ(idx->GetList().size(), frequencies.size());
     //if (frequencies.size() > 0){
     for (size_t i = 0; i < frequencies.size(); i++){

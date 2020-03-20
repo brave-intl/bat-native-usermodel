@@ -20,10 +20,10 @@ class HashVectorizer {
   ~HashVectorizer();
 
 
-  std::map<unsigned,float> GetFrequencies( const std::wstring& html );
+  std::map<unsigned,float> GetFrequencies( const std::string& html );
   int get_buckets();
  private:
-  int get_hash(std::wstring& substring);
+  int get_hash(std::string& substring);
   std::vector<unsigned long> substring_sizes;//not ints for type comparison issues
   int num_buckets; // number of buckets to use for hashing
 };
