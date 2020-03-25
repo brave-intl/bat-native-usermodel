@@ -114,12 +114,16 @@ bool Pipeline::parse_transformations(base::Value* transformations) {
     if (parsed_transformation_type.compare("TO_LOWER") == 0) {
       transformation_sequence.push_back(To_lower());
     }
+    if (parsed_transformation_type.compare("NORMALIZE") == 0) {
+      transformation_sequence.push_back(Normalize());
+    }
     if (parsed_transformation_type.compare("HASHED_NGRAMS") == 0) {
       const base::Value* transformation_params =
           transformation.FindKey("params");
       if (!transformation_params) {
         return false;
       }
+
 
       const base::Value* nb = transformation_params->FindKey("num_buckets");
       int num_buckets;

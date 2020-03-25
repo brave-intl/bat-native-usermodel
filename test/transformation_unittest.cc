@@ -7,6 +7,7 @@
 #include "testing/gtest/include/gtest/gtest.h"
 #include <list>
 #include <vector> 
+#include <cmath>
 
 namespace usermodel {
 
@@ -89,7 +90,7 @@ TEST_F(TransformationTest, NormalizationTest) {
         EXPECT_TRUE(x.second<=1.0);
         s += x.second*x.second ;
     }
-  EXPECT_TRUE((s-1)<0.0000001);
+  EXPECT_TRUE(abs(s-1)<0.0000001);
 }
 
 TEST_F(TransformationTest, ChainingTest) {

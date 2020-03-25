@@ -6,6 +6,7 @@
 #include "brave/vendor/bat-native-usermodel/src/classifier.h"
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
+#include <cmath>
 
 namespace usermodel {
 
@@ -65,6 +66,7 @@ TEST_F(Classifier_Test, Biases_test) {
   EXPECT_TRUE(rez["class_3"] > rez["class_1"]);
   EXPECT_TRUE(rez["class_3"] > rez["class_2"]);
 }
+
 TEST_F(Classifier_Test, Softmax_test) {
   std::map<std::string,float> group_1 = {{"c1", -1.0}, {"c2",2.0}, {"c3", 3.0} };
   auto sm = usermodel::Softmax(group_1);
@@ -80,6 +82,27 @@ TEST_F(Classifier_Test, Softmax_test) {
   }
   EXPECT_TRUE((sum-1.0) < 0.00000001);
 
+}
+
+TEST_F(Classifier_Test, Extended_Softmax_test) {
+  //from scipy.special import softmax  
+  // softmax([0,1,2]) == softmax([3,4,5]) == [true, true,true]
+  //In [2]: softmax([0,1,2])                                                                                                                                                            
+  //Out[2]: array([0.09003057, 0.24472847, 0.66524096])
+
+  
+  std::map<std::string,float> group_1 = {{"c1", 0.0}, {"c2",1.0}, {"c3", 2.0} };
+  std::map<std::string,float> group_2 = {{"c1", 3.0}, {"c2",4.0}, {"c3", 5.0} };
+  auto sm_1 = usermodel::Softmax(group_1);
+  auto sm_2 = usermodel::Softmax(group_2);
+  EXPECT_TRUE( abs(  sm_1["c1"]-sm_2["c1"] ) <0.00000001);
+  EXPECT_TRUE( abs( sm_1["c2"]-sm_2["c2"] ) < 0.00000001 );
+  EXPECT_TRUE( abs(sm_1["c3"]-sm_2["c3"] ) <0.00000001 );
+  EXPECT_TRUE( abs(sm_1["c1"] - 0.09003057) <0.00000001 );
+  EXPECT_TRUE( abs(sm_1["c2"] - 0.24472847) < 0.00000001);
+  EXPECT_TRUE( abs(sm_1["c3"] - 0.66524095) < 0.00000001);  
+  
+  
 }
 
 }  // namespace usermodel

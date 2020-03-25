@@ -101,4 +101,21 @@ TEST_F(UserModelTest, TopPredUnitTest) {
 }
 
 
+TEST_F(UserModelTest, CMCUnitTest) {
+  UserModelImpl user_model;
+
+  auto model = LoadFile("hashing_model.json");
+  auto bad_text = LoadFile("cmc_crash.txt");
+  EXPECT_TRUE(user_model.InitializePageClassifier(model));
+  // std::string test_page = "ethereum bitcoin bat zcash crypto tokens!";
+  auto preds = user_model.ClassifyPage(bad_text);
+  EXPECT_TRUE(preds.size()<100);
+  EXPECT_TRUE(preds.size()>2);
+  //EXPECT_TRUE(preds.count("crypto-crypto") >0 );
+  EXPECT_TRUE(preds.count("personal finance-personal finance") >0 );
+  for (auto const& pred: preds){
+    EXPECT_TRUE(pred.second<=preds["personal finance-personal finance"]);
+  }
+}
+
 }  // namespace usermodel
