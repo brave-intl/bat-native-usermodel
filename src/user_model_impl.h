@@ -1,4 +1,5 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
+/* Copyright (c) 2020 The Brave Authors. All rights reserved.
+ * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
@@ -9,7 +10,7 @@
 #include <vector>
 
 #include "bat/usermodel/user_model.h"
-#include "naive_bayes.h"
+#include "pipeline.h"
 
 namespace usermodel {
 
@@ -21,19 +22,13 @@ class UserModelImpl : public UserModel {
       const std::string& model) override;
   bool IsInitialized() const override;
 
-  const std::vector<double> ClassifyPage(
-      const std::string& html) override;
 
-  const std::string GetWinningCategory(
-      const std::vector<double>& scores) override;
-
-  const std::string GetTaxonomyAtIndex(
-      const int index) override;
-
+  const std::map<std::string,double> ClassifyPage(const std::string& content) override;
  private:
   bool is_initialized_;
 
-  NaiveBayes page_classifier_;
+  Pipeline page_classifier_pipeline_;
+  std::string region_;
 
   // Not copyable, not assignable
   UserModelImpl(const UserModelImpl&) = delete;

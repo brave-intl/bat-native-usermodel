@@ -1,4 +1,4 @@
-# Copyright (c) 2018 The Brave Authors. All rights reserved.
+# Copyright (c) 2020 The Brave Authors. All rights reserved.
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at https://mozilla.org/MPL/2.0/. */
@@ -50,16 +50,27 @@ source_set("usermodel") {
   output_name = "bat_native_usermodel"
 
   sources = [
+    "advertising_categories.h",
     "include/bat/usermodel/user_model.h",
-    "src/bag_of_words_extractor.h",
-    "src/bag_of_words_extractor.cc",
-    "src/naive_bayes.h",
-    "src/naive_bayes.cc",
+#    "src/bag_of_words_extractor.h",
+#    "src/bag_of_words_extractor.cc",
+#    "src/naive_bayes.h",
+#    "src/naive_bayes.cc",
     "src/static_values.h",
-    "src/stmr.c",
-    "src/stmr.h",
+#    "src/stmr.c",
+#    "src/stmr.h",
     "src/user_model_impl.h",
-    "src/user_model_impl.cc"
+    "src/user_model_impl.cc",
+    "src/data_point.h",
+    "src/data_point.cc",
+    "src/transformation.h",
+    "src/transformation.cc",
+    "src/hashing_extractor.h",
+    "src/hashing_extractor.cc",
+    "src/classifier.h",
+    "src/classifier.cc",
+    "src/pipeline.h",
+    "src/pipeline.cc",
   ]
 
   deps = [
@@ -67,3 +78,5 @@ source_set("usermodel") {
     rebase_path("bat-native-rapidjson", dep_base),
   ]
 }
+
+

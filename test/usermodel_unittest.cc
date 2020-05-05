@@ -4,7 +4,6 @@
 
 #include <fstream>
 #include <streambuf>
-#include <iostream>
 
 #include "base/files/file_path.h"
 
@@ -67,7 +66,7 @@ class UserModelTest : public ::testing::Test {
 TEST_F(UserModelTest, ValidModelTest) {
   UserModelImpl user_model;
 
-  auto model = LoadFile("model.json");
+  auto model = LoadFile("hashing_model.json");
   EXPECT_TRUE(user_model.InitializePageClassifier(model));
 }
 
@@ -85,97 +84,37 @@ TEST_F(UserModelTest, MissingModelTest) {
   EXPECT_FALSE(user_model.InitializePageClassifier(model));
 }
 
-TEST_F(UserModelTest, ClassifierTest) {
+
+TEST_F(UserModelTest, TopPredUnitTest) {
   UserModelImpl user_model;
 
-  auto model = LoadFile("model.json");
+  auto model = LoadFile("hashing_model.json");
   EXPECT_TRUE(user_model.InitializePageClassifier(model));
-
-  rapidjson::Document predictions;
-  auto predictions_json = LoadFile("predictions.json");
-  predictions.Parse(predictions_json.c_str());
-
-  EXPECT_FALSE(predictions.HasParseError());
-
-  EXPECT_TRUE(predictions.HasMember("data"));
-
-  for (const auto& prediction : predictions["data"].GetArray()) {
-    if (!prediction["label"].IsString()) {
-      std::cout << "FAILED 1" << std::endl;
-    }
-
-    EXPECT_TRUE(prediction["label"].IsString());
-    std::string label = prediction["label"].GetString();
-
-    if (!prediction["doc"].IsString()) {
-      std::cout << "FAILED 2" << std::endl;
-      std::cout << "LABEL: " << label << std::endl;
-    }
-
-    EXPECT_TRUE(prediction["doc"].IsString());
-    std::string doc = prediction["doc"].GetString();
-
-    auto html = LoadFile(doc);
-    auto scores = user_model.ClassifyPage(html);
-    auto predicted = user_model.GetWinningCategory(scores);
-
-    if (predicted != label) {
-      std::cout << "FAILED 3" << std::endl;
-      std::cout << "SCORES: " << scores.size() << std::endl;
-      std::cout << "DOC: " << doc << std::endl;
-      std::cout << "HTML: " << html << std::endl;
-      std::cout << "PREDICTED: " << predicted << std::endl;
-      std::cout << "WINNING_CATEGORY: " << label << std::endl;
-    }
-
-    EXPECT_TRUE(predicted == label);
+  std::string test_page = "ethereum bitcoin bat zcash crypto tokens!";
+  auto preds = user_model.ClassifyPage(test_page);
+  EXPECT_TRUE(preds.size()<100);
+  EXPECT_TRUE(preds.size()>0);
+  EXPECT_TRUE(preds.count("crypto-crypto") >0 );
+  for (auto const& pred: preds){
+    EXPECT_TRUE(pred.second<=preds["crypto-crypto"]);
   }
 }
 
-TEST_F(UserModelTest, InvalidWordCountClassifierTest) {
+
+TEST_F(UserModelTest, CMCUnitTest) {
   UserModelImpl user_model;
 
-  auto model = LoadFile("model.json");
+  auto model = LoadFile("hashing_model.json");
+  auto bad_text = LoadFile("cmc_crash.txt");
   EXPECT_TRUE(user_model.InitializePageClassifier(model));
-
-  rapidjson::Document predictions;
-  auto predictions_json = LoadFile("invalid-predictions.json");
-  predictions.Parse(predictions_json.c_str());
-
-  EXPECT_FALSE(predictions.HasParseError());
-
-  EXPECT_TRUE(predictions.HasMember("data"));
-
-  for (const auto& prediction : predictions["data"].GetArray()) {
-    if (!prediction["label"].IsString()) {
-      std::cout << "FAILED 1" << std::endl;
-    }
-
-    EXPECT_TRUE(prediction["label"].IsString());
-    std::string label = prediction["label"].GetString();
-
-    if (!prediction["doc"].IsString()) {
-      std::cout << "FAILED 2" << std::endl;
-      std::cout << "LABEL: " << label << std::endl;
-    }
-
-    EXPECT_TRUE(prediction["doc"].IsString());
-    std::string doc = prediction["doc"].GetString();
-
-    auto html = LoadFile(doc);
-    auto scores = user_model.ClassifyPage(html);
-    auto predicted = user_model.GetWinningCategory(scores);
-
-    if (predicted != label) {
-      std::cout << "FAILED 3" << std::endl;
-      std::cout << "SCORES: " << scores.size() << std::endl;
-      std::cout << "DOC: " << doc << std::endl;
-      std::cout << "HTML: " << html << std::endl;
-      std::cout << "PREDICTED: " << predicted << std::endl;
-      std::cout << "WINNING_CATEGORY: " << label << std::endl;
-    }
-
-    EXPECT_TRUE(predicted == label);
+  // std::string test_page = "ethereum bitcoin bat zcash crypto tokens!";
+  auto preds = user_model.ClassifyPage(bad_text);
+  EXPECT_TRUE(preds.size()<100);
+  EXPECT_TRUE(preds.size()>2);
+  //EXPECT_TRUE(preds.count("crypto-crypto") >0 );
+  EXPECT_TRUE(preds.count("personal finance-personal finance") >0 );
+  for (auto const& pred: preds){
+    EXPECT_TRUE(pred.second<=preds["personal finance-personal finance"]);
   }
 }
 
