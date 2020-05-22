@@ -6,8 +6,8 @@
 #ifndef DEPS_BAT_USERMODEL_SRC_USER_MODEL_IMPL_H_
 #define DEPS_BAT_USERMODEL_SRC_USER_MODEL_IMPL_H_
 
+#include <map>
 #include <string>
-#include <vector>
 
 #include "bat/usermodel/user_model.h"
 #include "pipeline.h"
@@ -18,21 +18,22 @@ class UserModelImpl : public UserModel {
  public:
   UserModelImpl();
 
+  // Not copyable, not assignable
+  UserModelImpl(const UserModelImpl&) = delete;
+  UserModelImpl& operator=(const UserModelImpl&) = delete;
+
   bool InitializePageClassifier(
       const std::string& model) override;
+
   bool IsInitialized() const override;
 
+  const std::map<std::string, double> ClassifyPage(
+      const std::string& content) override;
 
-  const std::map<std::string,double> ClassifyPage(const std::string& content) override;
  private:
   bool is_initialized_;
 
   Pipeline page_classifier_pipeline_;
-  std::string region_;
-
-  // Not copyable, not assignable
-  UserModelImpl(const UserModelImpl&) = delete;
-  UserModelImpl& operator=(const UserModelImpl&) = delete;
 };
 
 }  // namespace usermodel
