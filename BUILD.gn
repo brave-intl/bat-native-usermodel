@@ -50,8 +50,8 @@ source_set("usermodel") {
   output_name = "bat_native_usermodel"
 
   sources = [
-    "advertising_categories.h",
     "include/bat/usermodel/user_model.h",
+    "src/advertising_categories.h",
 #    "src/bag_of_words_extractor.h",
 #    "src/bag_of_words_extractor.cc",
 #    "src/naive_bayes.h",
